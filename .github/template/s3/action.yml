@@ -1,0 +1,93 @@
+name: "Deploy to S3"
+
+description: "A composite action to deploy to S3"
+
+inputs:
+  app_path_name:
+    description: "Path of the app within the repository e.g. question-populator"
+    required: true
+  package_name:
+    description: "Name of package in workspace"
+    required: true
+  s3_bucket_name:
+    description: "S3 Bucket name"
+    required: true
+  aws_access_key_id:
+    description: "AWS Access Key ID"
+    required: true
+  aws_secret_access_key:
+    description: "AWS Secret Access Key"
+    required: true
+  aws_region:
+    description: "AWS Region"
+    required: true
+
+outputs:
+  s3_key:
+    description: "The S3 key"
+    value: ${{ steps.s3.outputs.key }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8.6.5
+        run_install: false
+
+    # - name: Get pnpm store directory
+    #   id: pnpm-cache
+    #   shell: bash
+    #   run: |
+    #     echo "store_path=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+    # - uses: actions/cache@v3
+    #   name: Setup pnpm cache
+    #   with:
+    #     path: ${{ steps.pnpm-cache.outputs.store_path }}
+    #     key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-pnpm-store-
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    - name: Build
+      shell: bash
+      run: pnpm --filter=${{ inputs.package_name }} build
+
+    - name: Install zip
+      uses: montudor/action-zip@v1
+
+    - name: Zip output
+      shell: bash
+      run: zip -qq -r ${{ inputs.app_path_name }}.zip .
+      working-directory: apps/${{ inputs.app_path_name }}/dist
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        aws-access-key-id: ${{ inputs.aws_access_key_id }}
+        aws-secret-access-key: ${{ inputs.aws_secret_access_key }}
+        aws-region: ${{ inputs.aws_region }}
+
+    - name: Artifact Name
+      id: artifact-name
+      shell: bash
+      run: echo "version=${GITHUB_REF##*-}" >> $GITHUB_OUTPUT
+
+    - name: S3 Key
+      id: s3
+      shell: bash
+      run: echo "key=${{ inputs.app_path_name }}-${{ steps.artifact-name.outputs.version }}.zip" >> $GITHUB_OUTPUT
+
+    - name: Upload to S3
+      shell: bash
+      run: aws s3 cp apps/${{ inputs.app_path_name }}/dist/${{ inputs.app_path_name }}.zip s3://${{ inputs.s3_bucket_name }}/${{ steps.s3.outputs.key }}

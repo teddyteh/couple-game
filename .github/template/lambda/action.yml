@@ -1,0 +1,53 @@
+name: Deploy to Lambda
+
+description: "A composite action to deploy to Lambda"
+
+inputs:
+  lambda_function_name:
+    description: "Lambda function name"
+    required: true  
+  lambda_environment_variables:
+    description: "Lambda Environment variables"
+    required: true
+  s3_bucket_name:
+    description: "S3 Bucket name"
+    required: true
+  s3_key:
+    description: "S3 key for the deployment package"
+    required: true
+  aws_access_key_id:
+    description: "AWS Access Key ID"
+    required: true
+  aws_secret_access_key:
+    description: "AWS Secret Access Key"
+    required: true
+  aws_region:
+    description: "AWS Region"
+    required: true
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        aws-access-key-id: ${{ inputs.aws_access_key_id }}
+        aws-secret-access-key: ${{ inputs.aws_secret_access_key }}
+        aws-region: ${{ inputs.aws_region }}
+
+    - name: Deploy to Lambda
+      uses: appleboy/lambda-action@v0.1.9
+      with:
+        aws_access_key_id: ${{ inputs.aws_access_key_id }}
+        aws_secret_access_key: ${{ inputs.aws_secret_access_key }}
+        aws_region: ${{ inputs.aws_region }}
+        function_name: ${{ inputs.lambda_function_name }}
+        s3_bucket: ${{ inputs.s3_bucket_name }}
+        s3_key: ${{ inputs.s3_key }}
+        memory_size: 128
+        timeout: 10
+        handler: index.handler
+        runtime: nodejs16.x
+        environment: ${{ inputs.lambda_environment_variables }}
+

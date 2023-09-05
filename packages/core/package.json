@@ -1,0 +1,26 @@
+{
+  "name": "@couple-game/core",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --watch --dts",
+    "lint": "eslint \"src/**/*.ts*\"",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
+  "devDependencies": {
+    "@couple-game/eslint-config": "workspace:*",
+    "@couple-game/tsconfig": "workspace:*",
+    "eslint": "^7.32.0",
+    "tsup": "^7.2.0",
+    "typescript": "^4.5.3"
+  }
+}

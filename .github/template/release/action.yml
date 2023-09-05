@@ -1,0 +1,64 @@
+name: "Release"
+description: "Check for package version changes and create releases"
+
+inputs:
+  token:
+    description: "GitHub token"
+    required: true
+
+outputs:
+  apps:
+    description: "Directories"
+    value: ${{ steps.release.outputs.apps }}
+  newTags:
+    description: "New tags"
+    value: ${{ steps.release.outputs.newTags }}
+  hasChanges:
+    description: "Has changed"
+    value: ${{ steps.release.outputs.hasChanges }}
+
+runs:
+  using: "composite"
+  steps:
+    - id: release
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+      run: |
+        PREFIX="@couple-game"
+        APPS_DIR=apps/*
+        APPS=()
+        NEW_TAGS=()
+
+        for app in $APPS_DIR; do
+          if [ -d "$app" ]; then
+            PACKAGE_NAME=$(basename "$app")
+            VERSION=$(node -p "require('./$app/package.json').version")
+            LATEST_TAG=$(git describe --tags --match="@*/$PACKAGE_NAME-v*" --abbrev=0 2>/dev/null || echo '')
+
+            if [ -z "$LATEST_TAG" -o "$VERSION" != "${LATEST_TAG#*@}" ]; then
+              NEW_TAG="$PREFIX/$PACKAGE_NAME-v$VERSION"
+              
+              # Check if the tag already exists
+              if ! git rev-parse "$NEW_TAG" >/dev/null 2>&1; then
+                echo "Version change detected for $PACKAGE_NAME. Old tag: $LATEST_TAG, New tag: $NEW_TAG"
+                git tag "$NEW_TAG"
+                git push origin "$NEW_TAG"
+
+                echo "Creating a new release for $NEW_TAG..."
+                gh release create "$NEW_TAG" -F "$app/CHANGELOG.md" -t "Release $VERSION for $PACKAGE_NAME"
+
+                APPS+=($app)
+
+                FORMATTED_TAG="$PACKAGE_NAME-$VERSION"
+                NEW_TAGS+=($FORMATTED_TAG)
+              else
+                echo "Tag $LATEST_TAG already exists, skipping..."
+              fi
+            fi
+          fi
+        done
+
+        echo "apps=$APPS" >> $GITHUB_OUTPUT
+        echo "newTags=$NEW_TAGS" >> $GITHUB_OUTPUT
+        echo "hasChanges=true" >> $GITHUB_OUTPUT
