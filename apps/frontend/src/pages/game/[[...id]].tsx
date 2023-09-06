@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { DataConnection, Peer } from "peerjs";
@@ -13,9 +11,14 @@ const Game = () => {
   const [conn, setConn] = useState<DataConnection | null>(null);
 
   const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
-  const [question, setQuestion] = useState<string | null>(null);
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [partnerAnswer, setPartnerAnswer] = useState<string | null>(null);
+  const [questions, setQuestions] = useState<
+    Array<{ question: string; options: string[] }>
+  >([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
+  const [partnerAnswers, setPartnerAnswers] = useState<string[]>([]);
+  const [isPlayerFinished, setIsPlayerFinished] = useState<boolean>(false);
+  const [isPartnerFinished, setIsPartnerFinished] = useState<boolean>(false);
 
   useEffect(() => {
     if (id && id.length > 0) {
@@ -36,7 +39,7 @@ const Game = () => {
   }, [peer, gameId]);
 
   useEffect(() => {
-    fetchQuestion();
+    fetchQuestionsFromURL();
   }, []);
 
   const initializePeerConnection = () => {
@@ -72,7 +75,11 @@ const Game = () => {
   const initConnectionEvents = (connection: DataConnection) => {
     connection.on("open", () => connection.send("TEST"));
     connection.on("data", (data: any) => {
-      setPartnerAnswer(data.answer);
+      if (data.finished) {
+        setIsPartnerFinished(true);
+      } else {
+        setPartnerAnswers(data.answers);
+      }
 
       if (!isGameStarted) {
         setIsGameStarted(true);
@@ -81,8 +88,23 @@ const Game = () => {
     connection.on("error", (err) => console.error("Connection error:", err));
   };
 
-  const fetchQuestion = () => {
-    setQuestion("What is the capital of France?");
+  const fetchQuestionsFromURL = async () => {
+    try {
+      // const response = await fetch("YOUR_QUESTIONS_URL_HERE");
+      // const data = await response.json();
+      setQuestions([
+        {
+          question: "What is your favorite color?",
+          options: ["Red", "Blue", "Green", "Yellow"],
+        },
+        {
+          question: "What is your favorite animal?",
+          options: ["Dog", "Cat", "Bird", "Fish"],
+        },
+      ]);
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+    }
   };
 
   const copyToClipboard = async (text: string) => {
@@ -95,44 +117,112 @@ const Game = () => {
   };
 
   const handleAnswerSelection = (answer: string) => {
-    setSelectedAnswer(answer);
-    if (conn) conn.send({ answer });
+    let newAnswers = [...selectedAnswers];
+    newAnswers[currentQuestionIndex] = answer;
+
+    setSelectedAnswers(newAnswers);
+
+    if (conn) conn.send({ answers: newAnswers });
+
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    } else {
+      setIsPlayerFinished(true);
+      if (conn) conn.send({ finished: true });
+    }
+  };
+
+  const calculateResults = () => {
+    let matchCount = 0;
+    selectedAnswers.forEach((answer, index) => {
+      if (answer && partnerAnswers[index] && answer === partnerAnswers[index]) {
+        matchCount += 1;
+      }
+    });
+    return { matchCount, total: questions.length };
+  };
+
+  const calculateCompatibilityScore = () => {
+    const results = calculateResults();
+    return ((results.matchCount / results.total) * 100).toFixed(2);
+  };
+
+  const generateResultDetails = () => {
+    let resultDetails: {
+      question: string;
+      yourAnswer: string;
+      partnerAnswer: string;
+    }[] = [];
+    selectedAnswers.forEach((answer, index) => {
+      if (answer && partnerAnswers[index] && answer !== partnerAnswers[index]) {
+        resultDetails.push({
+          question: questions[index].question,
+          yourAnswer: answer,
+          partnerAnswer: partnerAnswers[index],
+        });
+      }
+    });
+    return resultDetails;
+  };
+
+  const renderUnmatchedAnswers = () => {
+    const resultDetails = generateResultDetails();
+    console.log("resultDetails", resultDetails);
+    return resultDetails.map((detail, index) => (
+      <div key={index}>
+        <div>Question: {detail.question}</div>
+        <div>Your Answer: {detail.yourAnswer}</div>
+        <div>Partner's Answer: {detail.partnerAnswer}</div>
+      </div>
+    ));
   };
 
   return (
     <div>
       Game ID: {gameId}
-      {isGameStarted  ? (
+      
+      {!isGameStarted ? (
+        <div>Waiting for someone to join the game...</div>
+      ) : null}
+
+      {isGameStarted &&
+      !isPlayerFinished &&
+      questions.length > 0 &&
+      currentQuestionIndex < questions.length ? (
         <div>
-          <div>Question: {question}</div>
+          <div>Question: {questions[currentQuestionIndex].question}</div>
           <div>
-            <button onClick={() => handleAnswerSelection("Paris")}>
-              Paris
-            </button>
-            <button onClick={() => handleAnswerSelection("London")}>
-              London
-            </button>
-            <button onClick={() => handleAnswerSelection("Berlin")}>
-              Berlin
-            </button>
-            <button onClick={() => handleAnswerSelection("Madrid")}>
-              Madrid
-            </button>
-          </div>
-          <div>Your Answer: {selectedAnswer}</div>
-          <div>Partner's Answer: {partnerAnswer}</div>
-          <div>
-            Result:{" "}
-            {selectedAnswer && partnerAnswer
-              ? selectedAnswer === partnerAnswer
-                ? "Matched"
-                : "Not Matched"
-              : "Awaiting Answers"}
+            {questions[currentQuestionIndex].options.map((option) => (
+              <button
+                key={option}
+                onClick={() => handleAnswerSelection(option)}
+              >
+                {option}
+              </button>
+            ))}
           </div>
         </div>
-      ) : (
-        <div>Waiting for someone to join the game...</div>
-      )}
+      ) : null}
+
+      {isGameStarted &&
+      isPlayerFinished &&
+      currentQuestionIndex === questions.length - 1 ? (
+        <div>Waiting for the other player to finish...</div>
+      ) : null}
+
+      {isGameStarted &&
+      isPlayerFinished &&
+      isPartnerFinished &&
+      currentQuestionIndex === questions.length - 1 ? (
+        <div>
+          <div>
+            Result: Matched answers: {calculateResults().matchCount} out of{" "}
+            {questions.length}
+          </div>
+          <div>Compatibility Score: {calculateCompatibilityScore()}%</div>
+          {renderUnmatchedAnswers()}
+        </div>
+      ) : null}
     </div>
   );
 };
