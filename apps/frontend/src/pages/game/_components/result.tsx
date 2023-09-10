@@ -1,3 +1,4 @@
+import { useRestart } from "../_hooks/useRestart";
 import { useResult } from "../_hooks/useResult";
 import { styles } from "../styles";
 
@@ -8,7 +9,7 @@ type Payload = {
   resultDetails: ReturnType<
     ReturnType<typeof useResult>["generateResultDetails"]
   >;
-  restartGame: ReturnType<typeof useResult>["restartGame"];
+  restartGame: ReturnType<typeof useRestart>["restartGame"];
 };
 
 export const ResultComponent = ({

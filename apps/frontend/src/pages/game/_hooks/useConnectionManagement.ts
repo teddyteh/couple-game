@@ -2,17 +2,19 @@ import { copyToClipboard } from "@/utils";
 import { DataConnection } from "peerjs";
 import { useContext, useEffect } from "react";
 import { GameContext } from "./context";
+import { useRestart } from "./useRestart";
 
-export const useConnectionManagement = () => {
+type Payload = Pick<ReturnType<typeof useRestart>, "restartGame">;
+
+export const useConnectionManagement = ({ restartGame }: Payload) => {
   const {
-    peer,
     router,
     setGameId,
+    peer,
     gameId,
     setConn,
     setIsPartnerFinished,
     setPartnerAnswers,
-    isGameStarted,
     setIsGameStarted,
   } = useContext(GameContext);
   const { id } = router?.query ?? {};
@@ -54,16 +56,16 @@ export const useConnectionManagement = () => {
   };
 
   const initConnectionEvents = (connection: DataConnection) => {
-    connection.on("open", () => connection.send("TEST"));
+    connection.on("open", () => connection.send({ connected: true }));
     connection.on("data", (data: any) => {
-      if (data.finished) {
+      if (data.connected) {
+        setIsGameStarted(true);
+      } else if (data.finished) {
         setIsPartnerFinished(true);
+      } else if (data.restart) {
+        restartGame();
       } else {
         setPartnerAnswers(data.answers);
-      }
-
-      if (!isGameStarted) {
-        setIsGameStarted(true);
       }
     });
     connection.on("error", (err) => console.error("Connection error:", err));

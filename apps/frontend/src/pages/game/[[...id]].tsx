@@ -6,19 +6,16 @@ import { GameContext } from "./_hooks/context";
 import { useConnectionManagement } from "./_hooks/useConnectionManagement";
 import { useGameLogic } from "./_hooks/useGameLogic";
 import { useInitialization } from "./_hooks/useInitialization";
+import { useRestart } from "./_hooks/useRestart";
 import { useResult } from "./_hooks/useResult";
 import { styles } from "./styles";
 
 const Game = () => {
-  const { initializePeerConnection, fetchQuestionsFromURL } =
-    useInitialization();
-  useConnectionManagement();
+  const { fetchQuestionsFromURL } = useInitialization();
+  const { restartGame } = useRestart({ fetchQuestionsFromURL });
+  useConnectionManagement({ restartGame });
   const { handleAnswerSelection, handleNextButtonClick } = useGameLogic();
-  const { calculateCompatibilityScore, generateResultDetails, restartGame } =
-    useResult({
-      fetchQuestionsFromURL,
-      initializePeerConnection,
-    });
+  const { calculateCompatibilityScore, generateResultDetails } = useResult();
 
   const {
     isGameStarted,

@@ -23,7 +23,11 @@ export const useGameLogic = () => {
       return;
     }
 
-    setTimeLeft(10);
+    // Only reset the timer if the game hasn't ended
+    if (!(isPlayerFinished && currentQuestionIndex === questions.length - 1)) {
+      setTimeLeft(10);
+    }
+
     const timerId = setInterval(() => {
       setTimeLeft((prevTimeLeft) => {
         if (prevTimeLeft <= 1) {
@@ -46,7 +50,7 @@ export const useGameLogic = () => {
     }, 1000);
 
     return () => clearInterval(timerId);
-  }, [isGameStarted, currentQuestionIndex]);
+  }, [isGameStarted, currentQuestionIndex, isPlayerFinished]);
 
   useEffect(() => {
     if (timeLeft === 0) {

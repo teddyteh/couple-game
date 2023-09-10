@@ -1,25 +1,9 @@
 import { useContext } from "react";
 import { GameContext } from "./context";
-import { useInitialization } from "./useInitialization";
 
-export const useResult = ({
-  initializePeerConnection,
-  fetchQuestionsFromURL,
-}: ReturnType<typeof useInitialization>) => {
-  const {
-    selectedAnswers,
-    partnerAnswers,
-    questions,
-    setGameId,
-    setConn,
-    setIsGameStarted,
-    setCurrentQuestionIndex,
-    setSelectedOption,
-    setSelectedAnswers,
-    setPartnerAnswers,
-    setIsPlayerFinished,
-    setIsPartnerFinished,
-  } = useContext(GameContext);
+export const useResult = () => {
+  const { selectedAnswers, partnerAnswers, questions } =
+    useContext(GameContext);
 
   const _calculateResults = () => {
     let matchCount = 0;
@@ -54,25 +38,8 @@ export const useResult = ({
     return resultDetails;
   };
 
-  const restartGame = () => {
-    setGameId(null);
-    setConn(null);
-    setIsGameStarted(false);
-    setCurrentQuestionIndex(0);
-    setSelectedOption(null);
-    setSelectedAnswers([]);
-    setPartnerAnswers([]);
-    setIsPlayerFinished(false);
-    setIsPartnerFinished(false);
-    // Fetch new questions or reset to initial set of questions
-    fetchQuestionsFromURL();
-    // Re-initialize peer connection
-    initializePeerConnection();
-  };
-
   return {
     calculateCompatibilityScore,
     generateResultDetails,
-    restartGame
   };
 };
