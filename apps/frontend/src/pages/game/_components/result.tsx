@@ -1,6 +1,6 @@
 import { useRestart } from "../_hooks/useRestart";
 import { useResult } from "../_hooks/useResult";
-import { styles } from "../styles";
+import { styles } from "../_styles";
 
 type Payload = {
   score: ReturnType<

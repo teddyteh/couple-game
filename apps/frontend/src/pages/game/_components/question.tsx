@@ -1,5 +1,5 @@
 import { useGameLogic } from "../_hooks/useGameLogic";
-import { styles } from "../styles";
+import { styles } from "../_styles";
 
 type Payload = {
   currentQuestion: { question: string; options: string[] };

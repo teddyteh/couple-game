@@ -8,7 +8,7 @@ import { useGameLogic } from "./_hooks/useGameLogic";
 import { useInitialization } from "./_hooks/useInitialization";
 import { useRestart } from "./_hooks/useRestart";
 import { useResult } from "./_hooks/useResult";
-import { styles } from "./styles";
+import { styles } from "./_styles";
 import { useMessage } from "./_hooks/useMessage";
 
 const Game = () => {
