@@ -26,10 +26,13 @@ export const ResultComponent = ({
         <div key={index}>
           <div>Question: {detail.question}</div>
           <div>Your Answer: {detail.yourAnswer}</div>
-          <div>Partner's Answer: {detail.partnerAnswer}</div>
+          <div>Partner&apos;s Answer: {detail.partnerAnswer}</div>
         </div>
       ))}
-      <button style={{...styles.button, ...styles.restartButton}} onClick={restartGame}>
+      <button
+        style={{ ...styles.button, ...styles.restartButton }}
+        onClick={restartGame}
+      >
         Restart
       </button>
     </div>
