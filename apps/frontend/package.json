@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "devDependencies": {
+    "@couple-game/eslint-config": "workspace:*"
+  },
   "dependencies": {
     "@types/node": "20.5.9",
     "@types/react": "18.2.21",
