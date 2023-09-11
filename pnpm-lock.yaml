@@ -13,7 +13,7 @@ importers:
         version: 2.22.0
       '@couple-game/eslint-config':
         specifier: workspace:*
-        version: link:packages/eslint-config-teddy
+        version: link:packages/eslint-config-couple-game
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
@@ -68,7 +68,7 @@ importers:
     devDependencies:
       '@couple-game/eslint-config':
         specifier: workspace:*
-        version: link:../../packages/eslint-config-teddy
+        version: link:../../packages/eslint-config-couple-game
 
   apps/mobile:
     dependencies:
@@ -139,7 +139,7 @@ importers:
     devDependencies:
       '@couple-game/eslint-config':
         specifier: workspace:*
-        version: link:../../packages/eslint-config-teddy
+        version: link:../../packages/eslint-config-couple-game
       '@couple-game/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
@@ -163,7 +163,7 @@ importers:
     devDependencies:
       '@couple-game/eslint-config':
         specifier: workspace:*
-        version: link:../eslint-config-teddy
+        version: link:../eslint-config-couple-game
       '@couple-game/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
@@ -177,7 +177,7 @@ importers:
         specifier: ^4.5.3
         version: 4.5.3
 
-  packages/eslint-config-teddy:
+  packages/eslint-config-couple-game:
     dependencies:
       eslint-config-prettier:
         specifier: ^8.3.0
