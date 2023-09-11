@@ -1,4 +1,4 @@
-import { GameContextType } from "../_hooks/context";
+import { GameContextType } from "../hooks/context";
 import { styles } from "../_styles";
 
 type Payload = { questionsLength: number } & Pick<

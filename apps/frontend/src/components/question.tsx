@@ -1,4 +1,4 @@
-import { useGameLogic } from "../_hooks/useGameLogic";
+import { useGameLogic } from "../hooks/useGameLogic";
 import { styles } from "../_styles";
 
 type Payload = {

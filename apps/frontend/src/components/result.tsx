@@ -1,5 +1,5 @@
-import { useRestart } from "../_hooks/useRestart";
-import { useResult } from "../_hooks/useResult";
+import { useRestart } from "../hooks/useRestart";
+import { useResult } from "../hooks/useResult";
 import { styles } from "../_styles";
 
 type Payload = {

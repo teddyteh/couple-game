@@ -1,15 +1,15 @@
+import { styles } from "@/_styles";
+import { HeaderComponent } from "@/components/header";
+import { QuestionComponent } from "@/components/question";
+import { ResultComponent } from "@/components/result";
+import { GameContext } from "@/hooks/context";
+import { useConnectionManagement } from "@/hooks/useConnectionManagement";
+import { useGameLogic } from "@/hooks/useGameLogic";
+import { useInitialization } from "@/hooks/useInitialization";
+import { useMessage } from "@/hooks/useMessage";
+import { useRestart } from "@/hooks/useRestart";
+import { useResult } from "@/hooks/useResult";
 import { useContext } from "react";
-import { HeaderComponent } from "./_components/header";
-import { QuestionComponent } from "./_components/question";
-import { ResultComponent } from "./_components/result";
-import { GameContext } from "./_hooks/context";
-import { useConnectionManagement } from "./_hooks/useConnectionManagement";
-import { useGameLogic } from "./_hooks/useGameLogic";
-import { useInitialization } from "./_hooks/useInitialization";
-import { useRestart } from "./_hooks/useRestart";
-import { useResult } from "./_hooks/useResult";
-import { styles } from "./_styles";
-import { useMessage } from "./_hooks/useMessage";
 
 const Game = () => {
   const { fetchQuestionsFromURL } = useInitialization();
