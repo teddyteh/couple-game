@@ -29,7 +29,7 @@ export const ResultComponent = ({
           <div>Partner's Answer: {detail.partnerAnswer}</div>
         </div>
       ))}
-      <button id="restart" style={styles.restartButton} onClick={restartGame}>
+      <button style={{...styles.button, ...styles.restartButton}} onClick={restartGame}>
         Restart
       </button>
     </div>

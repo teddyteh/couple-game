@@ -26,10 +26,6 @@ export const useConnectionManagement = ({ restartGame }: Payload) => {
   }, [id]);
 
   useEffect(() => {
-    if (peer && !id) createNewGame();
-  }, [peer, id]);
-
-  useEffect(() => {
     if (peer && gameId) setupConnectionEvents();
   }, [peer, gameId]);
 
@@ -70,4 +66,8 @@ export const useConnectionManagement = ({ restartGame }: Payload) => {
     });
     connection.on("error", (err) => console.error("Connection error:", err));
   };
+
+  return {
+    createNewGame
+  }
 };

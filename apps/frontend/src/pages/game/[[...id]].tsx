@@ -9,15 +9,18 @@ import { useInitialization } from "./_hooks/useInitialization";
 import { useRestart } from "./_hooks/useRestart";
 import { useResult } from "./_hooks/useResult";
 import { styles } from "./styles";
+import { useMessage } from "./_hooks/useMessage";
 
 const Game = () => {
   const { fetchQuestionsFromURL } = useInitialization();
   const { restartGame } = useRestart({ fetchQuestionsFromURL });
-  useConnectionManagement({ restartGame });
+  const { createNewGame } = useConnectionManagement({ restartGame });
   const { handleAnswerSelection, handleNextButtonClick } = useGameLogic();
   const { calculateCompatibilityScore, generateResultDetails } = useResult();
+  useMessage();
 
   const {
+    gameId,
     isGameStarted,
     isPlayerFinished,
     isPartnerFinished,
@@ -30,7 +33,15 @@ const Game = () => {
   return (
     <div style={styles.container}>
       <div id="display-container" style={styles.displayContainer}>
-        {!isGameStarted && <div>Waiting for someone to join the game...</div>}
+        {!isGameStarted && !gameId && (
+          <button style={styles.button} onClick={createNewGame}>
+            Start Game
+          </button>
+        )}
+
+        {!isGameStarted && gameId && (
+          <div>Waiting for someone to join the game...</div>
+        )}
 
         {isGameStarted && !isPlayerFinished && (
           <>
@@ -51,11 +62,10 @@ const Game = () => {
             questions.length > 0 &&
             currentQuestionIndex < questions.length ? (
               <button
-                id="next-button"
                 style={
                   !selectedOption
-                    ? { ...styles.nextButton, ...styles.disabledNextButton }
-                    : styles.nextButton
+                    ? { ...styles.button, ...styles.disabledButton }
+                    : styles.button
                 }
                 onClick={handleNextButtonClick}
               >

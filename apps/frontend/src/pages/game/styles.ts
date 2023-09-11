@@ -67,19 +67,17 @@ export const styles: { [key: string]: CSSProperties } = {
     selectedOptionDiv: {
       backgroundColor: "#f0f0f0",
     },
-    nextButton: {
+    button: {
       fontSize: "1em",
-      marginTop: "1.5em",
       backgroundColor: "#8754ff",
       color: "#ffffff",
       padding: "0.7em 1.8em",
       borderRadius: "0.3em",
-      float: "right",
       boxShadow: "0px 20px 40px rgba(0, 0, 0, 0.3)",
       border: "none",
       cursor: "pointer",
     },
-    disabledNextButton: {
+    disabledButton: {
       backgroundColor: "#c0bfd2",
       cursor: "not-allowed",
     },
@@ -96,15 +94,7 @@ export const styles: { [key: string]: CSSProperties } = {
       fontSize: "1.5em",
     },
     restartButton: {
-      fontSize: "1.3em",
-      backgroundColor: "#8754ff",
-      color: "#ffffff",
-      padding: "0.5em 1.8em",
-      borderRadius: "0.2em",
-      boxShadow: "0 20px 30px rgba(0, 0, 0, 0.4)",
       marginTop: "0.9em",
-      border: "none",
-      cursor: "pointer",
     },
   };
   
