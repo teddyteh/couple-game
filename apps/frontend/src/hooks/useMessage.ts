@@ -1,17 +1,23 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { GameContext } from "./context";
 
 export const useMessage = () => {
+  const { setProducts, setAvailablePurchases } = useContext(GameContext);
+
   useEffect(() => {
     const handleMessage = (event: any) => {
       console.log("Received message:", event.data);
 
       try {
-        const { action, payload } = JSON.parse(event.data);
-        console.log("Parsed:", { action, payload });
+        const { action, data } = JSON.parse(event.data);
+        console.log("Parsed:", { action, data });
 
         switch (action) {
           case "products":
-            console.log("Products:", payload);
+            setProducts(data);
+            break;
+          case "availablePurchases":
+            setAvailablePurchases(data);
             break;
           default:
             console.warn("No action handler for:", action);
@@ -21,19 +27,20 @@ export const useMessage = () => {
       }
     };
 
-    window.addEventListener("message", handleMessage);
+    document.addEventListener("message", handleMessage);
 
     return () => {
-      window.removeEventListener("message", handleMessage);
+      document.removeEventListener("message", handleMessage);
     };
   }, []);
 
   useEffect(() => {
     sendMessage({ action: "getProducts" });
+    sendMessage({ action: "getAvailablePurchases" });
   }, []);
 
   const sendMessage = (data: { action: string; payload?: any }) => {
-    postMessage(data);
+    window.ReactNativeWebView?.postMessage(JSON.stringify(data));
   };
 
   return {

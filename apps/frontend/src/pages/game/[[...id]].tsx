@@ -2,6 +2,7 @@ import { styles } from "@/_styles";
 import { HeaderComponent } from "@/components/header";
 import { QuestionComponent } from "@/components/question";
 import { ResultComponent } from "@/components/result";
+import { StoreComponent } from "@/components/store";
 import { GameContext } from "@/hooks/context";
 import { useConnectionManagement } from "@/hooks/useConnectionManagement";
 import { useGameLogic } from "@/hooks/useGameLogic";
@@ -9,10 +10,12 @@ import { useInitialization } from "@/hooks/useInitialization";
 import { useMessage } from "@/hooks/useMessage";
 import { useRestart } from "@/hooks/useRestart";
 import { useResult } from "@/hooks/useResult";
+import { useStore } from "@/hooks/useStore";
 import { useContext } from "react";
 
 const Game = () => {
   const { fetchQuestionsFromURL } = useInitialization();
+  const { goToStore } = useStore();
   const { restartGame } = useRestart({ fetchQuestionsFromURL });
   const { createNewGame } = useConnectionManagement({ restartGame });
   const { handleAnswerSelection, handleNextButtonClick } = useGameLogic();
@@ -20,6 +23,9 @@ const Game = () => {
   useMessage();
 
   const {
+    products,
+    availablePurchases,
+    isShowingStore,
     gameId,
     isGameStarted,
     isPlayerFinished,
@@ -34,9 +40,21 @@ const Game = () => {
     <div style={styles.container}>
       <div id="display-container" style={styles.displayContainer}>
         {!isGameStarted && !gameId && (
-          <button style={styles.button} onClick={createNewGame}>
-            Start Game
-          </button>
+          <>
+            <button style={styles.button} onClick={createNewGame}>
+              Start Game
+            </button>
+            <button style={styles.button} onClick={goToStore}>
+              Store
+            </button>
+          </>
+        )}
+
+        {isShowingStore && (
+          <StoreComponent
+            products={products}
+            availablePurchases={availablePurchases}
+          />
         )}
 
         {!isGameStarted && gameId && (
