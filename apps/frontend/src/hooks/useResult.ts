@@ -17,7 +17,11 @@ export const useResult = () => {
 
   const calculateCompatibilityScore = () => {
     const results = _calculateResults();
-    return ((results.matchCount / results.total) * 100).toFixed(0);
+    return {
+      matches: results.matchCount,
+      total: results.total,
+      percentage: ((results.matchCount / results.total) * 100).toFixed(0),
+    };
   };
 
   const generateResultDetails = () => {

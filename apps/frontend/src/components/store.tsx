@@ -1,5 +1,4 @@
 import { GameContextType } from "@/hooks/context";
-import { styles } from "../_styles";
 
 type Payload = Pick<GameContextType, "products" | "availablePurchases">;
 
@@ -8,7 +7,7 @@ export const StoreComponent = ({ products, availablePurchases }: Payload) => {
     !availablePurchases.some((p) => p.productId === productId);
 
   return (
-    <div className="score-container" style={styles.scoreContainer}>
+    <div className="score-container">
       {products.map((product) => {
         return (
           <div key={product.productId}>

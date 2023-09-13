@@ -33,16 +33,6 @@ export const useGameLogic = () => {
         if (prevTimeLeft <= 1) {
           clearInterval(timerId);
 
-          if (selectedOption === null) {
-            const randomOption =
-              questions[currentQuestionIndex].options[
-                Math.floor(
-                  Math.random() * questions[currentQuestionIndex].options.length
-                )
-              ];
-            setSelectedOption(randomOption);
-          }
-
           return 0;
         }
         return prevTimeLeft - 1;
@@ -54,21 +44,34 @@ export const useGameLogic = () => {
 
   useEffect(() => {
     if (timeLeft === 0) {
-      handleNextButtonClick();
+      // Select a random option if the player hasn't selected one
+      if (selectedOption === null) {
+        const randomOption =
+          questions[currentQuestionIndex].options[
+            Math.floor(
+              Math.random() * questions[currentQuestionIndex].options.length
+            )
+          ];
+        setSelectedOption(randomOption);
+      }
+
+      goToNextQuestion();
     }
-  }, [timeLeft]);
+  }, [timeLeft, selectedOption]);
 
-  const handleAnswerSelection = (answer: string) => setSelectedOption(answer);
-
-  const handleNextButtonClick = () => {
-    if (!selectedOption) return;
+  const handleAnswerSelection = (answer: string) => {
+    setSelectedOption(answer);
 
     // Save answers
     let newAnswers = [...selectedAnswers];
-    newAnswers[currentQuestionIndex] = selectedOption;
+    newAnswers[currentQuestionIndex] = answer;
     setSelectedAnswers(newAnswers);
     if (conn) conn.send({ answers: newAnswers });
 
+    goToNextQuestion();
+  };
+
+  const goToNextQuestion = () => {
     // Go to next question
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -82,6 +85,5 @@ export const useGameLogic = () => {
 
   return {
     handleAnswerSelection,
-    handleNextButtonClick,
   };
 };

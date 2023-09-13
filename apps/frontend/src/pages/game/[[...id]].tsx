@@ -1,7 +1,7 @@
-import { styles } from "@/_styles";
-import { HeaderComponent } from "@/components/header";
+import { MenuComponent } from "@/components/menu";
 import { QuestionComponent } from "@/components/question";
 import { ResultComponent } from "@/components/result";
+import { ScreenComponent } from "@/components/screen";
 import { StoreComponent } from "@/components/store";
 import { GameContext } from "@/hooks/context";
 import { useConnectionManagement } from "@/hooks/useConnectionManagement";
@@ -18,7 +18,7 @@ const Game = () => {
   const { goToStore } = useStore();
   const { restartGame } = useRestart({ fetchQuestionsFromURL });
   const { createNewGame } = useConnectionManagement({ restartGame });
-  const { handleAnswerSelection, handleNextButtonClick } = useGameLogic();
+  const { handleAnswerSelection } = useGameLogic();
   const { calculateCompatibilityScore, generateResultDetails } = useResult();
   useMessage();
 
@@ -37,17 +37,10 @@ const Game = () => {
   } = useContext(GameContext);
 
   return (
-    <div style={styles.container}>
-      <div id="display-container" style={styles.displayContainer}>
+    <div className="container">
+      <div className="wrapper">
         {!isGameStarted && !gameId && (
-          <>
-            <button style={styles.button} onClick={createNewGame}>
-              Start Game
-            </button>
-            <button style={styles.button} onClick={goToStore}>
-              Store
-            </button>
-          </>
+          <MenuComponent createNewGame={createNewGame} goToStore={goToStore} />
         )}
 
         {isShowingStore && (
@@ -58,43 +51,20 @@ const Game = () => {
         )}
 
         {!isGameStarted && gameId && (
-          <div>Waiting for someone to join the game...</div>
+          <ScreenComponent>
+            <div>Waiting for someone to join the game...</div>
+          </ScreenComponent>
         )}
 
         {isGameStarted && !isPlayerFinished && (
-          <>
-            <HeaderComponent
-              currentQuestionIndex={currentQuestionIndex}
-              questionsLength={questions.length}
-              timeLeft={timeLeft}
-            />
-
-            <QuestionComponent
-              currentQuestion={questions[currentQuestionIndex]}
-              selectedOption={selectedOption}
-              handleAnswerSelection={handleAnswerSelection}
-            />
-
-            {isGameStarted &&
-            !isPlayerFinished &&
-            questions.length > 0 &&
-            currentQuestionIndex < questions.length ? (
-              <button
-                style={
-                  !selectedOption
-                    ? { ...styles.button, ...styles.disabledButton }
-                    : styles.button
-                }
-                onClick={handleNextButtonClick}
-              >
-                Next
-              </button>
-            ) : null}
-          </>
-        )}
-
-        {isGameStarted && isPlayerFinished && !isPartnerFinished && (
-          <div>Waiting for the other player to finish...</div>
+          <QuestionComponent
+            currentQuestionIndex={currentQuestionIndex}
+            questionsLength={questions.length}
+            timeLeft={timeLeft}
+            currentQuestion={questions[currentQuestionIndex]}
+            selectedOption={selectedOption}
+            handleAnswerSelection={handleAnswerSelection}
+          />
         )}
 
         {isGameStarted && isPlayerFinished && isPartnerFinished && (
@@ -103,6 +73,12 @@ const Game = () => {
             resultDetails={generateResultDetails()}
             restartGame={restartGame}
           />
+        )}
+
+        {isGameStarted && isPlayerFinished && !isPartnerFinished && (
+          <ScreenComponent>
+            <div>Waiting for the other player to finish...</div>
+          </ScreenComponent>
         )}
       </div>
     </div>
