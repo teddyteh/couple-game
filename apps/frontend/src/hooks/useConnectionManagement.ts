@@ -32,9 +32,13 @@ export const useConnectionManagement = ({ restartGame }: Payload) => {
   const createNewGame = () => {
     if (peer) {
       setGameId(peer.id);
-      copyToClipboard(`${window.location.origin}/game/${peer.id}`);
+      copyShareLink();
     }
   };
+
+  const getShareLink = () => `${window.location.origin}/game/${gameId}`;
+
+  const copyShareLink = () => copyToClipboard(getShareLink());
 
   const setupConnectionEvents = () => {
     if (!peer || !gameId) return;
@@ -68,6 +72,8 @@ export const useConnectionManagement = ({ restartGame }: Payload) => {
   };
 
   return {
-    createNewGame
-  }
+    createNewGame,
+    getShareLink,
+    copyShareLink,
+  };
 };

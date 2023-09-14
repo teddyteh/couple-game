@@ -83,6 +83,7 @@ export const GameProvider = ({ children }: any) => {
   const [isShowingStore, setIsShowingStore] = useState<boolean>(false);
 
   const [gameId, setGameId] = useState<string | null>(null);
+
   const [peer, setPeer] = useState<Peer | null>(null);
   const [conn, setConn] = useState<DataConnection | null>(null);
 

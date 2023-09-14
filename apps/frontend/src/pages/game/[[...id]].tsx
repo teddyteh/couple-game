@@ -2,6 +2,7 @@ import { MenuComponent } from "@/components/menu";
 import { QuestionComponent } from "@/components/question";
 import { ResultComponent } from "@/components/result";
 import { ScreenComponent } from "@/components/screen";
+import { ShareComponent } from "@/components/share";
 import { StoreComponent } from "@/components/store";
 import { GameContext } from "@/hooks/context";
 import { useConnectionManagement } from "@/hooks/useConnectionManagement";
@@ -17,7 +18,8 @@ const Game = () => {
   const { fetchQuestionsFromURL } = useInitialization();
   const { goToStore } = useStore();
   const { restartGame } = useRestart({ fetchQuestionsFromURL });
-  const { createNewGame } = useConnectionManagement({ restartGame });
+  const { createNewGame, getShareLink, copyShareLink } =
+    useConnectionManagement({ restartGame });
   const { handleAnswerSelection } = useGameLogic();
   const { calculateCompatibilityScore, generateResultDetails } = useResult();
   useMessage();
@@ -51,9 +53,10 @@ const Game = () => {
         )}
 
         {!isGameStarted && gameId && (
-          <ScreenComponent>
-            <div>Waiting for someone to join the game...</div>
-          </ScreenComponent>
+          <ShareComponent
+            shareLink={getShareLink()}
+            copyShareLink={copyShareLink}
+          />
         )}
 
         {isGameStarted && !isPlayerFinished && (
