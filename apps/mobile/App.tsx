@@ -1,118 +1,109 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import axios from 'axios';
+import React, {useEffect, useRef, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {requestPurchase, useIAP, withIAPContext} from 'react-native-iap';
+import {WebView} from 'react-native-webview';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const GAME_URL = 'https://couple-game.vercel.app/game';
+const SKUS_URL = 'https://couple-game.vercel.app/api/skus';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+// const GAME_URL = 'http://192.168.100.15:3000/game';
+// const SKUS_URL = 'http://192.168.100.15:3000/api/skus';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const App = () => {
+  const webViewRef = useRef<WebView>(null);
+  const [skus, setSkus] = useState<string[]>([]);
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+  const {
+    connected,
+    products,
+    availablePurchases,
+    currentPurchase,
+    currentPurchaseError,
+    // initConnectionError,
+    // finishTransaction,
+    getProducts,
+    getAvailablePurchases,
+  } = useIAP();
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  useEffect(() => {
+    const fetchSkus = async () => {
+      try {
+        const response = await axios.get(SKUS_URL);
+        setSkus(response.data);
+      } catch (error) {
+        console.error('Error fetching SKUs:', error);
+      }
+    };
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    fetchSkus();
+  }, []);
+
+  useEffect(() => {
+    if (connected && skus.length > 0) {
+      getProducts({skus});
+      getAvailablePurchases();
+    }
+  }, [connected, skus, getProducts, getAvailablePurchases]);
+
+  useEffect(() => {
+    // ... listen to currentPurchaseError, to check if any error happened
+  }, [currentPurchaseError]);
+
+  useEffect(() => {
+    // ... listen to currentPurchase, to check if the purchase went through
+  }, [currentPurchase]);
+
+  const onMessage = (event: any) => {
+    const handlePurchase = async (sku: string) => {
+      await requestPurchase({sku});
+    };
+
+    console.log('Message received from WebView:', event.nativeEvent.data);
+
+    const {action} = JSON.parse(event.nativeEvent.data);
+
+    switch (action) {
+      case 'getProducts':
+        webViewRef.current!.postMessage(
+          JSON.stringify({
+            action: 'products',
+            data: products,
+          }),
+        );
+        break;
+      case 'getAvailablePurchases':
+        webViewRef.current!.postMessage(
+          JSON.stringify({
+            action: 'availablePurchases',
+            data: availablePurchases,
+          }),
+        );
+        break;
+      case 'purchase':
+        handlePurchase(event.nativeEvent.data.sku);
+        break;
+      default:
+        console.warn('Unknown action:', action);
+    }
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+    <View style={styles.container}>
+      <WebView
+        ref={webViewRef}
+        source={{uri: GAME_URL}}
+        onMessage={onMessage}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
 });
 
-export default App;
+export default withIAPContext(App);
