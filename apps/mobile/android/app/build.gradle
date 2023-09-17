@@ -73,23 +73,14 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-<<<<<<< Updated upstream
-    namespace "com.helloworld"
-    defaultConfig {
-        applicationId "com.helloworld"
-=======
     namespace "com.mobile"
     defaultConfig {
         applicationId "com.mobile"
->>>>>>> Stashed changes
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-<<<<<<< Updated upstream
-=======
         missingDimensionStrategy "store", "play"
->>>>>>> Stashed changes
     }
     signingConfigs {
         debug {
