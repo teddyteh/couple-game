@@ -5,6 +5,9 @@ on:
   release:
     types: [published]
 
+env:
+  REPO_PATH: apps/mobile
+
 jobs:
   android-build:
     name: Android Build
@@ -63,12 +66,12 @@ jobs:
             ${{ runner.os }}-gradle-caches-
 
       - name: Make Gradlew Executable
-        run: cd android && chmod +x ./gradlew
+        run: cd ${{ env.REPO_PATH }}/android && chmod +x ./gradlew
 
       # Building and signing App
       - name: Build Android App Bundle
         run: |
-            cd android && ./gradlew bundleRelease --no-daemon
+            cd ${{ env.REPO_PATH }}/android && ./gradlew bundleRelease --no-daemon
 
       - name: Sign App Bundle
         id: sign_app
