@@ -1,9 +1,9 @@
 name: Android Build
 
 on:
-  workflow_dispatch: # To trigger manual build
-  release:
-    types: [published]
+  push:
+    tags:
+      - "@couple-game/mobile-v*"
 
 env:
   ANDROID_PATH: apps/mobile/android
@@ -69,7 +69,6 @@ jobs:
       - name: Make Gradlew Executable
         run: cd ${{ env.ANDROID_PATH }} && chmod +x ./gradlew
 
-      # Building and signing App
       - name: Build Android App Bundle
         run: |
             cd ${{ env.ANDROID_PATH }} && ./gradlew bundleRelease --no-daemon
@@ -84,7 +83,6 @@ jobs:
             keyStorePassword: ${{ secrets.ANDROID_KEY_STORE_PASSWORD }}
             keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
-        ## Distribute  App to google play alpha track
       - name: Upload App to Google Play
         uses: r0adkll/upload-google-play@v1
         with:

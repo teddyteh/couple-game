@@ -1,4 +1,4 @@
-name: "Package and Deploy Question Populator to S3"
+name: "Release Question Populator to Lambda"
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.PAT }}
 
-      - name: Package and Deploy to S3
+      - name: Package and Upload to S3
         id: s3
         uses: ./.github/template/s3
         with:
