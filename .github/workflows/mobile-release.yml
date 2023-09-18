@@ -6,7 +6,8 @@ on:
     types: [published]
 
 env:
-  REPO_PATH: apps/mobile
+  ANDROID_PATH: apps/mobile/android
+  PACKAGE_NAME: com.teddyteh.couplegame
 
 jobs:
   android-build:
@@ -66,18 +67,18 @@ jobs:
             ${{ runner.os }}-gradle-caches-
 
       - name: Make Gradlew Executable
-        run: cd ${{ env.REPO_PATH }}/android && chmod +x ./gradlew
+        run: cd ${{ env.ANDROID_PATH }} && chmod +x ./gradlew
 
       # Building and signing App
       - name: Build Android App Bundle
         run: |
-            cd ${{ env.REPO_PATH }}/android && ./gradlew bundleRelease --no-daemon
+            cd ${{ env.ANDROID_PATH }} && ./gradlew bundleRelease --no-daemon
 
       - name: Sign App Bundle
         id: sign_app
         uses: r0adkll/sign-android-release@v1
         with:
-            releaseDirectory: ${{ env.REPO_PATH }}/android/app/build/outputs/bundle/release
+            releaseDirectory: ${{ env.ANDROID_PATH }}/app/build/outputs/bundle/release
             signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
             alias: ${{ secrets.ANDROID_ALIAS }}
             keyStorePassword: ${{ secrets.ANDROID_KEY_STORE_PASSWORD }}
@@ -88,8 +89,8 @@ jobs:
         uses: r0adkll/upload-google-play@v1
         with:
             serviceAccountJsonPlainText: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON_TEXT }}
-            packageName: com.test.test
-            releaseFiles: android/app/build/outputs/bundle/release/*.aab
+            packageName: ${{ env.PACKAGE_NAME }}
+            releaseFiles: ${{ env.ANDROID_PATH }}/app/build/outputs/bundle/release/*.aab
             track: alpha
             status: completed
             inAppUpdatePriority: 2

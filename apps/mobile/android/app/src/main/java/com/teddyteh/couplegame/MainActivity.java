@@ -1,4 +1,4 @@
-package com.mobile;
+package com.teddyteh.couplegame;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
