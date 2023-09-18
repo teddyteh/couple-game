@@ -89,6 +89,6 @@ jobs:
             serviceAccountJsonPlainText: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON_TEXT }}
             packageName: ${{ env.PACKAGE_NAME }}
             releaseFiles: ${{ env.ANDROID_PATH }}/app/build/outputs/bundle/release/*.aab
-            track: alpha
-            status: completed
+            track: internal
+            status: draft
             inAppUpdatePriority: 2
