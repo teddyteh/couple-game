@@ -1,7 +1,12 @@
 import axios from 'axios';
 import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {requestPurchase, useIAP, withIAPContext} from 'react-native-iap';
+import {
+  ProductAndroid,
+  requestPurchase,
+  useIAP,
+  withIAPContext,
+} from 'react-native-iap';
 import {WebView} from 'react-native-webview';
 
 const GAME_URL = 'https://couple-game.vercel.app/game';
@@ -20,7 +25,7 @@ const App = () => {
     availablePurchases,
     currentPurchase,
     currentPurchaseError,
-    // initConnectionError,
+    initConnectionError,
     // finishTransaction,
     getProducts,
     getAvailablePurchases,
@@ -40,6 +45,12 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    if (initConnectionError) {
+      console.error('initConnectionError', initConnectionError);
+    }
+  }, [initConnectionError]);
+
+  useEffect(() => {
     if (connected && skus.length > 0) {
       getProducts({skus});
       getAvailablePurchases();
@@ -47,41 +58,44 @@ const App = () => {
   }, [connected, skus, getProducts, getAvailablePurchases]);
 
   useEffect(() => {
-    // ... listen to currentPurchaseError, to check if any error happened
-  }, [currentPurchaseError]);
-
-  useEffect(() => {
-    // ... listen to currentPurchase, to check if the purchase went through
+    if (currentPurchase) {
+      console.info('currentPurchase', currentPurchase);
+      _postMessageToWebApp('currentPurchase', currentPurchase);
+    }
   }, [currentPurchase]);
 
-  const onMessage = (event: any) => {
-    const handlePurchase = async (sku: string) => {
-      await requestPurchase({sku});
-    };
+  useEffect(() => {
+    if (currentPurchaseError) {
+      console.error('currentPurchaseError', currentPurchaseError);
+      _postMessageToWebApp('currentPurchaseError', currentPurchaseError);
+    }
+  }, [currentPurchaseError]);
 
+  const _postMessageToWebApp = (action: string, data: any) => {
+    webViewRef.current!.postMessage(
+      JSON.stringify({
+        action,
+        data,
+      }),
+    );
+  };
+
+  const onMessage = (event: any) => {
     console.log('Message received from WebView:', event.nativeEvent.data);
 
-    const {action} = JSON.parse(event.nativeEvent.data);
+    const {action, payload} = JSON.parse(event.nativeEvent.data);
 
     switch (action) {
       case 'getProducts':
-        webViewRef.current!.postMessage(
-          JSON.stringify({
-            action: 'products',
-            data: products,
-          }),
-        );
+        _postMessageToWebApp('products', products);
         break;
       case 'getAvailablePurchases':
-        webViewRef.current!.postMessage(
-          JSON.stringify({
-            action: 'availablePurchases',
-            data: availablePurchases,
-          }),
-        );
+        _postMessageToWebApp('availablePurchases', availablePurchases);
         break;
       case 'purchase':
-        handlePurchase(event.nativeEvent.data.sku);
+        const product = payload.product as ProductAndroid;
+        console.info('product', product);
+        requestPurchase({skus: [product.productId]});
         break;
       default:
         console.warn('Unknown action:', action);
