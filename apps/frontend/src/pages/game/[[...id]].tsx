@@ -95,8 +95,6 @@ const Game = () => {
           </ScreenComponent>
         )}
 
-        {JSON.stringify(alert)}
-
         <Alert data={alert} />
       </div>
     </div>
