@@ -8,12 +8,7 @@ import {
   withIAPContext,
 } from 'react-native-iap';
 import {WebView} from 'react-native-webview';
-
-const GAME_URL = 'https://couple-game.vercel.app/game';
-const SKUS_URL = 'https://couple-game.vercel.app/api/skus';
-
-// const GAME_URL = 'http://192.168.100.15:3000/game';
-// const SKUS_URL = 'http://192.168.100.15:3000/api/skus';
+import {GAME_URL, SKUS_URL} from './config';
 
 const App = () => {
   const webViewRef = useRef<WebView>(null);
