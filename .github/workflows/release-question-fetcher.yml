@@ -1,9 +1,9 @@
-name: "Release Question Populator to Lambda"
+name: "Release Question Fetcher to Lambda"
 
 on:
   push:
     tags:
-      - "@couple-game/question-populator-v*"
+      - "@couple-game/question-fetcher-v*"
 
 jobs:
   deploy-s3:
@@ -21,8 +21,8 @@ jobs:
         id: s3
         uses: ./.github/template/s3
         with:
-          app_path_name: question-populator
-          package_name: "@couple-game/question-populator"
+          app_path_name: question-fetcher
+          package_name: "@couple-game/question-fetcher"
           s3_bucket_name: ${{ secrets.AWS_LAMBDA_REPOSITORY_BUCKET_NAME }}
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -43,10 +43,10 @@ jobs:
       - name: Deploy to Lambda
         uses: ./.github/template/lambda
         with:
-          lambda_function_name: question-populator
+          lambda_function_name: question-fetcher
           s3_bucket_name: ${{ secrets.AWS_LAMBDA_REPOSITORY_BUCKET_NAME }}
           s3_key: ${{ needs.deploy-s3.outputs.s3_key }}
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ secrets.AWS_REGION }}
-          lambda_environment_variables: OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},OPENAI_PROMPT=${{ secrets.OPENAI_PROMPT }},AWS_DYNAMODB_TABLE_NAME=${{ secrets.AWS_DYNAMODB_TABLE_NAME }}
+          lambda_environment_variables: AWS_DYNAMODB_TABLE_NAME=${{ secrets.AWS_DYNAMODB_TABLE_NAME }},AWS_S3_QUESTIONS_BUCKET_NAME=${{ secrets.AWS_S3_QUESTIONS_BUCKET_NAME }}

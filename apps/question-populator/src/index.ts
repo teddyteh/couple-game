@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import "dotenv/config";
 import { DynamoDB } from "aws-sdk";
 import OpenAI from "openai";
 
@@ -8,19 +8,19 @@ const openai = new OpenAI({
 });
 const dynamoDB = new DynamoDB.DocumentClient();
 
-const openaiPrompt = process.env.OPENAI_PROMPT!; // 1 couple compatiblity question with 4 selections in JSON
-const tableName = process.env.DYNAMODB_TABLE_NAME!;
+const defaultOpenaiPrompt = process.env.OPENAI_PROMPT; // 1 couple compatiblity question with 4 selections in JSON, include the category
+const tableName = process.env.AWS_DYNAMODB_TABLE_NAME!;
 
-export const handler = async (event: any): Promise<any> => {
+export const handler = async ({ prompt }: { prompt: string }): Promise<any> => {
   try {
     console.info("Calling OpenAI...");
 
     const response = await openai.chat.completions.create({
-      messages: [{ role: "user", content: openaiPrompt }],
+      messages: [{ role: "user", content: prompt ?? defaultOpenaiPrompt }],
       model: "gpt-3.5-turbo",
       max_tokens: 100, // Important to limit the time the model takes to return a response
     });
-    console.info("response", response);
+    console.info("Response", response);
 
     const jsonInString = response.choices[0].message.content?.trim();
     console.info("jsonInString", jsonInString);
@@ -70,4 +70,4 @@ export const handler = async (event: any): Promise<any> => {
 };
 
 // Local testing
-handler({});
+// handler({});
