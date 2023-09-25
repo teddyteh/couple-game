@@ -78,8 +78,8 @@ android {
         applicationId "com.teddyteh.couplegame"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "0.0.2"
+        versionCode 4
+        versionName "0.0.3"
         missingDimensionStrategy "store", "play"
     }
     signingConfigs {
