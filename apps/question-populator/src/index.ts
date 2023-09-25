@@ -8,7 +8,7 @@ const openai = new OpenAI({
 });
 const dynamoDB = new DynamoDB.DocumentClient();
 
-const defaultOpenaiPrompt = process.env.OPENAI_PROMPT; // 1 couple compatiblity question with 4 selections in JSON, include the category
+const defaultOpenaiPrompt = process.env.OPENAI_PROMPT; // 1 couple compatibility questions with 4 selections and category in JSON
 const tableName = process.env.AWS_DYNAMODB_TABLE_NAME!;
 
 export const handler = async ({ prompt }: { prompt: string }): Promise<any> => {
@@ -28,7 +28,7 @@ export const handler = async ({ prompt }: { prompt: string }): Promise<any> => {
       throw new Error("Unexpected response");
     }
 
-    const { question, selections } = JSON.parse(jsonInString);
+    const { question, selections, category } = JSON.parse(jsonInString);
     if (!question || !selections) {
       throw new Error("No question or selections found in the response");
     }
@@ -44,6 +44,8 @@ export const handler = async ({ prompt }: { prompt: string }): Promise<any> => {
       .promise();
 
     if (!existingItem.Item) {
+      const parsedCategory = category.toLowerCase().replace(/\s+/g, "-");
+
       // If the question is not already in the database, insert it
       await dynamoDB
         .put({
@@ -51,6 +53,7 @@ export const handler = async ({ prompt }: { prompt: string }): Promise<any> => {
           Item: {
             question,
             selections,
+            category: parsedCategory,
           },
         })
         .promise();
