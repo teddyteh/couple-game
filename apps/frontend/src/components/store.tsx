@@ -30,7 +30,7 @@ export const StoreComponent = ({
           return (
             <div key={product.productId}>
               <div>{product.productId}</div>
-              <div>"{product.description}"</div>
+              <div>&quot;{product.description}&quot;</div>
               <button
                 className="purchase-button"
                 onClick={() => purchase(product)}

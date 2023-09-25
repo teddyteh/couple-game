@@ -1,4 +1,5 @@
 import { Head, Html, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 export default function Document() {
   return (
@@ -12,8 +13,11 @@ export default function Document() {
           rel="stylesheet"
           href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"
         />
-        <script src="https://cdn.tailwindcss.com"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>  
+        <Script src="https://cdn.tailwindcss.com"></Script>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+        />
       </Head>
       <body>
         <Main />
