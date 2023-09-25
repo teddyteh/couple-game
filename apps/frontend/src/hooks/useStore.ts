@@ -4,9 +4,10 @@ import { GameContext } from "./context";
 export const useStore = () => {
   const { setIsShowingStore } = useContext(GameContext);
 
-  const goToStore = () => setIsShowingStore(true);
+  const toggleShowStore = () =>
+    setIsShowingStore((previousValue) => !previousValue);
 
   return {
-    goToStore,
+    toggleShowStore,
   };
 };

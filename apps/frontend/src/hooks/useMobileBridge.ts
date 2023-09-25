@@ -1,12 +1,16 @@
+import { Product } from "@/types/product";
 import { useContext, useEffect } from "react";
 import { GameContext } from "./context";
+import { useAlert } from "./useAlert";
 
-export const useMessage = () => {
+type Payload = Pick<ReturnType<typeof useAlert>, "showAlert">;
+
+export const useMobileBridge = ({ showAlert }: Payload) => {
   const { setProducts, setAvailablePurchases } = useContext(GameContext);
 
   useEffect(() => {
     const handleMessage = (event: any) => {
-      console.log("Received message:", event.data);
+      console.log("Message received from mobile client:", event.data);
 
       try {
         const { action, data } = JSON.parse(event.data);
@@ -18,6 +22,13 @@ export const useMessage = () => {
             break;
           case "availablePurchases":
             setAvailablePurchases(data);
+            break;
+          case "currentPurchase":
+            console.info("Current purchase:", data);
+            break;
+          case "currentPurchaseError":
+            console.error("Current purchase error:", data);
+            showAlert()
             break;
           default:
             console.warn("No action handler for:", action);
@@ -35,15 +46,17 @@ export const useMessage = () => {
   }, []);
 
   useEffect(() => {
-    sendMessage({ action: "getProducts" });
-    sendMessage({ action: "getAvailablePurchases" });
+    _sendMessage({ action: "getProducts" });
+    _sendMessage({ action: "getAvailablePurchases" });
   }, []);
 
-  const sendMessage = (data: { action: string; payload?: any }) => {
+  const _sendMessage = (data: { action: string; payload?: any }) =>
     window.ReactNativeWebView?.postMessage(JSON.stringify(data));
-  };
+
+  const purchase = (product: Product) =>
+    _sendMessage({ action: "purchase", payload: { product } });
 
   return {
-    sendMessage,
+    purchase,
   };
 };

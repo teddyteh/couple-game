@@ -1,7 +1,12 @@
 import { Product, ProductPurchase } from "@/types/product";
 import { NextRouter, useRouter } from "next/router";
 import Peer, { DataConnection } from "peerjs";
-import { createContext, useState } from "react";
+import { createContext, useMemo, useState } from "react";
+
+export interface Alert {
+  title: string;
+  message: string;
+}
 
 export interface GameContextType {
   products: Product[];
@@ -12,6 +17,8 @@ export interface GameContextType {
   >;
   isShowingStore: boolean;
   setIsShowingStore: React.Dispatch<React.SetStateAction<boolean>>;
+  alert: Alert | null;
+  setAlert: React.Dispatch<React.SetStateAction<Alert | null>>;
   gameId: string | null;
   setGameId: React.Dispatch<React.SetStateAction<string | null>>;
   peer: Peer | null;
@@ -48,6 +55,8 @@ export const GameContext = createContext<GameContextType>({
   setAvailablePurchases: () => {},
   isShowingStore: false,
   setIsShowingStore: () => {},
+  alert: null,
+  setAlert: () => {},
   gameId: null,
   setGameId: () => {},
   peer: null,
@@ -81,6 +90,7 @@ export const GameProvider = ({ children }: any) => {
   const [products, setProducts] = useState<any[]>([]);
   const [availablePurchases, setAvailablePurchases] = useState<any[]>([]);
   const [isShowingStore, setIsShowingStore] = useState<boolean>(false);
+  const [alert, setAlert] = useState<Alert | null>(null);
 
   const [gameId, setGameId] = useState<string | null>(null);
 
@@ -99,43 +109,61 @@ export const GameProvider = ({ children }: any) => {
   const [isPartnerFinished, setIsPartnerFinished] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState(10);
 
-  return (
-    <GameContext.Provider
-      value={{
-        products,
-        setProducts,
-        availablePurchases,
-        setAvailablePurchases,
-        isShowingStore,
-        setIsShowingStore,
-        gameId,
-        setGameId,
-        peer,
-        setPeer,
-        conn,
-        setConn,
-        isGameStarted,
-        setIsGameStarted,
-        questions,
-        setQuestions,
-        currentQuestionIndex,
-        setCurrentQuestionIndex,
-        selectedOption,
-        setSelectedOption,
-        selectedAnswers,
-        setSelectedAnswers,
-        partnerAnswers,
-        setPartnerAnswers,
-        isPlayerFinished,
-        setIsPlayerFinished,
-        isPartnerFinished,
-        setIsPartnerFinished,
-        timeLeft,
-        setTimeLeft,
-        router,
-      }}
-    >
-      {children}
-    </GameContext.Provider>
-  );
+  const value = useMemo(() => {
+    return {
+      products,
+      setProducts,
+      availablePurchases,
+      setAvailablePurchases,
+      isShowingStore,
+      setIsShowingStore,
+      alert,
+      setAlert,
+      gameId,
+      setGameId,
+      peer,
+      setPeer,
+      conn,
+      setConn,
+      isGameStarted,
+      setIsGameStarted,
+      questions,
+      setQuestions,
+      currentQuestionIndex,
+      setCurrentQuestionIndex,
+      selectedOption,
+      setSelectedOption,
+      selectedAnswers,
+      setSelectedAnswers,
+      partnerAnswers,
+      setPartnerAnswers,
+      isPlayerFinished,
+      setIsPlayerFinished,
+      isPartnerFinished,
+      setIsPartnerFinished,
+      timeLeft,
+      setTimeLeft,
+      router,
+    };
+  }, [
+    products,
+    availablePurchases,
+    isShowingStore,
+    alert,
+    gameId,
+    peer,
+    conn,
+    isGameStarted,
+    questions,
+    currentQuestionIndex,
+    selectedOption,
+    selectedAnswers,
+    partnerAnswers,
+    isPlayerFinished,
+    isPartnerFinished,
+    timeLeft,
+    router,
+  ]);
+
+  return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 };

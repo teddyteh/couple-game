@@ -24,12 +24,9 @@ export const ResultComponent = ({
         <LogoComponent />
       </div>
       <p className="score">
-        <span id="score">{score.matches}</span> out of{" "}
-        <span id="score-total">{score.total}</span>
+        <span>{score.matches}</span> out of <span>{score.total}</span>
       </p>
-      <h1 id="score-name" className="score-name">
-        {score.percentage}%
-      </h1>
+      <h1 className="score-name">{score.percentage}%</h1>
       <span className="description">
         {resultDetails.map((detail, index) => (
           <div key={index}>
@@ -40,7 +37,7 @@ export const ResultComponent = ({
         ))}
       </span>
 
-      <button className="default-button" id="start3" onClick={restartGame}>
+      <button className="default-button" onClick={restartGame}>
         Play again
       </button>
 

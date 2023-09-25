@@ -1,23 +1,47 @@
 import { GameContextType } from "@/hooks/context";
+import { useMobileBridge } from "@/hooks/useMobileBridge";
+import { Product } from "@/types/product";
+import { ScreenComponent } from "./screen";
 
-type Payload = Pick<GameContextType, "products" | "availablePurchases">;
+type Payload = Pick<GameContextType, "products" | "availablePurchases"> &
+  Pick<ReturnType<typeof useMobileBridge>, "purchase">;
 
-export const StoreComponent = ({ products, availablePurchases }: Payload) => {
-  const hasPurchased = (productId: string) =>
-    !availablePurchases.some((p) => p.productId === productId);
+export const StoreComponent = ({
+  products,
+  availablePurchases,
+  purchase,
+}: Payload) => {
+  const isAvailableForPurhcase = (productId: string) =>
+    availablePurchases?.some((p) => p.productId === productId);
 
+  const getButtonText = (product: Product) => {
+    if (!isAvailableForPurhcase(product.productId)) {
+      return "Purchased";
+    }
+
+    return `Purchase - ${product.price}`;
+  };
   return (
-    <div className="score-container">
-      {products.map((product) => {
-        return (
-          <div key={product.productId}>
-            <div>{product.productId}</div>
-            <div>{product.description}</div>
-            <div>{product.price}</div>
-            <button disabled={hasPurchased(product.productId)}>Purchase</button>
-          </div>
-        );
-      })}
-    </div>
+    <ScreenComponent>
+      <h1>Store</h1>
+
+      <div className="score-container">
+        {products?.map((product) => {
+          return (
+            <div key={product.productId}>
+              <div>{product.productId}</div>
+              <div>"{product.description}"</div>
+              <button
+                className="purchase-button"
+                onClick={() => purchase(product)}
+                disabled={!isAvailableForPurhcase(product.productId)}
+              >
+                {getButtonText(product)}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    </ScreenComponent>
   );
 };

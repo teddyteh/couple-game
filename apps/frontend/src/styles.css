@@ -41,7 +41,7 @@
   color: #eee;
 }
 
-.container {
+.main-container {
   background: #a62a6c;
 }
 
@@ -66,7 +66,8 @@
   font-size: 16px;
 }
 
-.default-button {
+.default-button,
+.purchase-button {
   background: #ffd500;
   border: 4px solid #010501;
   border-radius: 3em;
@@ -84,6 +85,17 @@
   transition: background 0.2s;
   white-space: nowrap;
   width: 250px;
+}
+
+.purchase-button {
+  font-size: 16px;
+  margin-top: 12px;
+}
+
+.purchase-button[disabled] {
+  border-color: #808080;
+  color: #808080;
+  cursor: default;
 }
 
 .default-button.correct {
@@ -265,6 +277,7 @@
 }
 
 .quiz-image {
+  display: unset;
   max-width: 75%;
   position: relative;
   width: 300px;
@@ -339,7 +352,6 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   min-height: 100vh;
   padding: 20px 20px 70px;
   position: relative;
