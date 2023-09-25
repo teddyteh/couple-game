@@ -8,7 +8,7 @@ import {
   withIAPContext,
 } from 'react-native-iap';
 import {WebView} from 'react-native-webview';
-import {GAME_URL, SKUS_URL} from './config';
+import {gameUrl, skusUrl} from './config';
 
 const App = () => {
   const webViewRef = useRef<WebView>(null);
@@ -29,7 +29,7 @@ const App = () => {
   useEffect(() => {
     const fetchSkus = async () => {
       try {
-        const response = await axios.get(SKUS_URL);
+        const response = await axios.get(skusUrl);
         setSkus(response.data);
       } catch (error) {
         console.error('Error fetching SKUs:', error);
@@ -99,11 +99,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <WebView
-        ref={webViewRef}
-        source={{uri: GAME_URL}}
-        onMessage={onMessage}
-      />
+      <WebView ref={webViewRef} source={{uri: gameUrl}} onMessage={onMessage} />
     </View>
   );
 };

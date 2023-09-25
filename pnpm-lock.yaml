@@ -145,6 +145,9 @@ importers:
       prettier:
         specifier: ^2.4.1
         version: 2.5.1
+      react-native-dotenv:
+        specifier: ^3.4.9
+        version: 3.4.9(@babel/runtime@7.22.5)
       react-native-version:
         specifier: ^4.0.0
         version: 4.0.0
@@ -4594,7 +4597,6 @@ packages:
   /dotenv@16.3.1:
     resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
     engines: {node: '>=12'}
-    dev: false
 
   /dottie@2.0.6:
     resolution: {integrity: sha512-iGCHkfUc5kFekGiqhe8B/mdaurD+lakO9txNnTvKtA6PISrw86LgqHvRzWYPyoE2Ph5aMIrCw9/uko6XHTKCwA==}
@@ -8337,6 +8339,15 @@ packages:
 
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+
+  /react-native-dotenv@3.4.9(@babel/runtime@7.22.5):
+    resolution: {integrity: sha512-dbyd+mcy7SUzxEgmt33TRf1FGcNe6swJhXmB0unKkI49F7+pidog9kPtjxMLTAfmKA8gcN2XHQSKltGfGbGCLQ==}
+    peerDependencies:
+      '@babel/runtime': ^7.20.6
+    dependencies:
+      '@babel/runtime': 7.22.5
+      dotenv: 16.3.1
+    dev: true
 
   /react-native-iap@12.10.7(react-native@0.72.4)(react@18.2.0):
     resolution: {integrity: sha512-S3tWrRARxEUn7xg67t+GpZyWOXoQpt6rEypEbxDAhllQc1MQtFclzFONEsS4sqJShFb7c66s6XsdyhpjXOUl0A==}
