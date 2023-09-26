@@ -26,13 +26,17 @@ export const useConnectionManagement = ({ restartGame }: Payload) => {
   }, [id]);
 
   useEffect(() => {
-    if (peer && gameId) setupConnectionEvents();
+    if (gameId) {
+      copyShareLink();
+    }
+    if (peer && gameId) {
+      setupConnectionEvents();
+    }
   }, [peer, gameId]);
 
   const createNewGame = () => {
     if (peer) {
       setGameId(peer.id);
-      copyShareLink();
     }
   };
 
