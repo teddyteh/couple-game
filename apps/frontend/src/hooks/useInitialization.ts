@@ -34,7 +34,12 @@ export const useInitialization = () => {
   const fetchQuestionsFromURL = async () => {
     try {
       const response = await fetch(
-        "https://d101rsr8tfejfu.cloudfront.net/couple-compatibility.json"
+        "https://d101rsr8tfejfu.cloudfront.net/couple-compatibility.json",
+        {
+          method: "GET",
+          mode: "cors",
+          cache: "no-store",
+        }
       );
       const data = await response.json();
       setQuestions(data);
