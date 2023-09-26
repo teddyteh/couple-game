@@ -155,7 +155,7 @@ importers:
         specifier: 4.8.4
         version: 4.8.4
 
-  apps/question-fetcher:
+  apps/question-refresher:
     dependencies:
       aws-sdk:
         specifier: ^2.1450.0

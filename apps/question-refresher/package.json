@@ -1,5 +1,5 @@
 {
-  "name": "@couple-game/question-fetcher",
+  "name": "@couple-game/question-refresher",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/index.js",
