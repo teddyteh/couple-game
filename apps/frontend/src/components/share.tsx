@@ -1,14 +1,13 @@
-import { useState } from "react";
 import { ScreenComponent } from "./screen";
 
 interface Payload {
   shareLink: string;
+  hasCopiedShareLink: boolean;
+  setHasCopiedShareLink: (hasCopied: boolean) => void;
   copyShareLink: () => void;
 }
 
-export const ShareComponent = ({ shareLink, copyShareLink }: Payload) => {
-  const [hasCopied, setHasCopied] = useState(false);
-
+export const ShareComponent = ({ shareLink, hasCopiedShareLink, setHasCopiedShareLink, copyShareLink }: Payload) => {
   return (
     <ScreenComponent>
       <div className="share-container">
@@ -38,10 +37,10 @@ export const ShareComponent = ({ shareLink, copyShareLink }: Payload) => {
             <button
               onClick={() => {
                 copyShareLink();
-                setHasCopied(true);
+                setHasCopiedShareLink(true);
               }}
             >
-              {hasCopied ? "Copied!" : "Copy"}
+              {hasCopiedShareLink ? "Copied!" : "Copy"}
             </button>
           </div>
         </div>

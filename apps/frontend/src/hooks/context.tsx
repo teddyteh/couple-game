@@ -18,6 +18,8 @@ export interface GameContextType {
   setAlert: React.Dispatch<React.SetStateAction<Alert | null>>;
   gameId: string | null;
   setGameId: React.Dispatch<React.SetStateAction<string | null>>;
+  hasCopiedShareLink: boolean;
+  setHasCopiedShareLink: React.Dispatch<React.SetStateAction<boolean>>;
   peer: Peer | null;
   setPeer: React.Dispatch<React.SetStateAction<Peer | null>>;
   conn: DataConnection | null;
@@ -54,6 +56,8 @@ export const GameContext = createContext<GameContextType>({
   setAlert: () => {},
   gameId: null,
   setGameId: () => {},
+  hasCopiedShareLink: false,
+  setHasCopiedShareLink: () => {},
   peer: null,
   setPeer: () => {},
   conn: null,
@@ -88,6 +92,7 @@ export const GameProvider = ({ children }: any) => {
   const [alert, setAlert] = useState<Alert | null>(null);
 
   const [gameId, setGameId] = useState<string | null>(null);
+  const [hasCopiedShareLink, setHasCopiedShareLink] = useState<boolean>(false);
 
   const [peer, setPeer] = useState<Peer | null>(null);
   const [conn, setConn] = useState<DataConnection | null>(null);
@@ -114,6 +119,8 @@ export const GameProvider = ({ children }: any) => {
       setAlert,
       gameId,
       setGameId,
+      hasCopiedShareLink,
+      setHasCopiedShareLink,
       peer,
       setPeer,
       conn,
@@ -144,6 +151,7 @@ export const GameProvider = ({ children }: any) => {
     isShowingStore,
     alert,
     gameId,
+    hasCopiedShareLink,
     peer,
     conn,
     isGameStarted,

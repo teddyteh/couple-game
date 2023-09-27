@@ -35,6 +35,8 @@ const Game = () => {
     isShowingStore,
     alert,
     gameId,
+    hasCopiedShareLink,
+    setHasCopiedShareLink,
     isGameStarted,
     isPlayerFinished,
     isPartnerFinished,
@@ -66,6 +68,8 @@ const Game = () => {
         {!isGameStarted && gameId && (
           <ShareComponent
             shareLink={getShareLink()}
+            hasCopiedShareLink={hasCopiedShareLink}
+            setHasCopiedShareLink={setHasCopiedShareLink}
             copyShareLink={copyShareLink}
           />
         )}

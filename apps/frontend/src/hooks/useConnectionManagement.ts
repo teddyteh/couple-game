@@ -12,6 +12,7 @@ export const useConnectionManagement = ({ restartGame }: Payload) => {
     setGameId,
     peer,
     gameId,
+    setHasCopiedShareLink,
     setConn,
     setIsPartnerFinished,
     setPartnerAnswers,
@@ -42,7 +43,10 @@ export const useConnectionManagement = ({ restartGame }: Payload) => {
 
   const getShareLink = () => `${window.location.origin}/game/${gameId}`;
 
-  const copyShareLink = () => copyToClipboard(getShareLink());
+  const copyShareLink = () => {
+    copyToClipboard(getShareLink());
+    setHasCopiedShareLink(true);
+  };
 
   const setupConnectionEvents = () => {
     if (!peer || !gameId) return;
