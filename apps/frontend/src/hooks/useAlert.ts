@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Alert, GameContext } from "./context";
+import { GameContext } from "./context";
 
 export const useAlert = () => {
   const { alert, setAlert } = useContext(GameContext);
@@ -17,7 +17,7 @@ export const useAlert = () => {
   }, [alert]);
 
   const showAlert = (
-    alert: Alert = {
+    alert = {
       title: "Holy Smokes!",
       message: "Something went wrong with that.",
     }

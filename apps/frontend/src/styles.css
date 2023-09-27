@@ -84,7 +84,7 @@
   text-transform: uppercase;
   transition: background 0.2s;
   white-space: nowrap;
-  width: 250px;
+  width: 100%;
 }
 
 .purchase-button {

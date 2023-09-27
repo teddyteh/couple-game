@@ -1,12 +1,9 @@
+import { Alert } from "@/types/alert";
 import { Product, ProductPurchase } from "@/types/product";
+import { Question } from "@/types/question";
 import { NextRouter, useRouter } from "next/router";
 import Peer, { DataConnection } from "peerjs";
 import { createContext, useMemo, useState } from "react";
-
-export interface Alert {
-  title: string;
-  message: string;
-}
 
 export interface GameContextType {
   products: Product[];
@@ -27,10 +24,8 @@ export interface GameContextType {
   setConn: React.Dispatch<React.SetStateAction<DataConnection | null>>;
   isGameStarted: boolean;
   setIsGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
-  questions: Array<{ question: string; options: string[] }>;
-  setQuestions: React.Dispatch<
-    React.SetStateAction<Array<{ question: string; options: string[] }>>
-  >;
+  questions: Array<Question>;
+  setQuestions: React.Dispatch<React.SetStateAction<Array<Question>>>;
   currentQuestionIndex: number;
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
   selectedOption: string | null;
@@ -98,9 +93,7 @@ export const GameProvider = ({ children }: any) => {
   const [conn, setConn] = useState<DataConnection | null>(null);
 
   const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
-  const [questions, setQuestions] = useState<
-    Array<{ question: string; options: string[] }>
-  >([]);
+  const [questions, setQuestions] = useState<Array<Question>>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);

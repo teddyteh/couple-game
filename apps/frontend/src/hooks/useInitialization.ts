@@ -1,3 +1,5 @@
+import { Question } from "@/types/question";
+import { getRandomItems } from "@/utils";
 import { useContext, useEffect } from "react";
 import { GameContext } from "./context";
 
@@ -11,6 +13,8 @@ const DUMMY_QUESTIONS = [
     options: ["Dog", "Cat", "Bird", "Fish"],
   },
 ];
+
+const QUESTION_COUNT = 5;
 
 export const useInitialization = () => {
   const { setPeer, setQuestions } = useContext(GameContext);
@@ -41,8 +45,9 @@ export const useInitialization = () => {
           cache: "no-store",
         }
       );
-      const data = await response.json();
-      setQuestions(data);
+      const data = <Question[]>await response.json();
+      const randomItems = getRandomItems(data, QUESTION_COUNT);
+      setQuestions(randomItems);
     } catch (error) {
       console.error("Error fetching questions:", error);
       setQuestions(DUMMY_QUESTIONS);

@@ -1,4 +1,5 @@
 import { GameContextType } from "@/hooks/context";
+import { Question } from "@/types/question";
 import { useGameLogic } from "../hooks/useGameLogic";
 import { FooterComponent } from "./footer";
 
@@ -6,7 +7,7 @@ type Payload = {
   questionsLength: number;
   currentQuestionIndex: GameContextType["currentQuestionIndex"];
   timeLeft: GameContextType["timeLeft"];
-  currentQuestion: { question: string; options: string[] };
+  currentQuestion: Question;
   selectedOption: string | null;
   handleAnswerSelection: ReturnType<
     typeof useGameLogic
@@ -42,7 +43,7 @@ export const QuestionComponent = ({
       <div className="quiz-question">{currentQuestion.question}</div>
       <div className="button-container">
         {currentQuestion.options.map((option, index) => (
-          <div key={index} className="button-outer">
+          <div key={index} className="button-outer w-full">
             <button
               id={`answer${index}`}
               className="default-button"
