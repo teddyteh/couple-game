@@ -1,4 +1,4 @@
-import { Alert as AlertType } from "@/hooks/context";
+import { Alert as AlertType } from "@/types/alert";
 
 type Payload = { data: AlertType | null };
 
