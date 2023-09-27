@@ -27,15 +27,23 @@ export const ResultComponent = ({
         <span>{score.matches}</span> out of <span>{score.total}</span>
       </p>
       <h1 className="score-name">{score.percentage}%</h1>
-      <span className="description">
+      <section>
         {resultDetails.map((detail, index) => (
-          <div key={index}>
-            <div>Question: {detail.question}</div>
-            <div>Your Answer: {detail.yourAnswer}</div>
-            <div>Partner&apos;s Answer: {detail.partnerAnswer}</div>
-          </div>
+          <section className="details" key={detail.question}>
+            <div>
+              <span className="label">Question {index + 1}:</span>{" "}
+              {detail.question}
+            </div>
+            <div>
+              <span className="label">Your Answer:</span> {detail.yourAnswer}
+            </div>
+            <div>
+              <span className="label">Partner&apos;s Answer:</span>{" "}
+              {detail.partnerAnswer}
+            </div>
+          </section>
         ))}
-      </span>
+      </section>
 
       <button className="default-button" onClick={restartGame}>
         Play again

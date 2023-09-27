@@ -151,15 +151,8 @@
   background: transparent;
 }
 
-.description {
-  color: #fff;
-  display: inline-block;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  margin-bottom: 30px;
-  text-align: center;
-  text-transform: none;
+.details {
+  margin-bottom: 20px;
 }
 
 .field button {
@@ -269,6 +262,10 @@
   background: #08c;
 }
 
+.label {
+  color: #ffd500;
+}
+
 .quiz-corner-logo {
   left: 0;
   position: absolute;
@@ -285,7 +282,7 @@
 }
 
 .quiz-image-wrapper {
-  margin: 50px auto;
+  margin: 30px auto;
   max-width: 100%;
   position: relative;
 }
@@ -382,15 +379,6 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
-}
-
-.text {
-  color: #fff;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  text-align: center;
-  text-transform: none;
 }
 
 .title {

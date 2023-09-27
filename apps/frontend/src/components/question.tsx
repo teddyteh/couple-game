@@ -43,7 +43,7 @@ export const QuestionComponent = ({
       <div className="quiz-question">{currentQuestion.question}</div>
       <div className="button-container">
         {currentQuestion.options.map((option, index) => (
-          <div key={index} className="button-outer w-full">
+          <div key={option} className="button-outer w-full">
             <button
               id={`answer${index}`}
               className="default-button"

@@ -14,10 +14,6 @@ export default function Document() {
           href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"
         />
         <Script src="https://cdn.tailwindcss.com"></Script>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-        />
       </Head>
       <body>
         <Main />
