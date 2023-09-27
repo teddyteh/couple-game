@@ -1,7 +1,6 @@
 import { GameContextType } from "@/hooks/context";
 import { useMobileBridge } from "@/hooks/useMobileBridge";
 import { Product } from "@/types/product";
-import { ScreenComponent } from "./screen";
 
 type Payload = Pick<GameContextType, "products" | "availablePurchases"> &
   Pick<ReturnType<typeof useMobileBridge>, "purchase">;
@@ -22,7 +21,7 @@ export const StoreComponent = ({
     return `Purchase - ${product.price}`;
   };
   return (
-    <ScreenComponent>
+    <>
       <h1>Store</h1>
 
       <div className="score-container">
@@ -42,6 +41,6 @@ export const StoreComponent = ({
           );
         })}
       </div>
-    </ScreenComponent>
+    </>
   );
 };

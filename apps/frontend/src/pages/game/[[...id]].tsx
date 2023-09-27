@@ -47,41 +47,43 @@ const Game = () => {
     timeLeft,
   } = useContext(GameContext);
 
-  return (
-    <div className="main-container">
-      <div className="wrapper">
-        {!isGameStarted && !gameId && !isShowingStore && (
-          <MenuComponent
-            createNewGame={createNewGame}
-            shouldShowStore={products.length > 0}
-            toggleShowStore={toggleShowStore}
-          />
-        )}
+  const renderMenuOrStore = () => {
+    if (!isGameStarted && !gameId) {
+      return isShowingStore ? (
+        <StoreComponent
+          products={products}
+          availablePurchases={availablePurchases}
+          purchase={purchase}
+        />
+      ) : (
+        <MenuComponent
+          createNewGame={createNewGame}
+          shouldShowStore={products.length > 0}
+          toggleShowStore={toggleShowStore}
+        />
+      );
+    }
+  };
 
-        {!isGameStarted && !gameId && isShowingStore && (
-          <StoreComponent
-            products={products}
-            availablePurchases={availablePurchases}
-            purchase={purchase}
-          />
-        )}
+  const renderShareOrJoiningScreen = () => {
+    if (!isGameStarted && gameId) {
+      return isHost ? (
+        <ShareComponent
+          shareLink={getShareLink()}
+          hasCopiedShareLink={hasCopiedShareLink}
+          setHasCopiedShareLink={setHasCopiedShareLink}
+          copyShareLink={copyShareLink}
+        />
+      ) : (
+        <h1>Joining the game...</h1>
+      );
+    }
+  };
 
-        {!isGameStarted && gameId && isHost && (
-          <ShareComponent
-            shareLink={getShareLink()}
-            hasCopiedShareLink={hasCopiedShareLink}
-            setHasCopiedShareLink={setHasCopiedShareLink}
-            copyShareLink={copyShareLink}
-          />
-        )}
-
-        {!isGameStarted && gameId && !isHost && (
-          <ScreenComponent>
-            <h1>Joining the game...</h1>
-          </ScreenComponent>
-        )}
-
-        {isGameStarted && !isPlayerFinished && (
+  const renderQuestionOrResult = () => {
+    if (isGameStarted) {
+      if (!isPlayerFinished) {
+        return (
           <QuestionComponent
             currentQuestionIndex={currentQuestionIndex}
             questionsLength={questions.length}
@@ -90,22 +92,31 @@ const Game = () => {
             selectedOption={selectedOption}
             handleAnswerSelection={handleAnswerSelection}
           />
-        )}
-
-        {isGameStarted && isPlayerFinished && isPartnerFinished && (
+        );
+      } else {
+        return isPartnerFinished ? (
           <ResultComponent
             score={calculateCompatibilityScore()}
             resultDetails={generateResultDetails()}
             restartGame={restartGame}
           />
-        )}
-
-        {isGameStarted && isPlayerFinished && !isPartnerFinished && (
-          <ScreenComponent>
+        ) : (
+          <>
             <h1>Waiting for the other player to finish...</h1>
-          </ScreenComponent>
-        )}
+          </>
+        );
+      }
+    }
+  };
 
+  return (
+    <div className="main-container">
+      <div className="wrapper">
+        <ScreenComponent>
+          {renderMenuOrStore()}
+          {renderShareOrJoiningScreen()}
+          {renderQuestionOrResult()}
+        </ScreenComponent>
         <Alert data={alert} />
       </div>
     </div>

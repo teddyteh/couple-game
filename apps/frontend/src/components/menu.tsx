@@ -1,6 +1,5 @@
 import { useLobby } from "@/hooks/useLobby";
 import { useStore } from "@/hooks/useStore";
-import { ScreenComponent } from "./screen";
 
 type Payload = Pick<ReturnType<typeof useLobby>, "createNewGame"> &
   Pick<ReturnType<typeof useStore>, "toggleShowStore"> & {
@@ -13,7 +12,7 @@ export const MenuComponent = ({
   toggleShowStore,
 }: Payload) => {
   return (
-    <ScreenComponent>
+    <>
       <h1>Menu</h1>
 
       <div className="button-container">
@@ -33,6 +32,6 @@ export const MenuComponent = ({
           <button className="default-button">How to play?</button>
         </div>
       </div>
-    </ScreenComponent>
+    </>
   );
 };

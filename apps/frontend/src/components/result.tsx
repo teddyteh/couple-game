@@ -1,7 +1,5 @@
 import { useRestart } from "../hooks/useRestart";
 import { useResult } from "../hooks/useResult";
-import { FooterComponent } from "./footer";
-import { LogoComponent } from "./logo";
 
 type Payload = {
   score: ReturnType<
@@ -19,10 +17,7 @@ export const ResultComponent = ({
   restartGame,
 }: Payload) => {
   return (
-    <div className="screen-section result-screen">
-      <div className="quiz-image-wrapper">
-        <LogoComponent />
-      </div>
+    <>
       <p className="score">
         <span>{score.matches}</span> out of <span>{score.total}</span>
       </p>
@@ -48,8 +43,6 @@ export const ResultComponent = ({
       <button className="default-button" onClick={restartGame}>
         Play again
       </button>
-
-      <FooterComponent />
-    </div>
+    </>
   );
 };

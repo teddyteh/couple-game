@@ -1,7 +1,6 @@
 import { GameContextType } from "@/hooks/context";
 import { useGame } from "@/hooks/useGame";
 import { Question } from "@/types/question";
-import { FooterComponent } from "./footer";
 
 type Payload = {
   questionsLength: number;
@@ -17,11 +16,10 @@ export const QuestionComponent = ({
   questionsLength,
   timeLeft,
   currentQuestion,
-  selectedOption,
   handleAnswerSelection,
 }: Payload) => {
   return (
-    <div className="screen-section quiz-screen">
+    <>
       <div className="quiz-screen-step">
         Question <span>{currentQuestionIndex + 1}</span> out of{" "}
         {questionsLength}
@@ -53,7 +51,6 @@ export const QuestionComponent = ({
           </div>
         ))}
       </div>
-      <FooterComponent />
-    </div>
+    </>
   );
 };

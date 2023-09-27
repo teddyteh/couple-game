@@ -7,6 +7,16 @@
   box-sizing: border-box;
 }
 
+.audio-button {
+  background: transparent;
+  border: none;
+  color: #fff;
+}
+
+.audio-player-container {
+  margin-bottom: 12px;
+}
+
 .button-container {
   display: flex;
   flex-wrap: wrap;
@@ -183,6 +193,11 @@
   width: 100%;
 }
 
+.footer {
+  bottom: 20px;
+  position: absolute;
+}
+
 .hidden {
   display: none;
 }
@@ -190,72 +205,6 @@
 .how-to-play-screen .default-button {
   margin-bottom: 60px;
   margin-top: 30px;
-}
-
-.icons a {
-  align-items: center;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  transition: all 0.3s ease-in-out;
-}
-
-.icons a i {
-  transition: transform 0.3s ease-in-out;
-}
-
-.icons a:hover {
-  border-color: transparent;
-  color: #fff;
-}
-
-.icons a:hover i {
-  transform: scale(1.2);
-}
-
-.icons a:nth-child(1) {
-  border-color: #b7d4fb;
-  color: #1877f2;
-}
-
-.icons a:nth-child(1):hover {
-  background: #1877f2;
-}
-
-.icons a:nth-child(2) {
-  border-color: #b6e7fc;
-  color: #46c1f6;
-}
-
-.icons a:nth-child(2):hover {
-  background: #46c1f6;
-}
-
-.icons a:nth-child(3) {
-  border-color: #f5bccf;
-  color: #e1306c;
-}
-
-.icons a:nth-child(3):hover {
-  background: #e1306c;
-}
-
-.icons a:nth-child(4) {
-  border-color: #bef4d2;
-  color: #25d366;
-}
-
-.icons a:nth-child(4):hover {
-  background: #25d366;
-}
-
-.icons a:nth-child(5) {
-  border-color: #b3e6ff;
-  color: #08c;
-}
-
-.icons a:nth-child(5):hover {
-  background: #08c;
 }
 
 .label {
@@ -291,11 +240,6 @@
   left: -65px;
   position: absolute;
   right: -65px;
-}
-
-.quiz-logo {
-  bottom: 20px;
-  position: absolute;
 }
 
 .quiz-question {

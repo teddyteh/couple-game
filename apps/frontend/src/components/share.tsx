@@ -1,5 +1,3 @@
-import { ScreenComponent } from "./screen";
-
 interface Payload {
   shareLink: string;
   hasCopiedShareLink: boolean;
@@ -14,7 +12,7 @@ export const ShareComponent = ({
   copyShareLink,
 }: Payload) => {
   return (
-    <ScreenComponent>
+    <>
       <div className="share-container">
         <div className="content">
           <p>Share this link with a friend:</p>
@@ -32,6 +30,6 @@ export const ShareComponent = ({
           </div>
         </div>
       </div>
-    </ScreenComponent>
+    </>
   );
 };
