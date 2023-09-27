@@ -1,11 +1,8 @@
-import { useConnectionManagement } from "@/hooks/useConnectionManagement";
+import { useLobby } from "@/hooks/useLobby";
 import { useStore } from "@/hooks/useStore";
 import { ScreenComponent } from "./screen";
 
-type Payload = Pick<
-  ReturnType<typeof useConnectionManagement>,
-  "createNewGame"
-> &
+type Payload = Pick<ReturnType<typeof useLobby>, "createNewGame"> &
   Pick<ReturnType<typeof useStore>, "toggleShowStore"> & {
     shouldShowStore: boolean;
   };

@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { GameContext } from "./context";
 
-export const useGameLogic = () => {
+export const useGame = () => {
   const {
     conn,
     questions,

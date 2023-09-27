@@ -7,9 +7,9 @@ import { ShareComponent } from "@/components/share";
 import { StoreComponent } from "@/components/store";
 import { GameContext } from "@/hooks/context";
 import { useAlert } from "@/hooks/useAlert";
-import { useConnectionManagement } from "@/hooks/useConnectionManagement";
-import { useGameLogic } from "@/hooks/useGameLogic";
+import { useGame } from "@/hooks/useGame";
 import { useInitialization } from "@/hooks/useInitialization";
+import { useLobby } from "@/hooks/useLobby";
 import { useMobileBridge } from "@/hooks/useMobileBridge";
 import { useRestart } from "@/hooks/useRestart";
 import { useResult } from "@/hooks/useResult";
@@ -17,16 +17,17 @@ import { useStore } from "@/hooks/useStore";
 import { useContext } from "react";
 
 const Game = () => {
-  const { fetchQuestionsFromURL } = useInitialization();
+  useInitialization();
 
   const { toggleShowStore } = useStore();
   const { showAlert } = useAlert();
   const { purchase } = useMobileBridge({ showAlert });
 
-  const { restartGame } = useRestart({ fetchQuestionsFromURL });
-  const { createNewGame, getShareLink, copyShareLink } =
-    useConnectionManagement({ restartGame });
-  const { handleAnswerSelection } = useGameLogic();
+  const { restartGame } = useRestart();
+  const { isHost, createNewGame, getShareLink, copyShareLink } = useLobby({
+    restartGame,
+  });
+  const { handleAnswerSelection } = useGame();
   const { calculateCompatibilityScore, generateResultDetails } = useResult();
 
   const {
@@ -57,7 +58,7 @@ const Game = () => {
           />
         )}
 
-        {isShowingStore && (
+        {!isGameStarted && !gameId && isShowingStore && (
           <StoreComponent
             products={products}
             availablePurchases={availablePurchases}
@@ -65,13 +66,19 @@ const Game = () => {
           />
         )}
 
-        {!isGameStarted && gameId && (
+        {!isGameStarted && gameId && isHost && (
           <ShareComponent
             shareLink={getShareLink()}
             hasCopiedShareLink={hasCopiedShareLink}
             setHasCopiedShareLink={setHasCopiedShareLink}
             copyShareLink={copyShareLink}
           />
+        )}
+
+        {!isGameStarted && gameId && !isHost && (
+          <ScreenComponent>
+            <h1>Joining the game...</h1>
+          </ScreenComponent>
         )}
 
         {isGameStarted && !isPlayerFinished && (
@@ -95,7 +102,7 @@ const Game = () => {
 
         {isGameStarted && isPlayerFinished && !isPartnerFinished && (
           <ScreenComponent>
-            <div>Waiting for the other player to finish...</div>
+            <h1>Waiting for the other player to finish...</h1>
           </ScreenComponent>
         )}
 

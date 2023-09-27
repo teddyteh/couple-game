@@ -1,22 +1,18 @@
 import { useContext } from "react";
 import { GameContext } from "./context";
-import { useInitialization } from "./useInitialization";
+import { fetchQuestionsFromURL } from "@/utils/question";
 
-type Payload = Pick<
-  ReturnType<typeof useInitialization>,
-  "fetchQuestionsFromURL"
->;
-
-export const useRestart = ({ fetchQuestionsFromURL }: Payload) => {
+export const useRestart = () => {
   const {
-    conn,
-    setIsGameStarted,
     setCurrentQuestionIndex,
     setSelectedOption,
     setSelectedAnswers,
     setPartnerAnswers,
     setIsPlayerFinished,
     setIsPartnerFinished,
+    setIsGameStarted,
+    conn,
+    setQuestions,
   } = useContext(GameContext);
 
   const _resetGameState = () => {
@@ -29,10 +25,11 @@ export const useRestart = ({ fetchQuestionsFromURL }: Payload) => {
     setIsGameStarted(true);
   };
 
-  const restartGame = () => {
+  const restartGame = async () => {
     _resetGameState();
 
-    fetchQuestionsFromURL();
+    const questions = await fetchQuestionsFromURL();
+    setQuestions(questions);
 
     if (conn) {
       conn.send({ restart: true });

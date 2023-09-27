@@ -167,10 +167,6 @@
   transition: background 0.2s;
 }
 
-.field button:hover {
-  transform: scale(1.05);
-}
-
 .field i {
   font-size: 18px;
   text-align: center;

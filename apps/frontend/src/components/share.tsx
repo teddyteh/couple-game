@@ -7,30 +7,17 @@ interface Payload {
   copyShareLink: () => void;
 }
 
-export const ShareComponent = ({ shareLink, hasCopiedShareLink, setHasCopiedShareLink, copyShareLink }: Payload) => {
+export const ShareComponent = ({
+  shareLink,
+  hasCopiedShareLink,
+  setHasCopiedShareLink,
+  copyShareLink,
+}: Payload) => {
   return (
     <ScreenComponent>
       <div className="share-container">
         <div className="content">
-          <p>Share link via</p>
-          <ul className="icons">
-            <a href="#">
-              <i className="fab fa-facebook-f"></i>
-            </a>
-            <a href="#">
-              <i className="fab fa-twitter"></i>
-            </a>
-            <a href="#">
-              <i className="fab fa-instagram"></i>
-            </a>
-            <a href="#">
-              <i className="fab fa-whatsapp"></i>
-            </a>
-            <a href="#">
-              <i className="fab fa-telegram-plane"></i>
-            </a>
-          </ul>
-          <p>Or copy link</p>
+          <p>Share this link with a friend:</p>
           <div className="field">
             <i className="url-icon uil uil-link"></i>
             <input type="text" readOnly value={shareLink} />

@@ -1,6 +1,6 @@
 import { GameContextType } from "@/hooks/context";
+import { useGame } from "@/hooks/useGame";
 import { Question } from "@/types/question";
-import { useGameLogic } from "../hooks/useGameLogic";
 import { FooterComponent } from "./footer";
 
 type Payload = {
@@ -9,9 +9,7 @@ type Payload = {
   timeLeft: GameContextType["timeLeft"];
   currentQuestion: Question;
   selectedOption: string | null;
-  handleAnswerSelection: ReturnType<
-    typeof useGameLogic
-  >["handleAnswerSelection"];
+  handleAnswerSelection: ReturnType<typeof useGame>["handleAnswerSelection"];
 };
 
 export const QuestionComponent = ({
@@ -25,8 +23,8 @@ export const QuestionComponent = ({
   return (
     <div className="screen-section quiz-screen">
       <div className="quiz-screen-step">
-        Round <span>{currentQuestionIndex + 1}</span> out of
-        {" " + questionsLength}
+        Question <span>{currentQuestionIndex + 1}</span> out of{" "}
+        {questionsLength}
       </div>
       <div className="quiz-image-wrapper">
         <img
@@ -37,6 +35,7 @@ export const QuestionComponent = ({
       </div>
       <div className="quiz-timer">
         <span
+          key={currentQuestionIndex}
           style={{ animationPlayState: timeLeft !== 0 ? "running" : "paused" }}
         />
       </div>

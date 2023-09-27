@@ -1,4 +1,5 @@
 import { copyToClipboard } from "@/utils";
+import { fetchQuestionsFromURL } from "@/utils/question";
 import { DataConnection } from "peerjs";
 import { useContext, useEffect } from "react";
 import { GameContext } from "./context";
@@ -6,17 +7,21 @@ import { useRestart } from "./useRestart";
 
 type Payload = Pick<ReturnType<typeof useRestart>, "restartGame">;
 
-export const useConnectionManagement = ({ restartGame }: Payload) => {
+export const useLobby = ({ restartGame }: Payload) => {
   const {
     router,
-    setGameId,
     peer,
     gameId,
+    setGameId,
     setHasCopiedShareLink,
+    conn,
     setConn,
+    questions,
+    setQuestions,
+    isGameStarted,
+    setIsGameStarted,
     setIsPartnerFinished,
     setPartnerAnswers,
-    setIsGameStarted,
   } = useContext(GameContext);
   const { id } = router?.query ?? {};
 
@@ -31,13 +36,23 @@ export const useConnectionManagement = ({ restartGame }: Payload) => {
       copyShareLink();
     }
     if (peer && gameId) {
-      setupConnectionEvents();
+      _setupConnectionEvents();
     }
   }, [peer, gameId]);
+
+  useEffect(() => {
+    // The host sends questions to player 2
+    if (isGameStarted) {
+      conn?.send({ questions });
+    }
+  }, [isGameStarted, conn, questions]);
+
+  const isHost = peer?.id === gameId;
 
   const createNewGame = () => {
     if (peer) {
       setGameId(peer.id);
+      fetchQuestionsFromURL().then((questions) => setQuestions(questions));
     }
   };
 
@@ -48,25 +63,30 @@ export const useConnectionManagement = ({ restartGame }: Payload) => {
     setHasCopiedShareLink(true);
   };
 
-  const setupConnectionEvents = () => {
+  const _setupConnectionEvents = () => {
     if (!peer || !gameId) return;
 
     if (peer.id === gameId) {
       peer.on("connection", (connection) => {
         setConn(connection);
-        initConnectionEvents(connection);
+        _initConnectionEvents(connection);
       });
     } else {
       const connection = peer.connect(gameId);
       setConn(connection);
-      initConnectionEvents(connection);
+      connection.on("open", () => connection.send({ connected: true }));
+      _initConnectionEvents(connection);
     }
   };
 
-  const initConnectionEvents = (connection: DataConnection) => {
-    connection.on("open", () => connection.send({ connected: true }));
+  const _initConnectionEvents = (connection: DataConnection) => {
     connection.on("data", (data: any) => {
       if (data.connected) {
+        // Notify the host that player 2 has connected
+        setIsGameStarted(true);
+      } else if (data.questions) {
+        // Player 2
+        setQuestions(data.questions);
         setIsGameStarted(true);
       } else if (data.finished) {
         setIsPartnerFinished(true);
@@ -80,7 +100,9 @@ export const useConnectionManagement = ({ restartGame }: Payload) => {
   };
 
   return {
+    isHost,
     createNewGame,
+    fetchQuestionsFromURL,
     getShareLink,
     copyShareLink,
   };
