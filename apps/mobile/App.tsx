@@ -3,12 +3,15 @@ import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {
   ProductAndroid,
+  Purchase,
   requestPurchase,
   useIAP,
   withIAPContext,
 } from 'react-native-iap';
 import {WebView} from 'react-native-webview';
 import {gameUrl, skusUrl} from './config';
+
+// React Native IAP usage: https://dev.to/amazonappdev/react-native-iap-one-package-to-rule-them-all-4f0n
 
 const App = () => {
   const webViewRef = useRef<WebView>(null);
@@ -21,7 +24,7 @@ const App = () => {
     currentPurchase,
     currentPurchaseError,
     initConnectionError,
-    // finishTransaction,
+    finishTransaction,
     getProducts,
     getAvailablePurchases,
   } = useIAP();
@@ -53,11 +56,25 @@ const App = () => {
   }, [connected, skus, getProducts, getAvailablePurchases]);
 
   useEffect(() => {
-    if (currentPurchase) {
-      console.info('currentPurchase', currentPurchase);
-      _postMessageToWebApp('currentPurchase', currentPurchase);
-    }
-  }, [currentPurchase]);
+    const checkCurrentPurchase = async (purchase?: Purchase): Promise<void> => {
+      if (purchase) {
+        const {transactionReceipt} = purchase;
+        if (transactionReceipt) {
+          try {
+            const result = await finishTransaction({purchase});
+            console.info('currentPurchaseSuccess', result);
+            _postMessageToWebApp('currentPurchaseSuccess', {
+              product: purchase.productId,
+              result,
+            });
+          } catch (error) {
+            console.error('currentPurchaseSuccess', error);
+          }
+        }
+      }
+    };
+    checkCurrentPurchase(currentPurchase);
+  }, [currentPurchase, finishTransaction]);
 
   useEffect(() => {
     if (currentPurchaseError) {
