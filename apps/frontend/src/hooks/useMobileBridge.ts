@@ -23,12 +23,20 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
           case "availablePurchases":
             setAvailablePurchases(data);
             break;
-          case "currentPurchase":
-            console.info("Current purchase:", data);
+          case "currentPurchaseSuccess":
+            console.info("currentPurchaseSuccess:", data);
+            const { productId, result } = data;
+            if (result) {
+              setAvailablePurchases((previousValue) =>
+                previousValue.filter(
+                  (purchase) => purchase.productId !== productId
+                )
+              );
+            }
             break;
           case "currentPurchaseError":
             console.error("Current purchase error:", data);
-            showAlert()
+            showAlert();
             break;
           default:
             console.warn("No action handler for:", action);
