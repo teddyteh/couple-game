@@ -1,25 +1,17 @@
 import { GameContextType } from "@/hooks/context";
 import { useMobileBridge } from "@/hooks/useMobileBridge";
-import { Product } from "@/types/product";
+import { useStore } from "@/hooks/useStore";
 
-type Payload = Pick<GameContextType, "products" | "availablePurchases"> &
-  Pick<ReturnType<typeof useMobileBridge>, "purchase">;
+type Payload = Pick<GameContextType, "products"> &
+  Pick<ReturnType<typeof useMobileBridge>, "purchase"> &
+  Pick<ReturnType<typeof useStore>, "isAvailableForPurhcase" | "getButtonText">;
 
 export const StoreComponent = ({
   products,
-  availablePurchases,
   purchase,
+  isAvailableForPurhcase,
+  getButtonText,
 }: Payload) => {
-  const isAvailableForPurhcase = (productId: string) =>
-    availablePurchases?.some((p) => p.productId === productId);
-
-  const getButtonText = (product: Product) => {
-    if (!isAvailableForPurhcase(product.productId)) {
-      return "Purchased";
-    }
-
-    return `Purchase - ${product.price}`;
-  };
   return (
     <>
       <h1>Store</h1>

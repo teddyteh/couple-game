@@ -16,8 +16,11 @@ export const useLobby = ({ restartGame }: Payload) => {
     setHasCopiedShareLink,
     conn,
     setConn,
+    setIsSelectingCategory,
     questions,
     setQuestions,
+    products,
+    availablePurchases,
     isGameStarted,
     setIsGameStarted,
     setIsPartnerFinished,
@@ -49,11 +52,25 @@ export const useLobby = ({ restartGame }: Payload) => {
 
   const isHost = peer?.id === gameId;
 
-  const createNewGame = () => {
-    if (peer) {
-      setGameId(peer.id);
-      fetchQuestionsFromURL().then((questions) => setQuestions(questions));
+  const purchasedProducts = products.filter(
+    (product) =>
+      !availablePurchases?.some((p) => p.productId === product.productId)
+  );
+
+  const createNewGame = async (selectedCategory?: string) => {
+    if (purchasedProducts.length > 0 && !selectedCategory) {
+      setIsSelectingCategory(true);
+      return;
     }
+
+    const category =
+      purchasedProducts.length === 0 || !selectedCategory
+        ? "couple-compatibility"
+        : selectedCategory;
+    const questions = await fetchQuestionsFromURL(category);
+    setQuestions(questions);
+
+    peer?.id && setGameId(peer.id);
   };
 
   const getShareLink = () => `${window.location.origin}/game/${gameId}`;
@@ -101,6 +118,7 @@ export const useLobby = ({ restartGame }: Payload) => {
 
   return {
     isHost,
+    purchasedProducts,
     createNewGame,
     fetchQuestionsFromURL,
     getShareLink,

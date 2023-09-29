@@ -19,12 +19,18 @@ import { useContext } from "react";
 const Game = () => {
   useInitialization();
 
-  const { toggleShowStore } = useStore();
+  const { toggleShowStore, isAvailableForPurhcase, getButtonText } = useStore();
   const { showAlert } = useAlert();
   const { purchase } = useMobileBridge({ showAlert });
 
   const { restartGame } = useRestart();
-  const { isHost, createNewGame, getShareLink, copyShareLink } = useLobby({
+  const {
+    isHost,
+    purchasedProducts,
+    createNewGame,
+    getShareLink,
+    copyShareLink,
+  } = useLobby({
     restartGame,
   });
   const { handleAnswerSelection } = useGame();
@@ -32,8 +38,8 @@ const Game = () => {
 
   const {
     products,
-    availablePurchases,
     isShowingStore,
+    isSelectingCategory,
     alert,
     gameId,
     hasCopiedShareLink,
@@ -52,14 +58,17 @@ const Game = () => {
       return isShowingStore ? (
         <StoreComponent
           products={products}
-          availablePurchases={availablePurchases}
           purchase={purchase}
+          isAvailableForPurhcase={isAvailableForPurhcase}
+          getButtonText={getButtonText}
         />
       ) : (
         <MenuComponent
           createNewGame={createNewGame}
           shouldShowStore={products.length > 0}
           toggleShowStore={toggleShowStore}
+          isSelectingCategory={isSelectingCategory}
+          purchasedProducts={purchasedProducts}
         />
       );
     }

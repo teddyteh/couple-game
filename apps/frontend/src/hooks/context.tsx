@@ -14,6 +14,8 @@ export interface GameContextType {
   >;
   isShowingStore: boolean;
   setIsShowingStore: React.Dispatch<React.SetStateAction<boolean>>;
+  isSelectingCategory: boolean;
+  setIsSelectingCategory: React.Dispatch<React.SetStateAction<boolean>>;
   alert: Alert | null;
   setAlert: React.Dispatch<React.SetStateAction<Alert | null>>;
   gameId: string | null;
@@ -52,6 +54,8 @@ export const GameContext = createContext<GameContextType>({
   setAvailablePurchases: () => {},
   isShowingStore: false,
   setIsShowingStore: () => {},
+  isSelectingCategory: false,
+  setIsSelectingCategory: () => {},
   alert: null,
   setAlert: () => {},
   gameId: null,
@@ -89,6 +93,8 @@ export const GameProvider = ({ children }: any) => {
   const [products, setProducts] = useState<any[]>([]);
   const [availablePurchases, setAvailablePurchases] = useState<any[]>([]);
   const [isShowingStore, setIsShowingStore] = useState<boolean>(false);
+  const [isSelectingCategory, setIsSelectingCategory] =
+    useState<boolean>(false);
   const [alert, setAlert] = useState<Alert | null>(null);
 
   const [gameId, setGameId] = useState<string | null>(null);
@@ -115,6 +121,8 @@ export const GameProvider = ({ children }: any) => {
       setAvailablePurchases,
       isShowingStore,
       setIsShowingStore,
+      isSelectingCategory,
+      setIsSelectingCategory,
       alert,
       setAlert,
       gameId,
@@ -149,6 +157,7 @@ export const GameProvider = ({ children }: any) => {
     products,
     availablePurchases,
     isShowingStore,
+    isSelectingCategory,
     alert,
     gameId,
     hasCopiedShareLink,

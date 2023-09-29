@@ -14,10 +14,10 @@ const DUMMY_QUESTIONS = [
 
 const QUESTION_COUNT = 5;
 
-export const fetchQuestionsFromURL = async () => {
+export const fetchQuestionsFromURL = async (category: string) => {
   try {
     const response = await fetch(
-      "https://d101rsr8tfejfu.cloudfront.net/couple-compatibility.json",
+      `https://d101rsr8tfejfu.cloudfront.net/${category}.json`,
       {
         method: "GET",
         mode: "cors",

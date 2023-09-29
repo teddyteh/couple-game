@@ -8,12 +8,11 @@ export const useInitialization = () => {
     initializePeerConnection();
   }, []);
 
-  const initializePeerConnection = () => {
-    import("peerjs").then(({ default: Peer }) => {
-      const myPeer = new Peer();
-      myPeer.on("open", () => setPeer(myPeer));
-      return () => myPeer.destroy();
-    });
+  const initializePeerConnection = async () => {
+    const { default: Peer } = await import("peerjs");
+    const myPeer = new Peer();
+    myPeer.on("open", () => setPeer(myPeer));
+    return () => myPeer.destroy();
   };
 
   return {

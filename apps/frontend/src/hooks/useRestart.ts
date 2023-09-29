@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { GameContext } from "./context";
-import { fetchQuestionsFromURL } from "@/utils/question";
 
 export const useRestart = () => {
   const {
@@ -12,7 +11,6 @@ export const useRestart = () => {
     setIsPartnerFinished,
     setIsGameStarted,
     conn,
-    setQuestions,
   } = useContext(GameContext);
 
   const _resetGameState = () => {
@@ -27,9 +25,6 @@ export const useRestart = () => {
 
   const restartGame = async () => {
     _resetGameState();
-
-    const questions = await fetchQuestionsFromURL();
-    setQuestions(questions);
 
     if (conn) {
       conn.send({ restart: true });
