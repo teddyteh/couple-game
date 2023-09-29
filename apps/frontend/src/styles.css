@@ -7,12 +7,6 @@
   box-sizing: border-box;
 }
 
-.audio-button {
-  background: transparent;
-  border: none;
-  color: #fff;
-}
-
 .audio-player-container {
   margin-bottom: 12px;
 }
@@ -202,15 +196,15 @@
   display: none;
 }
 
-.how-to-play-screen .default-button {
-  margin-bottom: 60px;
-  margin-top: 30px;
+.how-to-play-back-button {
+  margin-right: 8px;
 }
 
 .how-to-play-step-container {
   margin: 0 auto;
   padding: 20px;
   pointer-events: none;
+  transform: scale(0.9);
   width: 75%;
 }
 
@@ -310,11 +304,14 @@
 .share-container {
   border: 4px solid #010501;
   border-radius: 15px;
-  /* max-width: 380px; */
   padding: 25px;
   top: -150%;
   transition: top 0 0.2s ease-in-out, opacity 0.2s 0 ease-in-out;
   width: 100%;
+}
+
+.share-container.full {
+  max-width: 380px;
 }
 
 .share-container .content {
@@ -338,6 +335,17 @@
   margin-top: 100px;
 }
 
+.title-bar {
+  align-items: center;
+  display: flex;
+}
+
+.transparent-button {
+  background: transparent;
+  border: none;
+  color: #fff;
+}
+
 .wrapper {
   margin: auto;
   max-width: 800px;
@@ -353,6 +361,10 @@ body {
   letter-spacing: 2px;
   margin: 0;
   text-transform: uppercase;
+}
+
+h1 {
+  display: inline-block;
 }
 
 html,

@@ -1,12 +1,15 @@
 import { GameContextType } from "@/hooks/context";
+import { useMenu } from "@/hooks/useMenu";
 import { useMobileBridge } from "@/hooks/useMobileBridge";
 import { useStore } from "@/hooks/useStore";
 
-type Payload = Pick<GameContextType, "products"> &
+type Payload = Pick<ReturnType<typeof useMenu>, "toggleShowStore"> &
+  Pick<GameContextType, "products"> &
   Pick<ReturnType<typeof useMobileBridge>, "purchase"> &
   Pick<ReturnType<typeof useStore>, "isAvailableForPurhcase" | "getButtonText">;
 
 export const StoreComponent = ({
+  toggleShowStore,
   products,
   purchase,
   isAvailableForPurhcase,
@@ -14,7 +17,12 @@ export const StoreComponent = ({
 }: Payload) => {
   return (
     <>
-      <h1>Store</h1>
+      <div className="title-bar">
+        <button className="transparent-button" onClick={toggleShowStore}>
+          <i className="fas fa-arrow-left how-to-play-back-button"></i>
+        </button>
+        <h1>Store</h1>
+      </div>
 
       <div className="score-container">
         {products?.map((product) => {

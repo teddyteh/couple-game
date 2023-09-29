@@ -42,7 +42,7 @@ export const AudioPlayerComponent = ({
   };
 
   return (
-    <button className="audio-button" onClick={handlePlayPauseClick}>
+    <button className="transparent-button" onClick={handlePlayPauseClick}>
       <i className={`fas fa-${isPlaying ? "pause" : "play"}`} />
     </button>
   );

@@ -65,6 +65,7 @@ const Game = () => {
     if (isShowingStore) {
       return (
         <StoreComponent
+          toggleShowStore={toggleShowStore}
           products={products}
           purchase={purchase}
           isAvailableForPurhcase={isAvailableForPurhcase}
@@ -74,7 +75,7 @@ const Game = () => {
     }
 
     if (isShowingHowToPlay) {
-      return <HowToPlayComponent />;
+      return <HowToPlayComponent toggleShowHowToPlay={toggleShowHowToPlay} />;
     }
 
     return (

@@ -1,10 +1,9 @@
 import { useLobby } from "@/hooks/useLobby";
 import { useMenu } from "@/hooks/useMenu";
-import { useStore } from "@/hooks/useStore";
 
 type Payload = Pick<ReturnType<typeof useLobby>, "createNewGame"> &
   Pick<ReturnType<typeof useMenu>, "toggleShowStore" | "toggleShowHowToPlay"> &
-  Pick<ReturnType<typeof useStore>, "purchasedProducts"> & {
+  Pick<ReturnType<typeof useLobby>, "purchasedProducts"> & {
     isShowingStore: boolean;
     isSelectingCategory: boolean;
     isShowingHowToPlay: boolean;

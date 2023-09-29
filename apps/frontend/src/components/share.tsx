@@ -3,6 +3,7 @@ interface Payload {
   hasCopiedShareLink: boolean;
   setHasCopiedShareLink: (hasCopied: boolean) => void;
   copyShareLink: () => void;
+  isDemo: boolean;
 }
 
 export const ShareComponent = ({
@@ -10,10 +11,11 @@ export const ShareComponent = ({
   hasCopiedShareLink,
   setHasCopiedShareLink,
   copyShareLink,
+  isDemo = false,
 }: Payload) => {
   return (
     <>
-      <div className="share-container">
+      <div className={`share-container ${!isDemo ? "full" : ""}`}>
         <div className="content">
           <p>Share this link with a friend:</p>
           <div className="field">

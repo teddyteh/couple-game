@@ -1,8 +1,11 @@
+import { useMenu } from "@/hooks/useMenu";
 import { QuestionComponent } from "./question";
 import { ResultComponent } from "./result";
 import { ShareComponent } from "./share";
 
-export const HowToPlayComponent = () => {
+type Payload = Pick<ReturnType<typeof useMenu>, "toggleShowHowToPlay">;
+
+export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
   const randomShareLink = `${window.location.origin}/game/${Math.random()
     .toString(36)
     .substring(2, 15)}`;
@@ -30,7 +33,12 @@ export const HowToPlayComponent = () => {
 
   return (
     <>
-      <h1>How to Play</h1>
+      <div className="title-bar">
+        <button className="transparent-button" onClick={toggleShowHowToPlay}>
+          <i className="fas fa-arrow-left how-to-play-back-button"></i>
+        </button>
+        <h1>How to Play</h1>
+      </div>
 
       <ol>
         <li>
@@ -47,6 +55,7 @@ export const HowToPlayComponent = () => {
               hasCopiedShareLink
               setHasCopiedShareLink={() => {}}
               copyShareLink={() => {}}
+              isDemo={true}
             />
           </div>
         </li>
