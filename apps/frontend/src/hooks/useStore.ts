@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { GameContext } from "./context";
 
 export const useStore = () => {
-  const { setIsShowingStore, availablePurchases, products } =
+  const { setIsShowingStore, availablePurchases } =
     useContext(GameContext);
 
   const toggleShowStore = () =>
@@ -20,15 +20,9 @@ export const useStore = () => {
     return `Purchase - ${product.price}`;
   };
 
-  const purchasedProducts = products.filter(
-    (product) =>
-      !availablePurchases?.some((p) => p.productId === product.productId)
-  );
-
   return {
     toggleShowStore,
     isAvailableForPurhcase,
     getButtonText,
-    purchasedProducts,
   };
 };
