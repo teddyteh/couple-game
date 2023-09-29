@@ -1,21 +1,23 @@
 import { useLobby } from "@/hooks/useLobby";
+import { useMenu } from "@/hooks/useMenu";
 import { useStore } from "@/hooks/useStore";
 
 type Payload = Pick<ReturnType<typeof useLobby>, "createNewGame"> &
-  Pick<ReturnType<typeof useStore>, "toggleShowStore" | "purchasedProducts"> & {
-    shouldShowStore: boolean;
+  Pick<ReturnType<typeof useMenu>, "toggleShowStore" | "toggleShowHowToPlay"> &
+  Pick<ReturnType<typeof useStore>, "purchasedProducts"> & {
+    isShowingStore: boolean;
     isSelectingCategory: boolean;
+    isShowingHowToPlay: boolean;
   };
 
 export const MenuComponent = ({
   createNewGame,
-  shouldShowStore,
+  isShowingStore,
   toggleShowStore,
   isSelectingCategory,
-}: // purchasedProducts,
-Payload) => {
-  const purchasedProducts = [{ productId: "adult", title: "Adult" }];
-
+  purchasedProducts,
+  toggleShowHowToPlay,
+}: Payload) => {
   const renderMenu = () => {
     if (isSelectingCategory) {
       return;
@@ -31,7 +33,7 @@ Payload) => {
               Create Game
             </button>
           </div>
-          {shouldShowStore && (
+          {isShowingStore && (
             <div className="button-outer">
               <button className="default-button" onClick={toggleShowStore}>
                 Store
@@ -39,12 +41,15 @@ Payload) => {
             </div>
           )}
           <div className="button-outer">
-            <button className="default-button">How to play?</button>
+            <button className="default-button" onClick={toggleShowHowToPlay}>
+              How to play?
+            </button>
           </div>
         </div>
       </>
     );
   };
+
   const renderCategorySelection = () => {
     if (!isSelectingCategory) {
       return;

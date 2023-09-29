@@ -207,6 +207,18 @@
   margin-top: 30px;
 }
 
+.how-to-play-step-container {
+  margin: 0 auto;
+  padding: 20px;
+  pointer-events: none;
+  width: 75%;
+}
+
+.how-to-play-step-container.bordered {
+  border: 4px solid #010501;
+  border-radius: 15px;
+}
+
 .label {
   color: #ffd500;
 }
@@ -298,7 +310,7 @@
 .share-container {
   border: 4px solid #010501;
   border-radius: 15px;
-  max-width: 380px;
+  /* max-width: 380px; */
   padding: 25px;
   top: -150%;
   transition: top 0 0.2s ease-in-out, opacity 0.2s 0 ease-in-out;

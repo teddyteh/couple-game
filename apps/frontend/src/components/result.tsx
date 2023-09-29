@@ -23,6 +23,8 @@ export const ResultComponent = ({
       </p>
       <h1 className="score-name">{score.percentage}%</h1>
       <section>
+        <p>Wrong answers:</p>
+        
         {resultDetails.map((detail, index) => (
           <section className="details" key={detail.question}>
             <div>

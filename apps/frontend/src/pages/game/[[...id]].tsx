@@ -1,4 +1,5 @@
 import { Alert } from "@/components/alert";
+import { HowToPlayComponent } from "@/components/how-to-play";
 import { MenuComponent } from "@/components/menu";
 import { QuestionComponent } from "@/components/question";
 import { ResultComponent } from "@/components/result";
@@ -10,6 +11,7 @@ import { useAlert } from "@/hooks/useAlert";
 import { useGame } from "@/hooks/useGame";
 import { useInitialization } from "@/hooks/useInitialization";
 import { useLobby } from "@/hooks/useLobby";
+import { useMenu } from "@/hooks/useMenu";
 import { useMobileBridge } from "@/hooks/useMobileBridge";
 import { useRestart } from "@/hooks/useRestart";
 import { useResult } from "@/hooks/useResult";
@@ -19,7 +21,8 @@ import { useContext } from "react";
 const Game = () => {
   useInitialization();
 
-  const { toggleShowStore, isAvailableForPurhcase, getButtonText } = useStore();
+  const { toggleShowStore, toggleShowHowToPlay } = useMenu();
+  const { isAvailableForPurhcase, getButtonText } = useStore();
   const { showAlert } = useAlert();
   const { purchase } = useMobileBridge({ showAlert });
 
@@ -40,6 +43,7 @@ const Game = () => {
     products,
     isShowingStore,
     isSelectingCategory,
+    isShowingHowToPlay,
     alert,
     gameId,
     hasCopiedShareLink,
@@ -54,24 +58,36 @@ const Game = () => {
   } = useContext(GameContext);
 
   const renderMenuOrStore = () => {
-    if (!isGameStarted && !gameId) {
-      return isShowingStore ? (
+    if (isGameStarted || gameId) {
+      return;
+    }
+
+    if (isShowingStore) {
+      return (
         <StoreComponent
           products={products}
           purchase={purchase}
           isAvailableForPurhcase={isAvailableForPurhcase}
           getButtonText={getButtonText}
         />
-      ) : (
-        <MenuComponent
-          createNewGame={createNewGame}
-          shouldShowStore={products.length > 0}
-          toggleShowStore={toggleShowStore}
-          isSelectingCategory={isSelectingCategory}
-          purchasedProducts={purchasedProducts}
-        />
       );
     }
+
+    if (isShowingHowToPlay) {
+      return <HowToPlayComponent />;
+    }
+
+    return (
+      <MenuComponent
+        createNewGame={createNewGame}
+        isShowingStore={products.length > 0}
+        toggleShowStore={toggleShowStore}
+        isSelectingCategory={isSelectingCategory}
+        purchasedProducts={purchasedProducts}
+        isShowingHowToPlay={isShowingHowToPlay}
+        toggleShowHowToPlay={toggleShowHowToPlay}
+      />
+    );
   };
 
   const renderShareOrJoiningScreen = () => {
