@@ -15,13 +15,19 @@ export const ShareComponent = ({
 }: Payload) => {
   return (
     <>
-      <div className={`share-container ${!isDemo ? "full" : ""}`}>
-        <div className="content">
+      <div className="share-container">
+        <div className="inner">
           <p>Share this link with a friend:</p>
-          <div className="field">
+          <div className="copy-container">
             <i className="url-icon uil uil-link"></i>
-            <input type="text" readOnly value={shareLink} />
+            <input
+              className="copy-text"
+              type="text"
+              readOnly
+              value={shareLink}
+            />
             <button
+              className="copy-button"
               onClick={() => {
                 copyShareLink();
                 setHasCopiedShareLink(true);

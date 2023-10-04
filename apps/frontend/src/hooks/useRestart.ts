@@ -13,7 +13,7 @@ export const useRestart = () => {
     conn,
   } = useContext(GameContext);
 
-  const _resetGameState = () => {
+  const resetGameState = () => {
     setCurrentQuestionIndex(0);
     setSelectedOption(null);
     setSelectedAnswers([]);
@@ -24,7 +24,7 @@ export const useRestart = () => {
   };
 
   const restartGame = async () => {
-    _resetGameState();
+    resetGameState();
 
     if (conn) {
       conn.send({ restart: true });
@@ -32,6 +32,7 @@ export const useRestart = () => {
   };
 
   return {
+    resetGameState,
     restartGame,
   };
 };

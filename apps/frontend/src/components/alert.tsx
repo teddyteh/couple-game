@@ -9,11 +9,13 @@ export const Alert = ({ data }: Payload) => {
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 bg-red-100 border border-red-400 text-red-700 px-4 py-3 m-3 rounded z-50"
+      className="p-2 bg-yellow-800 items-center text-yellow-100 leading-none rounded-xl flex w-5/6 m-auto"
       role="alert"
     >
-      <strong className="font-bold">{title}</strong>
-      <span className="block sm:inline">{message}</span>
+      <span className="flex rounded-full bg-yellow-500 uppercase px-2 py-1 text-xs font-bold mr-3">
+        {title}
+      </span>
+      <span className="font-semibold mr-2 text-left flex-auto">{message}</span>
     </div>
   );
 };

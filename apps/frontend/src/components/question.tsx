@@ -24,15 +24,16 @@ export const QuestionComponent = ({
         Question <span>{currentQuestionIndex + 1}</span> out of{" "}
         {questionsLength}
       </div>
-      <div className="quiz-image-wrapper">
+      <div className="image-wrapper">
         <img
-          className="quiz-image"
+          className="image"
           src="https://wapu.us/wp-content/uploads/2019/03/Friedensreiter-Couple-WCOS-540x513.png"
           alt=""
         />
       </div>
-      <div className="quiz-timer">
+      <div className="quiz-timer-container">
         <span
+          className="quiz-timer-bar"
           key={currentQuestionIndex}
           style={{ animationPlayState: timeLeft !== 0 ? "running" : "paused" }}
         />
@@ -40,10 +41,10 @@ export const QuestionComponent = ({
       <div className="quiz-question">{currentQuestion.question}</div>
       <div className="button-container">
         {currentQuestion.options.map((option, index) => (
-          <div key={option} className="button-outer w-full">
+          <div key={option} className="button-outer">
             <button
               id={`answer${index}`}
-              className="default-button"
+              className="question-selection-button"
               onClick={() => handleAnswerSelection(option)}
             >
               {option}

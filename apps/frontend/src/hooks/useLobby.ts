@@ -3,11 +3,20 @@ import { fetchQuestionsFromURL } from "@/utils/question";
 import { DataConnection } from "peerjs";
 import { useContext, useEffect } from "react";
 import { GameContext } from "./context";
+import { useAlert } from "./useAlert";
 import { useRestart } from "./useRestart";
 
-type Payload = Pick<ReturnType<typeof useRestart>, "restartGame">;
+type Payload = Pick<
+  ReturnType<typeof useRestart>,
+  "resetGameState" | "restartGame"
+> &
+  Pick<ReturnType<typeof useAlert>, "showAlert">;
 
-export const useLobby = ({ restartGame }: Payload) => {
+export const useLobby = ({
+  resetGameState,
+  restartGame,
+  showAlert,
+}: Payload) => {
   const {
     router,
     peer,
@@ -85,19 +94,35 @@ export const useLobby = ({ restartGame }: Payload) => {
 
     if (peer.id === gameId) {
       peer.on("connection", (connection) => {
-        setConn(connection);
         _initConnectionEvents(connection);
+        setConn(connection);
       });
     } else {
       const connection = peer.connect(gameId);
-      setConn(connection);
       connection.on("open", () => connection.send({ connected: true }));
       _initConnectionEvents(connection);
+      setConn(connection);
     }
   };
 
   const _initConnectionEvents = (connection: DataConnection) => {
+    let timer: number;
+
+    const resetTimer = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        showAlert({
+          title: "Connection Closed",
+          message: "The other player has left the game.",
+        });
+        resetGameState();
+      }, 5000);
+    };
+
     connection.on("data", (data: any) => {
+      // Reset the timer every time data is received
+      resetTimer();
+
       if (data.connected) {
         // Notify the host that player 2 has connected
         setIsGameStarted(true);
@@ -113,6 +138,7 @@ export const useLobby = ({ restartGame }: Payload) => {
         setPartnerAnswers(data.answers);
       }
     });
+
     connection.on("error", (err) => console.error("Connection error:", err));
   };
 

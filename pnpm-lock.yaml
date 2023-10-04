@@ -49,7 +49,7 @@ importers:
         version: 13.4.19(react-dom@18.2.0)(react@18.2.0)
       peerjs:
         specifier: ^1.5.0
-        version: 1.5.0
+        version: 1.5.1
       postcss:
         specifier: 8.4.29
         version: 8.4.29
@@ -155,40 +155,6 @@ importers:
         specifier: 4.8.4
         version: 4.8.4
 
-  apps/question-refresher:
-    dependencies:
-      aws-sdk:
-        specifier: ^2.1450.0
-        version: 2.1450.0
-      dotenv:
-        specifier: ^16.3.1
-        version: 16.3.1
-      openai:
-        specifier: ^4.4.0
-        version: 4.4.0
-    devDependencies:
-      '@couple-game/eslint-config':
-        specifier: workspace:*
-        version: link:../../packages/eslint-config-couple-game
-      '@couple-game/tsconfig':
-        specifier: workspace:*
-        version: link:../../packages/tsconfig
-      '@types/aws-sdk':
-        specifier: ^2.7.0
-        version: 2.7.0
-      '@types/node':
-        specifier: ^20.5.9
-        version: 20.5.9
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
-      tsup:
-        specifier: ^7.2.0
-        version: 7.2.0(typescript@4.8.4)
-      typescript:
-        specifier: ^4.5.3
-        version: 4.8.4
-
   apps/question-populator:
     dependencies:
       aws-sdk:
@@ -222,6 +188,40 @@ importers:
       typescript:
         specifier: ^4.5.3
         version: 4.5.3
+
+  apps/question-refresher:
+    dependencies:
+      aws-sdk:
+        specifier: ^2.1450.0
+        version: 2.1450.0
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.3.1
+      openai:
+        specifier: ^4.4.0
+        version: 4.4.0
+    devDependencies:
+      '@couple-game/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config-couple-game
+      '@couple-game/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+      '@types/aws-sdk':
+        specifier: ^2.7.0
+        version: 2.7.0
+      '@types/node':
+        specifier: ^20.5.9
+        version: 20.5.9
+      eslint:
+        specifier: ^7.32.0
+        version: 7.32.0
+      tsup:
+        specifier: ^7.2.0
+        version: 7.2.0(typescript@4.8.4)
+      typescript:
+        specifier: ^4.5.3
+        version: 4.8.4
 
   packages/core:
     devDependencies:
@@ -8073,8 +8073,8 @@ packages:
     engines: {node: '>= 14.0.0'}
     dev: false
 
-  /peerjs@1.5.0:
-    resolution: {integrity: sha512-NLZ73jRNE4aLq2pmVTiSkWmwf6cvt9cH72qJHnzaLH+I2CtoWVvY42U9/O0/tYE6UYwRYJ1ktKRs2DdZ1Jrgcg==}
+  /peerjs@1.5.1:
+    resolution: {integrity: sha512-jpE2jPZ99vuSVHBAhn7bVCPKlwsPgcAqgcDKEZR4L7SaMaEL6wqD/G6VI0+awmhuEFcUN2ttusly+sKQGD64hQ==}
     engines: {node: '>= 14'}
     dependencies:
       '@msgpack/msgpack': 2.8.0

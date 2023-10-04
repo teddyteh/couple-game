@@ -20,13 +20,13 @@ import { useContext } from "react";
 
 const Game = () => {
   useInitialization();
+  const { showAlert } = useAlert();
 
   const { toggleShowStore, toggleShowHowToPlay } = useMenu();
   const { isAvailableForPurhcase, getButtonText } = useStore();
-  const { showAlert } = useAlert();
   const { purchase } = useMobileBridge({ showAlert });
 
-  const { restartGame } = useRestart();
+  const { resetGameState, restartGame } = useRestart();
   const {
     isHost,
     purchasedProducts,
@@ -34,7 +34,9 @@ const Game = () => {
     getShareLink,
     copyShareLink,
   } = useLobby({
+    resetGameState,
     restartGame,
+    showAlert,
   });
   const { handleAnswerSelection } = useGame();
   const { calculateCompatibilityScore, generateResultDetails } = useResult();
@@ -99,6 +101,7 @@ const Game = () => {
           hasCopiedShareLink={hasCopiedShareLink}
           setHasCopiedShareLink={setHasCopiedShareLink}
           copyShareLink={copyShareLink}
+          isDemo={false}
         />
       ) : (
         <h1>Joining the game...</h1>
@@ -143,6 +146,7 @@ const Game = () => {
           {renderShareOrJoiningScreen()}
           {renderQuestionOrResult()}
         </ScreenComponent>
+
         <Alert data={alert} />
       </div>
     </div>

@@ -5,9 +5,13 @@ import { LogoComponent } from "./logo";
 export const ScreenComponent = ({ children }: { children: ReactNode }) => {
   return (
     <div className="screen-section">
-      <LogoComponent />
-      {children}
-      <FooterComponent />
+      <div className="header">
+        <LogoComponent />
+      </div>
+      <div className="content">{children}</div>
+      <div className="footer">
+        <FooterComponent />
+      </div>
     </div>
   );
 };

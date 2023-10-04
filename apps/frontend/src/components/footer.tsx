@@ -2,7 +2,7 @@ import { AudioPlayerComponent } from "./audio-player";
 
 export const FooterComponent = () => {
   return (
-    <footer className="footer">
+    <footer>
       <div className="audio-player-container">
         <AudioPlayerComponent />
       </div>
