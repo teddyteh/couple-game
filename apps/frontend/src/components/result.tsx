@@ -41,7 +41,7 @@ export const ResultComponent = ({
         ))}
       </section>
 
-      <button className="default-button" onClick={restartGame}>
+      <button className="default-button" onClick={() => restartGame()}>
         Play again
       </button>
     </>

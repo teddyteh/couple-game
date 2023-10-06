@@ -94,8 +94,12 @@ const Game = () => {
   };
 
   const renderShareOrJoiningScreen = () => {
-    if (!isGameStarted && gameId) {
-      return isHost ? (
+    if (isGameStarted || !gameId) {
+      return;
+    }
+
+    if (isHost) {
+      return (
         <ShareComponent
           shareLink={getShareLink()}
           hasCopiedShareLink={hasCopiedShareLink}
@@ -103,39 +107,45 @@ const Game = () => {
           copyShareLink={copyShareLink}
           isDemo={false}
         />
-      ) : (
-        <h1>Joining the game...</h1>
       );
     }
+
+    return <h1>Joining the game...</h1>;
   };
 
   const renderQuestionOrResult = () => {
-    if (isGameStarted) {
-      if (!isPlayerFinished) {
-        return (
-          <QuestionComponent
-            currentQuestionIndex={currentQuestionIndex}
-            questionsLength={questions.length}
-            timeLeft={timeLeft}
-            currentQuestion={questions[currentQuestionIndex]}
-            selectedOption={selectedOption}
-            handleAnswerSelection={handleAnswerSelection}
-          />
-        );
-      } else {
-        return isPartnerFinished ? (
-          <ResultComponent
-            score={calculateCompatibilityScore()}
-            resultDetails={generateResultDetails()}
-            restartGame={restartGame}
-          />
-        ) : (
-          <>
-            <h1>Waiting for the other player to finish...</h1>
-          </>
-        );
-      }
+    if (!isGameStarted) {
+      return;
     }
+
+    if (!isPlayerFinished) {
+      return (
+        <QuestionComponent
+          currentQuestionIndex={currentQuestionIndex}
+          questionsLength={questions.length}
+          timeLeft={timeLeft}
+          currentQuestion={questions[currentQuestionIndex]}
+          selectedOption={selectedOption}
+          handleAnswerSelection={handleAnswerSelection}
+        />
+      );
+    }
+
+    if (isPartnerFinished) {
+      return (
+        <ResultComponent
+          score={calculateCompatibilityScore()}
+          resultDetails={generateResultDetails()}
+          restartGame={restartGame}
+        />
+      );
+    }
+
+    return (
+      <>
+        <h1>Waiting for the other player to finish...</h1>
+      </>
+    );
   };
 
   return (

@@ -101,7 +101,26 @@ export const useLobby = ({
         setConn(connection);
       });
     } else {
-      _connectToHost(peer, gameId);
+      let isConnected = false;
+
+      const connection = peer.connect(gameId);
+      connection.on("open", () => {
+        isConnected = true;
+        connection.send({ connected: true });
+      });
+
+      // Check the connection status after 5 seconds
+      setTimeout(() => {
+        if (!isConnected) {
+          showAlert({
+            title: "Connection Failed",
+            message: "Unable to connect.",
+          });
+        }
+      }, 3000);
+
+      _initConnectionEvents(connection);
+      setConn(connection);
     }
   };
 
@@ -111,11 +130,15 @@ export const useLobby = ({
     const resetTimer = () => {
       window.clearTimeout(timer);
       timer = window.setTimeout(() => {
-        showAlert({
-          title: "Connection Closed",
-          message: "The other player has left the game.",
-        });
-        resetGameState();
+        showAlert(
+          {
+            title: "Connection Closed",
+            message: "The other player has left the game.",
+          },
+          () => {
+            router?.push("/game");
+          }
+        );
       }, 5000);
     };
 
@@ -140,29 +163,6 @@ export const useLobby = ({
     });
 
     connection.on("error", (err) => console.error("Connection error:", err));
-  };
-
-  const _connectToHost = (peer: Peer, gameId: string) => {
-    let isConnected = false;
-
-    const connection = peer.connect(gameId);
-    connection.on("open", () => {
-      isConnected = true;
-      connection.send({ connected: true });
-    });
-
-    // Check the connection status after 5 seconds
-    setTimeout(() => {
-      if (!isConnected) {
-        showAlert({
-          title: "Connection Failed",
-          message: "Unable to connect.",
-        });
-      }
-    }, 3000);
-
-    _initConnectionEvents(connection);
-    setConn(connection);
   };
 
   return {

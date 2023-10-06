@@ -1,7 +1,7 @@
+import { Question } from "@/types/question";
+import { fetchQuestionsFromURL } from "@/utils/question";
 import { useContext } from "react";
 import { GameContext } from "./context";
-import { fetchQuestionsFromURL } from "@/utils/question";
-import { Question } from "@/types/question";
 
 export const useRestart = () => {
   const {
@@ -28,17 +28,12 @@ export const useRestart = () => {
   };
 
   const restartGame = async (questions?: Question[]) => {
+    const newQuestions = questions ?? (await fetchQuestionsFromURL(category));
+    setQuestions(newQuestions);
+
+    conn?.send({ restart: true, questions: newQuestions });
+
     resetGameState();
-    questions && setQuestions(questions); // For the other player
-
-    // Player who initiaties the restart
-    if (conn) {
-      // Reset questions
-      const questions = await fetchQuestionsFromURL(category);
-      setQuestions(questions);
-
-      conn.send({ restart: true, questions });
-    }
   };
 
   return {
