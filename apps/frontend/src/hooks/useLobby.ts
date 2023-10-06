@@ -1,6 +1,6 @@
 import { copyToClipboard } from "@/utils";
 import { fetchQuestionsFromURL } from "@/utils/question";
-import { DataConnection } from "peerjs";
+import { DataConnection, Peer } from "peerjs";
 import { useContext, useEffect } from "react";
 import { GameContext } from "./context";
 import { useAlert } from "./useAlert";
@@ -26,6 +26,7 @@ export const useLobby = ({
     conn,
     setConn,
     setIsSelectingCategory,
+    setCategory,
     questions,
     setQuestions,
     products,
@@ -76,6 +77,8 @@ export const useLobby = ({
       purchasedProducts.length === 0 || !selectedCategory
         ? "couple-compatibility"
         : selectedCategory;
+    setCategory(category);
+
     const questions = await fetchQuestionsFromURL(category);
     setQuestions(questions);
 
@@ -98,10 +101,7 @@ export const useLobby = ({
         setConn(connection);
       });
     } else {
-      const connection = peer.connect(gameId);
-      connection.on("open", () => connection.send({ connected: true }));
-      _initConnectionEvents(connection);
-      setConn(connection);
+      _connectToHost(peer, gameId);
     }
   };
 
@@ -126,20 +126,43 @@ export const useLobby = ({
       if (data.connected) {
         // Notify the host that player 2 has connected
         setIsGameStarted(true);
+      } else if (data.restart && data.questions) {
+        restartGame(data.questions);
       } else if (data.questions) {
         // Player 2
         setQuestions(data.questions);
         setIsGameStarted(true);
       } else if (data.finished) {
         setIsPartnerFinished(true);
-      } else if (data.restart) {
-        restartGame();
       } else {
         setPartnerAnswers(data.answers);
       }
     });
 
     connection.on("error", (err) => console.error("Connection error:", err));
+  };
+
+  const _connectToHost = (peer: Peer, gameId: string) => {
+    let isConnected = false;
+
+    const connection = peer.connect(gameId);
+    connection.on("open", () => {
+      isConnected = true;
+      connection.send({ connected: true });
+    });
+
+    // Check the connection status after 5 seconds
+    setTimeout(() => {
+      if (!isConnected) {
+        showAlert({
+          title: "Connection Failed",
+          message: "Unable to connect.",
+        });
+      }
+    }, 3000);
+
+    _initConnectionEvents(connection);
+    setConn(connection);
   };
 
   return {

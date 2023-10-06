@@ -16,6 +16,8 @@ export interface GameContextType {
   setIsShowingStore: React.Dispatch<React.SetStateAction<boolean>>;
   isSelectingCategory: boolean;
   setIsSelectingCategory: React.Dispatch<React.SetStateAction<boolean>>;
+  category: string;
+  setCategory: React.Dispatch<React.SetStateAction<string>>;
   isShowingHowToPlay: boolean;
   setIsShowingHowToPlay: React.Dispatch<React.SetStateAction<boolean>>;
   alert: Alert | null;
@@ -58,6 +60,8 @@ export const GameContext = createContext<GameContextType>({
   setIsShowingStore: () => {},
   isSelectingCategory: false,
   setIsSelectingCategory: () => {},
+  category: "",
+  setCategory: () => {},
   isShowingHowToPlay: false,
   setIsShowingHowToPlay: () => {},
   alert: null,
@@ -99,6 +103,7 @@ export const GameProvider = ({ children }: any) => {
   const [isShowingStore, setIsShowingStore] = useState<boolean>(false);
   const [isSelectingCategory, setIsSelectingCategory] =
     useState<boolean>(false);
+  const [category, setCategory] = useState<string>("couple-compatiblity");
   const [isShowingHowToPlay, setIsShowingHowToPlay] = useState<boolean>(false);
   const [alert, setAlert] = useState<Alert | null>(null);
 
@@ -128,6 +133,8 @@ export const GameProvider = ({ children }: any) => {
       setIsShowingStore,
       isSelectingCategory,
       setIsSelectingCategory,
+      category,
+      setCategory,
       isShowingHowToPlay,
       setIsShowingHowToPlay,
       alert,
@@ -165,6 +172,7 @@ export const GameProvider = ({ children }: any) => {
     availablePurchases,
     isShowingStore,
     isSelectingCategory,
+    category,
     isShowingHowToPlay,
     alert,
     gameId,

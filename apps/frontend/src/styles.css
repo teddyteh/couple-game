@@ -219,7 +219,7 @@
 
 .quiz-timer-container .quiz-timer-bar {
   animation: progressbar-countdown;
-  animation-duration: 10s;
+  animation-duration: 30s;
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
   animation-play-state: paused;

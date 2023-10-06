@@ -25,7 +25,7 @@ export const useGame = () => {
 
     // Only reset the timer if the game hasn't ended
     if (!(isPlayerFinished && currentQuestionIndex === questions.length - 1)) {
-      setTimeLeft(10);
+      setTimeLeft(30); // Should match animation-duration
     }
 
     const timerId = setInterval(() => {

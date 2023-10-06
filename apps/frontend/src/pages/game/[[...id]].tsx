@@ -141,13 +141,13 @@ const Game = () => {
   return (
     <div className="main-container">
       <div className="wrapper">
+        <Alert data={alert} />
+
         <ScreenComponent>
           {renderMenuOrStore()}
           {renderShareOrJoiningScreen()}
           {renderQuestionOrResult()}
         </ScreenComponent>
-
-        <Alert data={alert} />
       </div>
     </div>
   );

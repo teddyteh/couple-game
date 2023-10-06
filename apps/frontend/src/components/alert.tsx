@@ -9,7 +9,7 @@ export const Alert = ({ data }: Payload) => {
 
   return (
     <div
-      className="p-2 bg-yellow-800 items-center text-yellow-100 leading-none rounded-xl flex w-5/6 m-auto"
+      className="p-2 bg-yellow-800 items-center text-yellow-100 leading-none rounded-xl flex"
       role="alert"
     >
       <span className="flex rounded-full bg-yellow-500 uppercase px-2 py-1 text-xs font-bold mr-3">
