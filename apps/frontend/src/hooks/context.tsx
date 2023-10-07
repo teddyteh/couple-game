@@ -1,7 +1,6 @@
 import { Alert } from "@/types/alert";
 import { Product, ProductPurchase } from "@/types/product";
 import { Question } from "@/types/question";
-import { NextRouter, useRouter } from "next/router";
 import Peer, { DataConnection } from "peerjs";
 import { createContext, useMemo, useState } from "react";
 
@@ -48,7 +47,6 @@ export interface GameContextType {
   setIsPartnerFinished: React.Dispatch<React.SetStateAction<boolean>>;
   timeLeft: number;
   setTimeLeft: React.Dispatch<React.SetStateAction<number>>;
-  router: NextRouter | null;
 }
 
 export const GameContext = createContext<GameContextType>({
@@ -92,12 +90,9 @@ export const GameContext = createContext<GameContextType>({
   setIsPartnerFinished: () => {},
   timeLeft: 10,
   setTimeLeft: () => {},
-  router: null,
 });
 
 export const GameProvider = ({ children }: any) => {
-  const router = useRouter();
-
   const [products, setProducts] = useState<any[]>([]);
   const [availablePurchases, setAvailablePurchases] = useState<any[]>([]);
   const [isShowingStore, setIsShowingStore] = useState<boolean>(false);
@@ -165,7 +160,6 @@ export const GameProvider = ({ children }: any) => {
       setIsPartnerFinished,
       timeLeft,
       setTimeLeft,
-      router,
     };
   }, [
     products,
@@ -188,7 +182,6 @@ export const GameProvider = ({ children }: any) => {
     isPlayerFinished,
     isPartnerFinished,
     timeLeft,
-    router,
   ]);
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

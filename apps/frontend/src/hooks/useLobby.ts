@@ -1,6 +1,7 @@
 import { copyToClipboard } from "@/utils";
 import { fetchQuestionsFromURL } from "@/utils/question";
-import { DataConnection, Peer } from "peerjs";
+import { useRouter } from "next/router";
+import { DataConnection } from "peerjs";
 import { useContext, useEffect } from "react";
 import { GameContext } from "./context";
 import { useAlert } from "./useAlert";
@@ -17,8 +18,9 @@ export const useLobby = ({
   restartGame,
   showAlert,
 }: Payload) => {
+  const router = useRouter();
+
   const {
-    router,
     peer,
     gameId,
     setGameId,
@@ -62,9 +64,8 @@ export const useLobby = ({
 
   const isHost = peer?.id === gameId;
 
-  const purchasedProducts = products.filter(
-    (product) =>
-      !availablePurchases?.some((p) => p.productId === product.productId)
+  const purchasedProducts = products.filter((product) =>
+    availablePurchases.some((p) => p.productId === product.productId)
   );
 
   const createNewGame = async (selectedCategory?: string) => {
@@ -84,6 +85,8 @@ export const useLobby = ({
 
     peer?.id && setGameId(peer.id);
   };
+
+  const unsetCategorySelection = () => setIsSelectingCategory(false);
 
   const getShareLink = () => `${window.location.origin}/game/${gameId}`;
 
@@ -169,6 +172,7 @@ export const useLobby = ({
     isHost,
     purchasedProducts,
     createNewGame,
+    unsetCategorySelection,
     fetchQuestionsFromURL,
     getShareLink,
     copyShareLink,

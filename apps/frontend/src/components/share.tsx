@@ -1,17 +1,18 @@
-interface Payload {
+import { GameContextType } from "@/hooks/context";
+
+type Payload = Pick<
+  GameContextType,
+  "hasCopiedShareLink" | "setHasCopiedShareLink"
+> & {
   shareLink: string;
-  hasCopiedShareLink: boolean;
-  setHasCopiedShareLink: (hasCopied: boolean) => void;
   copyShareLink: () => void;
-  isDemo: boolean;
-}
+};
 
 export const ShareComponent = ({
   shareLink,
   hasCopiedShareLink,
   setHasCopiedShareLink,
   copyShareLink,
-  isDemo = false,
 }: Payload) => {
   return (
     <>
