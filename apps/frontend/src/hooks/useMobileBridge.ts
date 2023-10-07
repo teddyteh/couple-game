@@ -23,21 +23,30 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
           case "availablePurchases":
             setAvailablePurchases(data);
             break;
-          case "currentPurchaseSuccess":
+          case "currentPurchaseSuccess": {
             console.info("currentPurchaseSuccess:", data);
-            const { productId, result } = data;
-            if (result) {
-              setAvailablePurchases((previousValue) =>
-                previousValue.filter(
-                  (purchase) => purchase.productId !== productId
-                )
-              );
+
+            const {
+              purchase,
+              result: { code },
+            } = data; // {"code": "OK", "debugMessage": "", "message": "", "responseCode": 0}
+            if (code === "OK") {
+              setAvailablePurchases((previousValue) => {
+                previousValue.push(purchase);
+                return previousValue;
+              });
             }
             break;
-          case "currentPurchaseError":
+          }
+          case "currentPurchaseError": {
             console.error("Current purchase error:", data);
-            showAlert();
+
+            const { code } = data; // {"code": "E_USER_CANCELLED", "debugMessage": "", "message": "Payment is Cancelled.", "responseCode": 1}
+            if (code !== "E_USER_CANCELLED") {
+              showAlert();
+            }
             break;
+          }
           default:
             console.warn("No action handler for:", action);
         }

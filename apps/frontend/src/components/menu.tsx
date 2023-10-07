@@ -4,16 +4,18 @@ import { useMenu } from "@/hooks/useMenu";
 type Payload = Pick<ReturnType<typeof useLobby>, "createNewGame"> &
   Pick<ReturnType<typeof useMenu>, "toggleShowStore" | "toggleShowHowToPlay"> &
   Pick<ReturnType<typeof useLobby>, "purchasedProducts"> & {
-    isShowingStore: boolean;
+    shouldShowStore: boolean;
     isSelectingCategory: boolean;
+    unsetCategorySelection: () => void;
     isShowingHowToPlay: boolean;
   };
 
 export const MenuComponent = ({
   createNewGame,
-  isShowingStore,
+  shouldShowStore,
   toggleShowStore,
   isSelectingCategory,
+  unsetCategorySelection,
   purchasedProducts,
   toggleShowHowToPlay,
 }: Payload) => {
@@ -32,7 +34,7 @@ export const MenuComponent = ({
               Create Game
             </button>
           </div>
-          {isShowingStore && (
+          {shouldShowStore && (
             <div className="button-outer">
               <button className="default-button" onClick={toggleShowStore}>
                 Store
@@ -56,7 +58,16 @@ export const MenuComponent = ({
 
     return (
       <>
-        <h1>Select a category</h1>
+        <div className="title-bar">
+          <button
+            className="transparent-button"
+            onClick={unsetCategorySelection}
+          >
+            <i className="fas fa-arrow-left back-button"></i>
+          </button>
+          <h1>Select a category</h1>
+        </div>
+
         <div className="button-container">
           <div className="button-outer">
             <button

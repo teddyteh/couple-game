@@ -156,7 +156,7 @@
   display: none;
 }
 
-.how-to-play-back-button {
+.back-button {
   margin-right: 8px;
 }
 
@@ -322,6 +322,10 @@
   width: 100%;
 }
 
+.store-container .product {
+  margin-bottom: 20px;
+}
+
 .title-bar {
   align-items: center;
   display: flex;
@@ -358,6 +362,10 @@ h1 {
 html,
 body {
   overflow: hidden;
+}
+
+button:focus {
+  outline: 0;
 }
 
 @keyframes progressbar-countdown {

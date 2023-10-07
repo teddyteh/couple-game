@@ -35,7 +35,7 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
     <>
       <div className="title-bar">
         <button className="transparent-button" onClick={toggleShowHowToPlay}>
-          <i className="fas fa-arrow-left how-to-play-back-button"></i>
+          <i className="fas fa-arrow-left back-button"></i>
         </button>
         <h1>How to Play</h1>
       </div>

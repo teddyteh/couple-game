@@ -19,15 +19,15 @@ export const StoreComponent = ({
     <>
       <div className="title-bar">
         <button className="transparent-button" onClick={toggleShowStore}>
-          <i className="fas fa-arrow-left how-to-play-back-button"></i>
+          <i className="fas fa-arrow-left back-button"></i>
         </button>
         <h1>Store</h1>
       </div>
 
-      <div className="score-container">
+      <div className="store-container">
         {products?.map((product) => {
           return (
-            <div key={product.productId}>
+            <div key={product.productId} className="product">
               <div>{product.productId}</div>
               <div>&quot;{product.description}&quot;</div>
               <button

@@ -31,6 +31,7 @@ const Game = () => {
     isHost,
     purchasedProducts,
     createNewGame,
+    unsetCategorySelection,
     getShareLink,
     copyShareLink,
   } = useLobby({
@@ -83,7 +84,8 @@ const Game = () => {
     return (
       <MenuComponent
         createNewGame={createNewGame}
-        isShowingStore={products.length > 0}
+        unsetCategorySelection={unsetCategorySelection}
+        shouldShowStore={products.length > 0}
         toggleShowStore={toggleShowStore}
         isSelectingCategory={isSelectingCategory}
         purchasedProducts={purchasedProducts}
@@ -105,7 +107,6 @@ const Game = () => {
           hasCopiedShareLink={hasCopiedShareLink}
           setHasCopiedShareLink={setHasCopiedShareLink}
           copyShareLink={copyShareLink}
-          isDemo={false}
         />
       );
     }
