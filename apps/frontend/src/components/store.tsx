@@ -6,13 +6,13 @@ import { useStore } from "@/hooks/useStore";
 type Payload = Pick<ReturnType<typeof useMenu>, "toggleShowStore"> &
   Pick<GameContextType, "products"> &
   Pick<ReturnType<typeof useMobileBridge>, "purchase"> &
-  Pick<ReturnType<typeof useStore>, "isAvailableForPurhcase" | "getButtonText">;
+  Pick<ReturnType<typeof useStore>, "isAvailableForPurchase" | "getButtonText">;
 
 export const StoreComponent = ({
   toggleShowStore,
   products,
   purchase,
-  isAvailableForPurhcase,
+  isAvailableForPurchase,
   getButtonText,
 }: Payload) => {
   return (
@@ -33,7 +33,7 @@ export const StoreComponent = ({
               <button
                 className="purchase-button"
                 onClick={() => purchase(product)}
-                disabled={!isAvailableForPurhcase(product.productId)}
+                disabled={!isAvailableForPurchase(product.productId)}
               >
                 {getButtonText(product)}
               </button>

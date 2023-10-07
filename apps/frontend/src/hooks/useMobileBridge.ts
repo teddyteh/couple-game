@@ -23,21 +23,9 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
           case "availablePurchases":
             setAvailablePurchases(data);
             break;
-          case "currentPurchaseSuccess": {
-            console.info("currentPurchaseSuccess:", data);
-
-            const {
-              purchase,
-              result: { code },
-            } = data; // {"code": "OK", "debugMessage": "", "message": "", "responseCode": 0}
-            if (code === "OK") {
-              setAvailablePurchases((previousValue) => {
-                previousValue.push(purchase);
-                return previousValue;
-              });
-            }
+          case "currentPurchaseSuccess":
+            console.info("currentPurchaseSuccess:", data); // {"code": "OK", "debugMessage": "", "message": "", "responseCode": 0}
             break;
-          }
           case "currentPurchaseError": {
             console.error("Current purchase error:", data);
 

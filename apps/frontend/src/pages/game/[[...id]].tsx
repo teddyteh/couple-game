@@ -23,7 +23,7 @@ const Game = () => {
   const { showAlert } = useAlert();
 
   const { toggleShowStore, toggleShowHowToPlay } = useMenu();
-  const { isAvailableForPurhcase, getButtonText } = useStore();
+  const { isAvailableForPurchase, getButtonText } = useStore();
   const { purchase } = useMobileBridge({ showAlert });
 
   const { resetGameState, restartGame } = useRestart();
@@ -71,7 +71,7 @@ const Game = () => {
           toggleShowStore={toggleShowStore}
           products={products}
           purchase={purchase}
-          isAvailableForPurhcase={isAvailableForPurhcase}
+          isAvailableForPurchase={isAvailableForPurchase}
           getButtonText={getButtonText}
         />
       );

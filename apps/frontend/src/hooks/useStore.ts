@@ -8,7 +8,7 @@ export const useStore = () => {
   const toggleShowStore = () =>
     setIsShowingStore((previousValue) => !previousValue);
 
-  const isAvailableForPurhcase = (productId: string) => {
+  const isAvailableForPurchase = (productId: string) => {
     if (availablePurchases.length === 0) {
       return true;
     }
@@ -17,7 +17,7 @@ export const useStore = () => {
   };
 
   const getButtonText = (product: Product) => {
-    if (!isAvailableForPurhcase(product.productId)) {
+    if (!isAvailableForPurchase(product.productId)) {
       return "Purchased";
     }
 
@@ -26,7 +26,7 @@ export const useStore = () => {
 
   return {
     toggleShowStore,
-    isAvailableForPurhcase,
+    isAvailableForPurchase,
     getButtonText,
   };
 };
