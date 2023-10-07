@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Alert, BackHandler, StyleSheet, View} from 'react-native';
 import {
   ProductAndroid,
   Purchase,
@@ -64,7 +64,7 @@ const App = () => {
             const result = await finishTransaction({purchase});
             console.info('currentPurchaseSuccess', result);
             _postMessageToWebApp('currentPurchaseSuccess', {
-              product: purchase.productId,
+              purchase,
               result,
             });
           } catch (error) {
@@ -83,6 +83,17 @@ const App = () => {
     }
   }, [currentPurchaseError]);
 
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', _handleBackButtonPress);
+
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        _handleBackButtonPress,
+      );
+    };
+  }, []);
+
   const _postMessageToWebApp = (action: string, data: any) => {
     webViewRef.current!.postMessage(
       JSON.stringify({
@@ -90,6 +101,24 @@ const App = () => {
         data,
       }),
     );
+  };
+
+  const _handleBackButtonPress = () => {
+    Alert.alert(
+      'Exit Game',
+      'Do you want to exit?',
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'Yes', onPress: () => BackHandler.exitApp()},
+      ],
+      {cancelable: false},
+    );
+
+    return true;
   };
 
   const onMessage = (event: any) => {
@@ -106,7 +135,7 @@ const App = () => {
         break;
       case 'purchase':
         const product = payload.product as ProductAndroid;
-        console.info('product', product);
+        console.info('Purchasing product', product);
         requestPurchase({skus: [product.productId]});
         break;
       default:
