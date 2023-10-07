@@ -63,10 +63,8 @@ const App = () => {
           try {
             const result = await finishTransaction({purchase});
             console.info('currentPurchaseSuccess', result);
-            _postMessageToWebApp('currentPurchaseSuccess', {
-              purchase,
-              result,
-            });
+            _postMessageToWebApp('currentPurchaseSuccess', result);
+            getAvailablePurchases();
           } catch (error) {
             console.error('currentPurchaseSuccess', error);
           }
@@ -74,7 +72,7 @@ const App = () => {
       }
     };
     checkCurrentPurchase(currentPurchase);
-  }, [currentPurchase, finishTransaction]);
+  }, [currentPurchase, finishTransaction, getAvailablePurchases]);
 
   useEffect(() => {
     if (currentPurchaseError) {
@@ -82,6 +80,10 @@ const App = () => {
       _postMessageToWebApp('currentPurchaseError', currentPurchaseError);
     }
   }, [currentPurchaseError]);
+
+  useEffect(() => {
+    _postMessageToWebApp('availablePurchases', availablePurchases);
+  }, [availablePurchases]);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', _handleBackButtonPress);
