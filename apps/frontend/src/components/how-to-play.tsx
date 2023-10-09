@@ -55,7 +55,6 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
               hasCopiedShareLink
               setHasCopiedShareLink={() => {}}
               copyShareLink={() => {}}
-              isDemo={true}
             />
           </div>
         </li>
