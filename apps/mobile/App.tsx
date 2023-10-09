@@ -32,8 +32,9 @@ const App = () => {
   useEffect(() => {
     const fetchSkus = async () => {
       try {
-        const response = await axios.get(skusUrl);
-        setSkus(response.data);
+        const {data} = await axios.get(skusUrl);
+        setSkus(data);
+        Alert.alert('skus', JSON.stringify(data));
       } catch (error) {
         console.error('Error fetching SKUs:', error);
       }
@@ -44,6 +45,7 @@ const App = () => {
 
   useEffect(() => {
     if (initConnectionError) {
+      Alert.alert('initConnectionError');
       console.error('initConnectionError', initConnectionError);
     }
   }, [initConnectionError]);
@@ -130,6 +132,7 @@ const App = () => {
 
     switch (action) {
       case 'getProducts':
+        Alert.alert('products', JSON.stringify(products.map(p => p.title)));
         _postMessageToWebApp('products', products);
         break;
       case 'getAvailablePurchases':
