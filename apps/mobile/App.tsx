@@ -15,7 +15,7 @@ import {gameUrl, skusUrl} from './config';
 
 const App = () => {
   const webViewRef = useRef<WebView>(null);
-  const [skus, setSkus] = useState<string[]>([]);
+  const [skus, setSkus] = useState<string[] | null>(null);
 
   const {
     connected,
@@ -32,11 +32,12 @@ const App = () => {
   useEffect(() => {
     const fetchSkus = async () => {
       try {
+        console.info('Fetching SKUs', skusUrl);
         const {data} = await axios.get(skusUrl);
+        console.info('SKUs', JSON.stringify(data));
         setSkus(data);
-        Alert.alert('skus', JSON.stringify(data));
       } catch (error) {
-        console.error('Error fetching SKUs:', error);
+        console.error('Error fetching SKUs', error);
       }
     };
 
@@ -45,34 +46,40 @@ const App = () => {
 
   useEffect(() => {
     if (initConnectionError) {
-      Alert.alert('initConnectionError');
       console.error('initConnectionError', initConnectionError);
+      _postMessageToWebApp('initConnectionError', initConnectionError);
     }
   }, [initConnectionError]);
 
   useEffect(() => {
-    if (connected && skus.length > 0) {
-      getProducts({skus});
-      getAvailablePurchases();
+    if (!connected || !skus) {
+      return;
     }
+
+    console.info('Getting products and available purchases');
+    getProducts({skus});
+    getAvailablePurchases();
   }, [connected, skus, getProducts, getAvailablePurchases]);
 
   useEffect(() => {
     const checkCurrentPurchase = async (purchase?: Purchase): Promise<void> => {
-      if (purchase) {
-        const {transactionReceipt} = purchase;
-        if (transactionReceipt) {
-          try {
-            const result = await finishTransaction({purchase});
-            console.info('currentPurchaseSuccess', result);
-            _postMessageToWebApp('currentPurchaseSuccess', result);
-            getAvailablePurchases();
-          } catch (error) {
-            console.error('currentPurchaseSuccess', error);
-          }
+      if (!purchase) {
+        return;
+      }
+
+      const {transactionReceipt} = purchase;
+      if (transactionReceipt) {
+        try {
+          const result = await finishTransaction({purchase});
+          console.info('currentPurchaseSuccess', result);
+          _postMessageToWebApp('currentPurchaseSuccess', result);
+          getAvailablePurchases();
+        } catch (error) {
+          console.error('currentPurchaseSuccess', error);
         }
       }
     };
+
     checkCurrentPurchase(currentPurchase);
   }, [currentPurchase, finishTransaction, getAvailablePurchases]);
 
@@ -84,6 +91,7 @@ const App = () => {
   }, [currentPurchaseError]);
 
   useEffect(() => {
+    console.info('availablePurchases', availablePurchases);
     _postMessageToWebApp('availablePurchases', availablePurchases);
   }, [availablePurchases]);
 
@@ -109,7 +117,7 @@ const App = () => {
 
   const _handleBackButtonPress = () => {
     Alert.alert(
-      'Exit Game',
+      'Exit',
       'Do you want to exit?',
       [
         {
@@ -126,16 +134,16 @@ const App = () => {
   };
 
   const onMessage = (event: any) => {
-    console.log('Message received from WebView:', event.nativeEvent.data);
+    console.info('Message received from WebView:', event.nativeEvent.data);
 
     const {action, payload} = JSON.parse(event.nativeEvent.data);
-
     switch (action) {
       case 'getProducts':
-        Alert.alert('products', JSON.stringify(products.map(p => p.title)));
+        console.info('Products', products);
         _postMessageToWebApp('products', products);
         break;
       case 'getAvailablePurchases':
+        console.info('availablePurchases', availablePurchases);
         _postMessageToWebApp('availablePurchases', availablePurchases);
         break;
       case 'purchase':
@@ -148,9 +156,18 @@ const App = () => {
     }
   };
 
+  const onLoadEnd = () => {
+    _postMessageToWebApp('ready', true);
+  };
+
   return (
     <View style={styles.container}>
-      <WebView ref={webViewRef} source={{uri: gameUrl}} onMessage={onMessage} />
+      <WebView
+        ref={webViewRef}
+        source={{uri: gameUrl}}
+        onMessage={onMessage}
+        onLoadEnd={onLoadEnd}
+      />
     </View>
   );
 };
