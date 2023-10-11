@@ -18,7 +18,6 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
 
         switch (action) {
           case "ready":
-            alert("Ready!");
             _sendMessage({ action: "getProducts" });
             _sendMessage({ action: "getAvailablePurchases" });
             break;
