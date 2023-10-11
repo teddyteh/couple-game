@@ -18,6 +18,7 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
 
         switch (action) {
           case "products":
+            alert("products " + data);
             setProducts(data);
             break;
           case "availablePurchases":
@@ -63,5 +64,6 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
 
   return {
     purchase,
+    test: () => _sendMessage({ action: "getProducts" }),
   };
 };
