@@ -56,10 +56,19 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
 
   useEffect(() => {
     if (window.ReactNativeWebView) {
+      alert("test");
       _sendMessage({ action: "getProducts" });
       _sendMessage({ action: "getAvailablePurchases" });
     }
-  }, [window]);
+  }, [window.ReactNativeWebView]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      alert("test2");
+      _sendMessage({ action: "getProducts" });
+      _sendMessage({ action: "getAvailablePurchases" });
+    }, 4000);
+  }, []);
 
   const _sendMessage = (data: { action: string; payload?: any }) =>
     window.ReactNativeWebView?.postMessage(JSON.stringify(data));
