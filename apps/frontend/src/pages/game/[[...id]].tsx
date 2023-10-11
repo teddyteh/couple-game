@@ -85,7 +85,7 @@ const Game = () => {
       <MenuComponent
         createNewGame={createNewGame}
         unsetCategorySelection={unsetCategorySelection}
-        shouldShowStore={products.length > 0}
+        shouldShowStore={!!(products && products.length > 0)}
         toggleShowStore={toggleShowStore}
         isSelectingCategory={isSelectingCategory}
         purchasedProducts={purchasedProducts}

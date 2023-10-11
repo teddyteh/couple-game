@@ -6,7 +6,8 @@ import { useAlert } from "./useAlert";
 type Payload = Pick<ReturnType<typeof useAlert>, "showAlert">;
 
 export const useMobileBridge = ({ showAlert }: Payload) => {
-  const { setProducts, setAvailablePurchases } = useContext(GameContext);
+  const { products, setProducts, availablePurchases, setAvailablePurchases } =
+    useContext(GameContext);
 
   useEffect(() => {
     const handleMessage = (event: any) => {
@@ -55,12 +56,15 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
   }, []);
 
   useEffect(() => {
+    if (products || availablePurchases) {
+      return;
+    }
+
     setTimeout(() => {
-      alert("Getting products and availablePurchases after 3 seconds...");
       _sendMessage({ action: "getProducts" });
       _sendMessage({ action: "getAvailablePurchases" });
-    }, 3000);
-  }, []);
+    }, 1500);
+  }, [products, availablePurchases]);
 
   const _sendMessage = (data: { action: string; payload?: any }) =>
     window.ReactNativeWebView?.postMessage(JSON.stringify(data));

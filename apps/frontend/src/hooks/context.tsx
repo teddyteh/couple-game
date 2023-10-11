@@ -5,11 +5,11 @@ import Peer, { DataConnection } from "peerjs";
 import { createContext, useMemo, useState } from "react";
 
 export interface GameContextType {
-  products: Product[];
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
-  availablePurchases: ProductPurchase[];
+  products: Product[] | null;
+  setProducts: React.Dispatch<React.SetStateAction<Product[] | null>>;
+  availablePurchases: ProductPurchase[] | null;
   setAvailablePurchases: React.Dispatch<
-    React.SetStateAction<ProductPurchase[]>
+    React.SetStateAction<ProductPurchase[] | null>
   >;
   isShowingStore: boolean;
   setIsShowingStore: React.Dispatch<React.SetStateAction<boolean>>;
@@ -50,9 +50,9 @@ export interface GameContextType {
 }
 
 export const GameContext = createContext<GameContextType>({
-  products: [],
+  products: null,
   setProducts: () => {},
-  availablePurchases: [],
+  availablePurchases: null,
   setAvailablePurchases: () => {},
   isShowingStore: false,
   setIsShowingStore: () => {},
@@ -93,8 +93,10 @@ export const GameContext = createContext<GameContextType>({
 });
 
 export const GameProvider = ({ children }: any) => {
-  const [products, setProducts] = useState<any[]>([]);
-  const [availablePurchases, setAvailablePurchases] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[] | null>(null);
+  const [availablePurchases, setAvailablePurchases] = useState<any[] | null>(
+    null
+  );
   const [isShowingStore, setIsShowingStore] = useState<boolean>(false);
   const [isSelectingCategory, setIsSelectingCategory] =
     useState<boolean>(false);

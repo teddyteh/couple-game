@@ -9,11 +9,11 @@ export const useStore = () => {
     setIsShowingStore((previousValue) => !previousValue);
 
   const isAvailableForPurchase = (productId: string) => {
-    if (availablePurchases.length === 0) {
+    if (availablePurchases?.length === 0) {
       return true;
     }
 
-    return !availablePurchases.some((p) => p.productId === productId);
+    return !availablePurchases?.some((p) => p.productId === productId);
   };
 
   const getButtonText = (product: Product) => {
