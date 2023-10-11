@@ -55,12 +55,12 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
   }, []);
 
   useEffect(() => {
-    if (window.ReactNativeWebView) {
+    if (typeof window !== "undefined" && window.ReactNativeWebView) {
       alert("test");
       _sendMessage({ action: "getProducts" });
       _sendMessage({ action: "getAvailablePurchases" });
     }
-  }, [window.ReactNativeWebView]);
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
