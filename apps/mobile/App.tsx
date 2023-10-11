@@ -56,10 +56,20 @@ const App = () => {
       return;
     }
 
-    console.info('Getting products and available purchases');
+    console.info('Getting products and available purchases', skus);
     getProducts({skus});
     getAvailablePurchases();
   }, [connected, skus, getProducts, getAvailablePurchases]);
+
+  useEffect(() => {
+    if (!products || !availablePurchases) {
+      return;
+    }
+
+    const storeData = {products, availablePurchases};
+    console.info('storeData', storeData);
+    _postMessageToWebApp('storeData', storeData);
+  }, [products, availablePurchases]);
 
   useEffect(() => {
     const checkCurrentPurchase = async (purchase?: Purchase): Promise<void> => {
@@ -137,37 +147,17 @@ const App = () => {
     console.info('Message received from WebView:', event.nativeEvent.data);
 
     const {action, payload} = JSON.parse(event.nativeEvent.data);
-    switch (action) {
-      case 'getProducts':
-        console.info('Products', products);
-        _postMessageToWebApp('products', products);
-        break;
-      case 'getAvailablePurchases':
-        console.info('availablePurchases', availablePurchases);
-        _postMessageToWebApp('availablePurchases', availablePurchases);
-        break;
-      case 'purchase':
-        const product = payload.product as ProductAndroid;
-        console.info('Purchasing product', product);
-        requestPurchase({skus: [product.productId]});
-        break;
-      default:
-        console.warn('Unknown action:', action);
-    }
-  };
 
-  const onLoadEnd = () => {
-    _postMessageToWebApp('ready', true);
+    if (action === 'purchase') {
+      const product = payload.product as ProductAndroid;
+      console.info('Purchasing product', product);
+      requestPurchase({skus: [product.productId]});
+    }
   };
 
   return (
     <View style={styles.container}>
-      <WebView
-        ref={webViewRef}
-        source={{uri: gameUrl}}
-        onMessage={onMessage}
-        onLoadEnd={onLoadEnd}
-      />
+      <WebView ref={webViewRef} source={{uri: gameUrl}} onMessage={onMessage} />
     </View>
   );
 };
