@@ -24,7 +24,7 @@ const Game = () => {
 
   const { toggleShowStore, toggleShowHowToPlay } = useMenu();
   const { isAvailableForPurchase, getButtonText } = useStore();
-  const { purchase, test } = useMobileBridge({ showAlert });
+  const { purchase } = useMobileBridge({ showAlert });
 
   const { resetGameState, restartGame } = useRestart();
   const {
@@ -155,10 +155,6 @@ const Game = () => {
         <Alert data={alert} />
 
         <ScreenComponent>
-          <div>
-          <button onClick={test}>Test</button>
-          </div>
-
           {renderMenuOrStore()}
           {renderShareOrJoiningScreen()}
           {renderQuestionOrResult()}

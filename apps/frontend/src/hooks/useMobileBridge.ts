@@ -17,8 +17,11 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
         console.log("Parsed:", { action, data });
 
         switch (action) {
+          case "ready":
+            _sendMessage({ action: "getProducts" });
+            _sendMessage({ action: "getAvailablePurchases" });
+            break;
           case "products":
-            alert("products " + data);
             setProducts(data);
             break;
           case "availablePurchases":
@@ -51,11 +54,6 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
     };
   }, []);
 
-  useEffect(() => {
-    _sendMessage({ action: "getProducts" });
-    _sendMessage({ action: "getAvailablePurchases" });
-  }, []);
-
   const _sendMessage = (data: { action: string; payload?: any }) =>
     window.ReactNativeWebView?.postMessage(JSON.stringify(data));
 
@@ -64,6 +62,5 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
 
   return {
     purchase,
-    test: () => _sendMessage({ action: "getProducts" }),
   };
 };
