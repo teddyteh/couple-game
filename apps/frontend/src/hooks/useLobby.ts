@@ -64,22 +64,18 @@ export const useLobby = ({
 
   const isHost = peer?.id === gameId;
 
-  const purchasedProducts = products?.filter((product) =>
-    availablePurchases?.some((p) => p.productId === product.productId)
+  const purchasedProducts = products.filter((product) =>
+    availablePurchases.some((p) => p.productId === product.productId)
   );
 
   const createNewGame = async (selectedCategory?: string) => {
-    if (
-      purchasedProducts &&
-      purchasedProducts.length > 0 &&
-      !selectedCategory
-    ) {
+    if (purchasedProducts.length > 0 && !selectedCategory) {
       setIsSelectingCategory(true);
       return;
     }
 
     const category =
-      (purchasedProducts && purchasedProducts.length === 0) || !selectedCategory
+      purchasedProducts.length === 0 || !selectedCategory
         ? "couple-compatibility"
         : selectedCategory;
     setCategory(category);

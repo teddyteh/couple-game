@@ -78,7 +78,7 @@ export const MenuComponent = ({
             </button>
           </div>
 
-          {purchasedProducts?.map((product) => (
+          {purchasedProducts.map((product) => (
             <div key={product.productId} className="button-outer">
               <button
                 className="default-button"

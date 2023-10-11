@@ -6,8 +6,7 @@ import { useAlert } from "./useAlert";
 type Payload = Pick<ReturnType<typeof useAlert>, "showAlert">;
 
 export const useMobileBridge = ({ showAlert }: Payload) => {
-  const { products, setProducts, availablePurchases, setAvailablePurchases } =
-    useContext(GameContext);
+  const { setProducts, setAvailablePurchases } = useContext(GameContext);
 
   useEffect(() => {
     const handleMessage = (event: any) => {
