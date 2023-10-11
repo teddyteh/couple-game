@@ -17,10 +17,10 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
         console.log("Parsed:", { action, data });
 
         switch (action) {
-          case "ready":
-            _sendMessage({ action: "getProducts" });
-            _sendMessage({ action: "getAvailablePurchases" });
-            break;
+          // case "ready":
+          //   _sendMessage({ action: "getProducts" });
+          //   _sendMessage({ action: "getAvailablePurchases" });
+          //   break;
           case "products":
             setProducts(data);
             break;
@@ -53,6 +53,13 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
       document.removeEventListener("message", handleMessage);
     };
   }, []);
+
+  useEffect(() => {
+    if (window.ReactNativeWebView) {
+      _sendMessage({ action: "getProducts" });
+      _sendMessage({ action: "getAvailablePurchases" });
+    }
+  }, [window]);
 
   const _sendMessage = (data: { action: string; payload?: any }) =>
     window.ReactNativeWebView?.postMessage(JSON.stringify(data));
