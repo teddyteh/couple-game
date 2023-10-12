@@ -16,6 +16,7 @@ import {gameUrl, skusUrl} from './config';
 const App = () => {
   const webViewRef = useRef<WebView>(null);
   const [skus, setSkus] = useState<string[] | null>(null);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   const {
     connected,
@@ -69,7 +70,7 @@ const App = () => {
     const storeData = {products, availablePurchases};
     console.info('storeData', storeData);
     _postMessageToWebApp('storeData', storeData);
-  }, [products, availablePurchases]);
+  }, [hasLoaded, products, availablePurchases]);
 
   useEffect(() => {
     const checkCurrentPurchase = async (purchase?: Purchase): Promise<void> => {
@@ -155,9 +156,13 @@ const App = () => {
     }
   };
 
+  const onLoadEnd = () => {
+    setHasLoaded(true)
+  }
+
   return (
     <View style={styles.container}>
-      <WebView ref={webViewRef} source={{uri: gameUrl}} onMessage={onMessage} />
+      <WebView ref={webViewRef} source={{uri: gameUrl}} onMessage={onMessage} onLoad={onLoadEnd} />
     </View>
   );
 };
