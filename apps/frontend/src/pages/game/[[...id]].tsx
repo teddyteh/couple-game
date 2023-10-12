@@ -48,6 +48,7 @@ const Game = () => {
     isSelectingCategory,
     isShowingHowToPlay,
     alert,
+    loadingText,
     gameId,
     hasCopiedShareLink,
     setHasCopiedShareLink,
@@ -61,7 +62,7 @@ const Game = () => {
   } = useContext(GameContext);
 
   const renderMenuOrStore = () => {
-    if (isGameStarted || gameId) {
+    if (loadingText || isGameStarted || gameId) {
       return;
     }
 
@@ -96,7 +97,7 @@ const Game = () => {
   };
 
   const renderShareOrJoiningScreen = () => {
-    if (isGameStarted || !gameId) {
+    if (loadingText || isGameStarted || !gameId) {
       return;
     }
 
@@ -111,11 +112,11 @@ const Game = () => {
       );
     }
 
-    return <h1>Joining the game...</h1>;
+    return <h1>Joining game...</h1>;
   };
 
   const renderQuestionOrResult = () => {
-    if (!isGameStarted) {
+    if (loadingText || !isGameStarted) {
       return;
     }
 
@@ -149,6 +150,8 @@ const Game = () => {
     );
   };
 
+  const renderLoading = () => loadingText && <h2>{loadingText}</h2>;
+
   return (
     <div className="main-container">
       <div className="wrapper">
@@ -158,6 +161,7 @@ const Game = () => {
           {renderMenuOrStore()}
           {renderShareOrJoiningScreen()}
           {renderQuestionOrResult()}
+          {renderLoading()}
         </ScreenComponent>
       </div>
     </div>

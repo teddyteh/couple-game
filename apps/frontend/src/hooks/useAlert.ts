@@ -1,6 +1,8 @@
 import { useContext, useEffect, useRef } from "react";
 import { GameContext } from "./context";
 
+const CLEAR_TIMEOUT_AFTER_MS = 1500;
+
 export const useAlert = () => {
   const { alert, setAlert } = useContext(GameContext);
   const callbackRef = useRef<(() => void) | null>(null);
@@ -14,7 +16,7 @@ export const useAlert = () => {
           callbackRef.current();
           callbackRef.current = null;
         }
-      }, 5000);
+      }, CLEAR_TIMEOUT_AFTER_MS);
     }
     return () => {
       clearTimeout(timerId);

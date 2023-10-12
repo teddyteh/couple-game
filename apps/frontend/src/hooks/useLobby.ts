@@ -13,15 +13,14 @@ type Payload = Pick<
 > &
   Pick<ReturnType<typeof useAlert>, "showAlert">;
 
-export const useLobby = ({
-  resetGameState,
-  restartGame,
-  showAlert,
-}: Payload) => {
+const CHECK_CONNECTION_AFTER_MS = 3000;
+
+export const useLobby = ({ restartGame, showAlert }: Payload) => {
   const router = useRouter();
 
   const {
     peer,
+    setLoadingText,
     gameId,
     setGameId,
     setHasCopiedShareLink,
@@ -74,6 +73,8 @@ export const useLobby = ({
       return;
     }
 
+    setLoadingText("Loading game...");
+
     const category =
       purchasedProducts.length === 0 || !selectedCategory
         ? "couple-compatibility"
@@ -84,6 +85,8 @@ export const useLobby = ({
     setQuestions(questions);
 
     peer?.id && setGameId(peer.id);
+
+    setLoadingText(null);
   };
 
   const unsetCategorySelection = () => setIsSelectingCategory(false);
@@ -115,12 +118,17 @@ export const useLobby = ({
       // Check the connection status after 5 seconds
       setTimeout(() => {
         if (!isConnected) {
-          showAlert({
-            title: "Connection Failed",
-            message: "Unable to connect.",
-          });
+          showAlert(
+            {
+              title: "Connection Failed",
+              message: "Unable to connect.",
+            },
+            () => {
+              window.location.href = "/game";
+            }
+          );
         }
-      }, 3000);
+      }, CHECK_CONNECTION_AFTER_MS);
 
       _initConnectionEvents(connection);
       setConn(connection);
@@ -139,10 +147,10 @@ export const useLobby = ({
             message: "The other player has left the game.",
           },
           () => {
-            router?.push("/game");
+            window.location.href = "/game";
           }
         );
-      }, 5000);
+      }, 3000);
     };
 
     connection.on("data", (data: any) => {

@@ -21,6 +21,8 @@ export interface GameContextType {
   setIsShowingHowToPlay: React.Dispatch<React.SetStateAction<boolean>>;
   alert: Alert | null;
   setAlert: React.Dispatch<React.SetStateAction<Alert | null>>;
+  loadingText: string | null;
+  setLoadingText: React.Dispatch<React.SetStateAction<string | null>>;
   gameId: string | null;
   setGameId: React.Dispatch<React.SetStateAction<string | null>>;
   hasCopiedShareLink: boolean;
@@ -64,6 +66,8 @@ export const GameContext = createContext<GameContextType>({
   setIsShowingHowToPlay: () => {},
   alert: null,
   setAlert: () => {},
+  loadingText: null,
+  setLoadingText: () => {},
   gameId: null,
   setGameId: () => {},
   hasCopiedShareLink: false,
@@ -100,7 +104,9 @@ export const GameProvider = ({ children }: any) => {
     useState<boolean>(false);
   const [category, setCategory] = useState<string>("couple-compatiblity");
   const [isShowingHowToPlay, setIsShowingHowToPlay] = useState<boolean>(false);
+
   const [alert, setAlert] = useState<Alert | null>(null);
+  const [loadingText, setLoadingText] = useState<string | null>(null);
 
   const [gameId, setGameId] = useState<string | null>(null);
   const [hasCopiedShareLink, setHasCopiedShareLink] = useState<boolean>(false);
@@ -134,6 +140,8 @@ export const GameProvider = ({ children }: any) => {
       setIsShowingHowToPlay,
       alert,
       setAlert,
+      loadingText,
+      setLoadingText,
       gameId,
       setGameId,
       hasCopiedShareLink,
@@ -170,6 +178,7 @@ export const GameProvider = ({ children }: any) => {
     isShowingHowToPlay,
     alert,
     gameId,
+    loadingText,
     hasCopiedShareLink,
     peer,
     conn,
