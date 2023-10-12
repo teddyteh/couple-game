@@ -1,10 +1,11 @@
 import { Question } from "@/types/question";
-import { fetchQuestionsFromURL } from "@/utils/question";
+import { fetchQuestions } from "@/utils/question";
 import { useContext } from "react";
 import { GameContext } from "./context";
 
 export const useRestart = () => {
   const {
+    setLoadingText,
     setCurrentQuestionIndex,
     setSelectedOption,
     setSelectedAnswers,
@@ -24,16 +25,25 @@ export const useRestart = () => {
     setPartnerAnswers([]);
     setIsPlayerFinished(false);
     setIsPartnerFinished(false);
-    setIsGameStarted(true);
   };
 
   const restartGame = async (questions?: Question[]) => {
-    const newQuestions = questions ?? (await fetchQuestionsFromURL(category));
+    setLoadingText("Restarting game...");
+
+    const newQuestions = questions ?? (await fetchQuestions(category));
     setQuestions(newQuestions);
 
-    conn?.send({ restart: true, questions: newQuestions });
+    conn?.send({
+      type: "restart",
+      questions: newQuestions,
+      category,
+    });
 
     resetGameState();
+
+    setLoadingText(null);
+
+    setIsGameStarted(true);
   };
 
   return {

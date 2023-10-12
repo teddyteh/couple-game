@@ -66,7 +66,7 @@ export const useGame = () => {
     let newAnswers = [...selectedAnswers];
     newAnswers[currentQuestionIndex] = answer;
     setSelectedAnswers(newAnswers);
-    if (conn) conn.send({ answers: newAnswers });
+    conn?.send({ type: "answers", answers: newAnswers });
 
     goToNextQuestion();
   };
@@ -79,7 +79,7 @@ export const useGame = () => {
     } else {
       // No more questions
       setIsPlayerFinished(true);
-      if (conn) conn.send({ finished: true });
+      conn?.send({ type: "finished", finished: true });
     }
   };
 

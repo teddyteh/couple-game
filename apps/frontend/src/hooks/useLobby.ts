@@ -1,5 +1,5 @@
 import { copyToClipboard } from "@/utils";
-import { fetchQuestionsFromURL } from "@/utils/question";
+import { fetchQuestions } from "@/utils/question";
 import { useRouter } from "next/router";
 import { DataConnection } from "peerjs";
 import { useContext, useEffect } from "react";
@@ -13,7 +13,7 @@ type Payload = Pick<
 > &
   Pick<ReturnType<typeof useAlert>, "showAlert">;
 
-const CHECK_CONNECTION_AFTER_MS = 3000;
+const TIMEOUT_MS = 3000;
 
 export const useLobby = ({ restartGame, showAlert }: Payload) => {
   const router = useRouter();
@@ -27,6 +27,7 @@ export const useLobby = ({ restartGame, showAlert }: Payload) => {
     conn,
     setConn,
     setIsSelectingCategory,
+    category,
     setCategory,
     questions,
     setQuestions,
@@ -57,7 +58,7 @@ export const useLobby = ({ restartGame, showAlert }: Payload) => {
   useEffect(() => {
     // The host sends questions to player 2
     if (isGameStarted) {
-      conn?.send({ questions });
+      conn?.send({ type: "gameStarted", questions, category });
     }
   }, [isGameStarted, conn, questions]);
 
@@ -81,7 +82,7 @@ export const useLobby = ({ restartGame, showAlert }: Payload) => {
         : selectedCategory;
     setCategory(category);
 
-    const questions = await fetchQuestionsFromURL(category);
+    const questions = await fetchQuestions(category);
     setQuestions(questions);
 
     peer?.id && setGameId(peer.id);
@@ -112,7 +113,7 @@ export const useLobby = ({ restartGame, showAlert }: Payload) => {
       const connection = peer.connect(gameId);
       connection.on("open", () => {
         isConnected = true;
-        connection.send({ connected: true });
+        connection.send({ type: "connnected", connected: true });
       });
 
       // Check the connection status after 5 seconds
@@ -128,7 +129,7 @@ export const useLobby = ({ restartGame, showAlert }: Payload) => {
             }
           );
         }
-      }, CHECK_CONNECTION_AFTER_MS);
+      }, TIMEOUT_MS);
 
       _initConnectionEvents(connection);
       setConn(connection);
@@ -150,27 +151,41 @@ export const useLobby = ({ restartGame, showAlert }: Payload) => {
             window.location.href = "/game";
           }
         );
-      }, 3000);
+      }, TIMEOUT_MS);
+    };
+
+    const messageHandlers: Record<string, (data: any) => void> = {
+      answers: (data: any) => {
+        // Whoever answers first
+        setPartnerAnswers(data.answers);
+      },
+      connnected: (data: any) => {
+        // Notify the host that player 2 has connected
+        setIsGameStarted(true);
+      },
+      finished: (data: any) => {
+        // Whoever finishes first
+        setIsPartnerFinished(true);
+      },
+      gameStarted: (data: any) => {
+        // When Player 2 joins
+        setQuestions(data.questions);
+        setCategory(data.category);
+        setIsGameStarted(true);
+      },
+
+      restart: (data: any) => {
+        // Whoever initiates the restart
+        setCategory(data.category);
+        restartGame(data.questions);
+      },
     };
 
     connection.on("data", (data: any) => {
       // Reset the timer every time data is received
       resetTimer();
 
-      if (data.connected) {
-        // Notify the host that player 2 has connected
-        setIsGameStarted(true);
-      } else if (data.restart && data.questions) {
-        restartGame(data.questions);
-      } else if (data.questions) {
-        // Player 2
-        setQuestions(data.questions);
-        setIsGameStarted(true);
-      } else if (data.finished) {
-        setIsPartnerFinished(true);
-      } else {
-        setPartnerAnswers(data.answers);
-      }
+      messageHandlers[data.type]?.(data);
     });
 
     connection.on("error", (err) => console.error("Connection error:", err));
@@ -181,7 +196,7 @@ export const useLobby = ({ restartGame, showAlert }: Payload) => {
     purchasedProducts,
     createNewGame,
     unsetCategorySelection,
-    fetchQuestionsFromURL,
+    fetchQuestions,
     getShareLink,
     copyShareLink,
   };

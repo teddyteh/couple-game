@@ -13,8 +13,9 @@ const DUMMY_QUESTIONS = [
 ];
 
 const QUESTION_COUNT = 5;
+let cachedQuestions: Question[] | null = null;
 
-export const fetchQuestionsFromURL = async (category: string) => {
+const fetchQuestionsFromUrl = async (category: string) => {
   try {
     const response = await fetch(
       `https://d101rsr8tfejfu.cloudfront.net/${category}.json`,
@@ -24,11 +25,21 @@ export const fetchQuestionsFromURL = async (category: string) => {
         cache: "no-store",
       }
     );
-    const data = <Question[]>await response.json();
-    const randomItems = getRandomItems(data, QUESTION_COUNT);
-    return randomItems;
+    const questions = <Question[]>await response.json();
+    console.info("Fetched questions", questions);
+    return questions;
   } catch (error) {
     console.error("Error fetching questions:", error);
     return DUMMY_QUESTIONS;
   }
+};
+
+export const fetchQuestions = async (category: string) => {
+  if (!cachedQuestions) {
+    const questions = await fetchQuestionsFromUrl(category);
+    cachedQuestions = questions;
+  }
+
+  const randomQuestions = getRandomItems(cachedQuestions, QUESTION_COUNT);
+  return randomQuestions;
 };
