@@ -43,7 +43,7 @@ export const MenuComponent = ({
           )}
           <div className="button-outer">
             <button className="default-button" onClick={toggleShowHowToPlay}>
-              How to play?
+              How to Play
             </button>
           </div>
         </div>

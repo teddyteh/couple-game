@@ -40,15 +40,15 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
         <h1>How to Play</h1>
       </div>
 
-      <ol>
+      <ul className="how-to-play-list">
         <li>
-          <p>Click on Create Game</p>
+          <p>1. Click on Create Game</p>
           <div className="how-to-play-step-container">
             <button className="default-button">Create Game</button>
           </div>
         </li>
         <li>
-          <p>Share the link</p>
+          <p>2. Share the link</p>
           <div className="how-to-play-step-container">
             <ShareComponent
               shareLink={randomShareLink}
@@ -59,7 +59,7 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
           </div>
         </li>
         <li>
-          <p>Play the game</p>
+          <p>3. Play the game</p>
           <div className="how-to-play-step-container bordered">
             <QuestionComponent
               questionsLength={5}
@@ -72,7 +72,7 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
           </div>
         </li>
         <li>
-          <p>Compare your answers!</p>
+          <p>4. Compare your answers!</p>
           <div className="how-to-play-step-container bordered">
             <ResultComponent
               score={result.score}
@@ -81,7 +81,7 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
             />
           </div>
         </li>
-      </ol>
+      </ul>
     </>
   );
 };
