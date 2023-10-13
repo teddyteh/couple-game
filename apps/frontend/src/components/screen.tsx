@@ -4,7 +4,7 @@ import { LogoComponent } from "./logo";
 
 export const ScreenComponent = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="screen-section">
+    <div className="screen-container">
       <div className="header">
         <LogoComponent />
       </div>

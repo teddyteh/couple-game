@@ -1,0 +1,42 @@
+.question-container {
+  .title {
+    color: #fff;
+  }
+
+  .quiz-timer-container {
+    background: #000501;
+    border-radius: 3em;
+    height: 20px;
+    margin-bottom: 50px;
+    max-width: 100%;
+    padding: 5px 6px;
+
+    .progress-bar {
+      animation: progress-bar-countdown;
+      animation-duration: 30s;
+      animation-fill-mode: forwards;
+      animation-iteration-count: infinite;
+      animation-play-state: paused;
+      animation-timing-function: linear;
+      background: linear-gradient(90deg, #ffd500, #ff5700);
+      border-radius: 3em;
+      display: inline-block;
+      height: 10px;
+      vertical-align: top;
+    }
+  }
+
+  .question {
+    font-size: 24px;
+    margin-bottom: 50px;
+  }
+}
+
+@keyframes progress-bar-countdown {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}

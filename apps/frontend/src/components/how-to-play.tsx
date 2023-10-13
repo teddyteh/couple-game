@@ -32,24 +32,24 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
   };
 
   return (
-    <>
+    <div className="how-to-play-container">
       <div className="title-bar">
         <button className="transparent-button" onClick={toggleShowHowToPlay}>
-          <i className="fas fa-arrow-left back-button"></i>
+          <i className="fas fa-arrow-left back-icon"></i>
         </button>
         <h1>How to Play</h1>
       </div>
 
-      <ul className="how-to-play-list">
+      <ul className="list">
         <li>
           <p>1. Click on Create Game</p>
-          <div className="how-to-play-step-container">
+          <div className="step">
             <button className="default-button">Create Game</button>
           </div>
         </li>
         <li>
           <p>2. Share the link</p>
-          <div className="how-to-play-step-container">
+          <div className="step">
             <ShareComponent
               shareLink={randomShareLink}
               hasCopiedShareLink
@@ -60,7 +60,7 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
         </li>
         <li>
           <p>3. Play the game</p>
-          <div className="how-to-play-step-container bordered">
+          <div className="step bordered">
             <QuestionComponent
               questionsLength={5}
               currentQuestionIndex={0}
@@ -73,7 +73,7 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
         </li>
         <li>
           <p>4. Compare your answers!</p>
-          <div className="how-to-play-step-container bordered">
+          <div className="step bordered">
             <ResultComponent
               score={result.score}
               resultDetails={result.details}
@@ -82,6 +82,6 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
           </div>
         </li>
       </ul>
-    </>
+    </div>
   );
 };

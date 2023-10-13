@@ -25,21 +25,19 @@ export const StoreComponent = ({
       </div>
 
       <div className="store-container">
-        {products?.map((product) => {
-          return (
-            <div key={product.productId} className="product">
-              <div>{product.productId}</div>
-              <div>&quot;{product.description}&quot;</div>
-              <button
-                className="purchase-button"
-                onClick={() => purchase(product)}
-                disabled={!isAvailableForPurchase(product.productId)}
-              >
-                {getButtonText(product)}
-              </button>
-            </div>
-          );
-        })}
+        {products?.map((product) => (
+          <div key={product.productId} className="product">
+            <div>{product.productId}</div>
+            <div>&quot;{product.description}&quot;</div>
+            <button
+              className="default-button purchase-button"
+              onClick={() => purchase(product)}
+              disabled={!isAvailableForPurchase(product.productId)}
+            >
+              {getButtonText(product)}
+            </button>
+          </div>
+        ))}
       </div>
     </>
   );

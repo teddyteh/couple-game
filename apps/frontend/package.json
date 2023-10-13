@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "devDependencies": {
-    "@couple-game/eslint-config": "workspace:*"
+    "@couple-game/eslint-config": "workspace:*",
+    "postcss-import": "^15.1.0",
+    "postcss-preset-env": "^9.2.0"
   },
   "dependencies": {
     "@types/node": "20.5.9",

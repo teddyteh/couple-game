@@ -1,0 +1,11 @@
+.image-wrapper {
+  max-width: 100%;
+  position: relative;
+
+  .image {
+    display: unset;
+    max-width: 75%;
+    position: relative;
+    width: 275px;
+  }
+}

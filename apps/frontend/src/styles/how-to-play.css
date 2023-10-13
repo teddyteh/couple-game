@@ -1,0 +1,19 @@
+.how-to-play-container {
+  .list {
+    list-style-type: none;
+    padding: 0;
+
+    .step {
+      margin: 0 auto;
+      padding: 10px;
+      pointer-events: none;
+      transform: scale(0.9);
+      width: 75%;
+
+      &.bordered {
+        border: 4px solid #010501;
+        border-radius: 15px;
+      }
+    }
+  }
+}

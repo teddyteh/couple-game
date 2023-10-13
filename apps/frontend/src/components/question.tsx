@@ -19,32 +19,25 @@ export const QuestionComponent = ({
   handleAnswerSelection,
 }: Payload) => {
   return (
-    <>
-      <div className="quiz-screen-step">
+    <div className="question-container">
+      <div className="title">
         Question <span>{currentQuestionIndex + 1}</span> out of{" "}
         {questionsLength}
       </div>
-      <div className="image-wrapper">
-        <img
-          className="image"
-          src="https://wapu.us/wp-content/uploads/2019/03/Friedensreiter-Couple-WCOS-540x513.png"
-          alt=""
-        />
-      </div>
       <div className="quiz-timer-container">
         <span
-          className="quiz-timer-bar"
+          className="progress-bar"
           key={currentQuestionIndex}
           style={{ animationPlayState: timeLeft !== 0 ? "running" : "paused" }}
         />
       </div>
-      <div className="quiz-question">{currentQuestion.question}</div>
+      <div className="question">{currentQuestion.question}</div>
       <div className="button-container">
         {currentQuestion.options.map((option, index) => (
           <div key={option} className="button-outer">
             <button
               id={`answer${index}`}
-              className="question-selection-button"
+              className="default-button"
               onClick={() => handleAnswerSelection(option)}
             >
               {option}
@@ -52,6 +45,6 @@ export const QuestionComponent = ({
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };

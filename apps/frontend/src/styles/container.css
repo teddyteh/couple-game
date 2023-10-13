@@ -1,0 +1,8 @@
+.main-container {
+  background: #a62a6c;
+
+  .wrapper {
+    margin: auto;
+    max-width: 800px;
+  }
+}

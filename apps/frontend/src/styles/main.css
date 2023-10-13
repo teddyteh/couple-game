@@ -1,0 +1,48 @@
+@import url(https://fonts.googleapis.com/css?family=Chewy&display=swap);
+
+@import "./audio-player.css";
+@import "./button.css";
+@import "./container.css";
+@import "./image.css";
+@import "./screen.css";
+@import "./title-bar.css";
+
+@import "./question.css";
+@import "./result.css";
+
+@import "./share.css";
+@import "./store.css";
+@import "./how-to-play.css";
+
+@tailwind utilities;
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+
+a {
+  color: #fff;
+}
+
+body {
+  color: #fff;
+  font-family: Chewy, cursive;
+  letter-spacing: 2px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  display: inline-block;
+}
+
+html,
+body {
+  overflow: hidden;
+}
+
+button:focus {
+  outline: 0;
+}

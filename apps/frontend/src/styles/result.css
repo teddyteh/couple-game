@@ -1,0 +1,19 @@
+.result-container {
+  .score {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .score-percentage {
+    font-size: 46px;
+    margin: 0 0 28px;
+  }
+
+  .question-container {
+    margin-bottom: 20px;
+
+    .label {
+      color: #ffd500;
+    }
+  }
+}
