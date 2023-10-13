@@ -20,7 +20,7 @@
       margin: 12px 0 -5px;
 
       .url-icon {
-        font-size: 18px;
+        font-size: var(--font-size-m);
         text-align: center;
         width: 50px;
       }
@@ -40,7 +40,7 @@
         border: 2px solid transparent;
         color: var(--black);
         font-family: Chewy, cursive;
-        font-size: 16px;
+        font-size: var(--font-size-s);
         height: 100%;
         letter-spacing: 2.45px;
         text-transform: uppercase;

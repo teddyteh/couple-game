@@ -18,7 +18,7 @@
   color: var(--black);
   cursor: pointer;
   font-family: Chewy, cursive;
-  font-size: 18px;
+  font-size: var(--font-size-m);
   letter-spacing: 2.45px;
   max-width: 100%;
   outline: none;
@@ -32,7 +32,7 @@
 }
 
 .purchase-button {
-  font-size: 16px;
+  font-size: var(--font-size-s);
   margin-top: 12px;
 
   &[disabled] {
@@ -48,7 +48,7 @@
   color: var(--white);
 
   .back-icon {
-    font-size: 22px;
+    font-size: var(--font-size-l);
     margin-right: 8px;
   }
 }

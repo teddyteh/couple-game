@@ -1,11 +1,11 @@
 .result-container {
   .score {
-    font-size: 18px;
+    font-size: var(--font-size-m);
     margin-bottom: 10px;
   }
 
   .score-percentage {
-    font-size: 46px;
+    font-size: var(--font-size-xxl);
     margin: 0 0 28px;
   }
 

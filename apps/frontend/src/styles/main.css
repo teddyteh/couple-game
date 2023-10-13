@@ -17,6 +17,12 @@
 @tailwind utilities;
 
 :root {
+  --font-size-x: 16px;
+  --font-size-m: 18px;
+  --font-size-l: 22px;
+  --font-size-xl: 24px;
+  --font-size-xxl: 46px;
+
   --black: #010501;
   --grey: #808080;
   --orange: #ff5700;

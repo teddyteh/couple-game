@@ -27,7 +27,7 @@
   }
 
   .question {
-    font-size: 24px;
+    font-size: var(--font-size-xl);
     margin-bottom: 50px;
   }
 }
