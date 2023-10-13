@@ -11,7 +11,7 @@
       width: 75%;
 
       &.bordered {
-        border: 4px solid #010501;
+        border: 4px solid var(--black);
         border-radius: 15px;
       }
     }

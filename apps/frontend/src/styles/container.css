@@ -1,5 +1,5 @@
 .main-container {
-  background: #a62a6c;
+  background: var(--purple);
 
   .wrapper {
     margin: auto;

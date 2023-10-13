@@ -1,10 +1,10 @@
 .question-container {
   .title {
-    color: #fff;
+    color: var(--white);
   }
 
   .quiz-timer-container {
-    background: #000501;
+    background: var(--black);
     border-radius: 3em;
     height: 20px;
     margin-bottom: 50px;
@@ -18,7 +18,7 @@
       animation-iteration-count: infinite;
       animation-play-state: paused;
       animation-timing-function: linear;
-      background: linear-gradient(90deg, #ffd500, #ff5700);
+      background: linear-gradient(90deg, var(--yellow), var(--orange));
       border-radius: 3em;
       display: inline-block;
       height: 10px;

@@ -16,6 +16,15 @@
 
 @tailwind utilities;
 
+:root {
+  --black: #010501;
+  --grey: #808080;
+  --orange: #ff5700;
+  --purple: #a62a6c;
+  --white: #fff;
+  --yellow: #ffd500;
+}
+
 *,
 :after,
 :before {
@@ -23,11 +32,11 @@
 }
 
 a {
-  color: #fff;
+  color: var(--white);
 }
 
 body {
-  color: #fff;
+  color: var(--white);
   font-family: Chewy, cursive;
   letter-spacing: 2px;
   margin: 0;
