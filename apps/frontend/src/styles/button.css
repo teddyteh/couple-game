@@ -8,37 +8,37 @@
     margin-bottom: 20px;
     max-width: 100%;
     text-align: center;
+  }
+}
 
-    .default-button {
-      background: var(--yellow);
-      border: 4px solid var(--black);
-      border-radius: 3em;
-      color: var(--black);
-      cursor: pointer;
-      font-family: Chewy, cursive;
-      font-size: 18px;
-      letter-spacing: 2.45px;
-      max-width: 100%;
-      outline: none;
-      overflow: hidden;
-      padding: 10px 8px;
-      text-overflow: ellipsis;
-      text-transform: uppercase;
-      transition: background 0.2s;
-      white-space: nowrap;
-      width: 100%;
-    }
+.default-button {
+  background: var(--yellow);
+  border: 4px solid var(--black);
+  border-radius: 3em;
+  color: var(--black);
+  cursor: pointer;
+  font-family: Chewy, cursive;
+  font-size: 18px;
+  letter-spacing: 2.45px;
+  max-width: 100%;
+  outline: none;
+  overflow: hidden;
+  padding: 10px 8px;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  transition: background 0.2s;
+  white-space: nowrap;
+  width: 100%;
+}
 
-    .purchase-button {
-      font-size: 16px;
-      margin-top: 12px;
+.purchase-button {
+  font-size: 16px;
+  margin-top: 12px;
 
-      &[disabled] {
-        border-color: var(--grey);
-        color: var(--grey);
-        cursor: default;
-      }
-    }
+  &[disabled] {
+    border-color: var(--grey);
+    color: var(--grey);
+    cursor: default;
   }
 }
 
