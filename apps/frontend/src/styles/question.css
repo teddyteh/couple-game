@@ -1,6 +1,7 @@
 .question-container {
   .title {
     color: var(--white);
+    margin-bottom: 10px;
   }
 
   .quiz-timer-container {

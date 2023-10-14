@@ -1,6 +1,7 @@
 import { GameContextType } from "@/hooks/context";
 import { useGame } from "@/hooks/useGame";
 import { Question } from "@/types/question";
+import { useEffect, useRef, useState } from "react";
 
 type Payload = {
   questionsLength: number;
@@ -18,6 +19,20 @@ export const QuestionComponent = ({
   currentQuestion,
   handleAnswerSelection,
 }: Payload) => {
+  const textRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [shouldAnimate, setShouldAnimate] = useState<(boolean | null)[]>([]);
+
+  useEffect(() => {
+    const animationStates = currentQuestion.options.map((_, index) => {
+      const currentRef = textRef.current[index];
+      return (
+        currentRef &&
+        currentRef.offsetWidth > currentRef.parentElement!.offsetWidth
+      );
+    });
+    setShouldAnimate(animationStates);
+  }, [currentQuestion]);
+
   return (
     <div className="question-container">
       <div className="title">
@@ -40,7 +55,12 @@ export const QuestionComponent = ({
               className="default-button"
               onClick={() => handleAnswerSelection(option)}
             >
-              {option}
+              <div
+                className={`text ${shouldAnimate[index] ? "scrolling" : ""}`}
+                ref={(el) => (textRef.current[index] = el)}
+              >
+                {option}
+              </div>
             </button>
           </div>
         ))}

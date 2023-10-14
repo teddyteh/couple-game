@@ -1,13 +1,29 @@
 .button-container {
   display: flex;
   flex-wrap: wrap;
-  max-width: 100%;
+  width: 100%;
 
   .button-outer {
     flex-basis: 100%;
     margin-bottom: 20px;
     max-width: 100%;
+    overflow: hidden;
     text-align: center;
+
+    .text {
+      display: inline-block;
+
+      &.scrolling {
+        /* animation properties */
+        -moz-transform: translateX(25%);
+        -webkit-transform: translateX(25%);
+        transform: translateX(25%);
+
+        -moz-animation: my-animation 10s linear infinite;
+        -webkit-animation: my-animation 10s linear infinite;
+        animation: my-animation 10s linear infinite;
+      }
+    }
   }
 }
 
@@ -24,7 +40,6 @@
   outline: none;
   overflow: hidden;
   padding: 10px 8px;
-  text-overflow: ellipsis;
   text-transform: uppercase;
   transition: background 0.2s;
   white-space: nowrap;
@@ -50,5 +65,38 @@
   .back-icon {
     font-size: var(--font-size-l);
     margin-right: 8px;
+  }
+}
+
+/* for Firefox */
+@-moz-keyframes my-animation {
+  from {
+    -moz-transform: translateX(100%);
+  }
+  to {
+    -moz-transform: translateX(-100%);
+  }
+}
+
+/* for Chrome */
+@-webkit-keyframes my-animation {
+  from {
+    -webkit-transform: translateX(100%);
+  }
+  to {
+    -webkit-transform: translateX(-100%);
+  }
+}
+
+@keyframes my-animation {
+  from {
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(25%);
+  }
+  to {
+    -moz-transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-25%);
   }
 }
