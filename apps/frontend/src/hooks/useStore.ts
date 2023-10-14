@@ -21,7 +21,7 @@ export const useStore = () => {
       return "Purchased";
     }
 
-    return `Purchase - ${product.price}`;
+    return `Purchase ${product.localizedPrice}`;
   };
 
   return {
