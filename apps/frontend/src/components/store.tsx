@@ -19,10 +19,16 @@ export const StoreComponent = ({
     <>
       <div className="title-bar">
         <button className="transparent-button" onClick={toggleShowStore}>
-          <i className="fas fa-arrow-left back-button"></i>
+          <i className="fas fa-arrow-left back-button" />
         </button>
         <h1>Store</h1>
       </div>
+
+      <p>
+        <i className="info-icon fas fa-info-circle" />
+        Once you've purchased a category pack, you'll be able to select it when
+        you create a game. Questions are refreshed daily!
+      </p>
 
       <div className="store-container">
         {products?.map((product) => (

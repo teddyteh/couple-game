@@ -6,6 +6,7 @@ type Payload = Pick<
 > & {
   shareLink: string;
   copyShareLink: () => void;
+  shouldShowStore: boolean;
 };
 
 export const ShareComponent = ({
@@ -13,6 +14,7 @@ export const ShareComponent = ({
   hasCopiedShareLink,
   setHasCopiedShareLink,
   copyShareLink,
+  shouldShowStore,
 }: Payload) => {
   return (
     <>
@@ -39,6 +41,13 @@ export const ShareComponent = ({
           </div>
         </div>
       </div>
+
+      {shouldShowStore && (
+        <p>
+          <i className="info-icon fas fa-info-circle" />
+          For more categories, purchase them at the store (app only).
+        </p>
+      )}
     </>
   );
 };

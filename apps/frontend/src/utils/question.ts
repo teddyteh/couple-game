@@ -13,7 +13,7 @@ const DUMMY_QUESTIONS = [
 ];
 
 const QUESTION_COUNT = 5;
-let cachedQuestions: Question[] | null = null;
+const cachedQuestions: { [key: string]: Question[] } = {};
 
 const fetchQuestionsFromUrl = async (category: string) => {
   try {
@@ -35,11 +35,15 @@ const fetchQuestionsFromUrl = async (category: string) => {
 };
 
 export const fetchQuestions = async (category: string) => {
-  if (!cachedQuestions) {
+  if (!cachedQuestions[category]) {
     const questions = await fetchQuestionsFromUrl(category);
-    cachedQuestions = questions;
+    cachedQuestions[category] = questions;
   }
 
-  const randomQuestions = getRandomItems(cachedQuestions, QUESTION_COUNT);
+  const randomQuestions = getRandomItems(
+    cachedQuestions[category],
+    QUESTION_COUNT
+  );
+  
   return randomQuestions;
 };

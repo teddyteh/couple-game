@@ -108,6 +108,7 @@ const Game = () => {
           hasCopiedShareLink={hasCopiedShareLink}
           setHasCopiedShareLink={setHasCopiedShareLink}
           copyShareLink={copyShareLink}
+          shouldShowStore={products.length > 0}
         />
       );
     }

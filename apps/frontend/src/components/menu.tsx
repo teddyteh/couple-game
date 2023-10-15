@@ -56,6 +56,9 @@ export const MenuComponent = ({
       return;
     }
 
+    const removeBrackets = (text: string) =>
+      text.replace(/\(.*?\)/g, "").trim();
+
     return (
       <>
         <div className="title-bar">
@@ -84,7 +87,7 @@ export const MenuComponent = ({
                 className="default-button"
                 onClick={() => createNewGame(product.productId)}
               >
-                {product.title}
+                {removeBrackets(product.title)}
               </button>
             </div>
           ))}
