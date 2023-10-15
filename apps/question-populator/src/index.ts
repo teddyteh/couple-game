@@ -4,7 +4,6 @@ import OpenAI from "openai";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
-  timeout: 5000,
 });
 const dynamoDB = new DynamoDB.DocumentClient();
 
