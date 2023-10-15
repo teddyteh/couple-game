@@ -26,8 +26,8 @@ export const StoreComponent = ({
 
       <p>
         <i className="info-icon fas fa-info-circle" />
-        Once you've purchased a category pack, you'll be able to select it when
-        you create a game. Questions are refreshed daily!
+        Once you&quot;ve purchased a category pack, you&quot;ll be able to
+        select it when you create a game. Questions are refreshed daily!
       </p>
 
       <div className="store-container">
