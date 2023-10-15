@@ -1,5 +1,6 @@
 import { useLobby } from "@/hooks/useLobby";
 import { useMenu } from "@/hooks/useMenu";
+import { TitleBar } from "./title-bar";
 
 type Payload = Pick<ReturnType<typeof useLobby>, "createNewGame"> &
   Pick<ReturnType<typeof useMenu>, "toggleShowStore" | "toggleShowHowToPlay"> &
@@ -61,15 +62,7 @@ export const MenuComponent = ({
 
     return (
       <>
-        <div className="title-bar">
-          <button
-            className="transparent-button"
-            onClick={unsetCategorySelection}
-          >
-            <i className="fas fa-arrow-left back-button"></i>
-          </button>
-          <h1>Select a category</h1>
-        </div>
+        <TitleBar onClick={unsetCategorySelection} title="Select a category" />
 
         <div className="button-container">
           <div className="button-outer">

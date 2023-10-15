@@ -2,6 +2,7 @@ import { GameContextType } from "@/hooks/context";
 import { useMenu } from "@/hooks/useMenu";
 import { useMobileBridge } from "@/hooks/useMobileBridge";
 import { useStore } from "@/hooks/useStore";
+import { TitleBar } from "./title-bar";
 
 type Payload = Pick<ReturnType<typeof useMenu>, "toggleShowStore"> &
   Pick<GameContextType, "products"> &
@@ -17,12 +18,7 @@ export const StoreComponent = ({
 }: Payload) => {
   return (
     <>
-      <div className="title-bar">
-        <button className="transparent-button" onClick={toggleShowStore}>
-          <i className="fas fa-arrow-left back-button" />
-        </button>
-        <h1>Store</h1>
-      </div>
+      <TitleBar onClick={toggleShowStore} title="Store" />
 
       <p>
         <i className="info-icon fas fa-info-circle" />

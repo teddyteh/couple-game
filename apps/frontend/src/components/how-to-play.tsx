@@ -2,6 +2,7 @@ import { useMenu } from "@/hooks/useMenu";
 import { QuestionComponent } from "./question";
 import { ResultComponent } from "./result";
 import { ShareComponent } from "./share";
+import { TitleBar } from "./title-bar";
 
 type Payload = Pick<ReturnType<typeof useMenu>, "toggleShowHowToPlay">;
 
@@ -33,12 +34,7 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
 
   return (
     <div className="how-to-play-container">
-      <div className="title-bar">
-        <button className="transparent-button" onClick={toggleShowHowToPlay}>
-          <i className="fas fa-arrow-left back-icon"></i>
-        </button>
-        <h1>How to Play</h1>
-      </div>
+      <TitleBar onClick={toggleShowHowToPlay} title="How to Play" />
 
       <ul className="list">
         <li>
