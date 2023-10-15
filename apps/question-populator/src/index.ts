@@ -28,8 +28,8 @@ export const handler = async ({ prompt }: { prompt: string }): Promise<any> => {
     }
 
     const { question, options, category } = JSON.parse(jsonInString);
-    if (!question || !options) {
-      throw new Error("No question, ptions or category found in the response");
+    if (!question || !options || !category) {
+      throw new Error("No question, options or category found in the response");
     }
 
     // Check if the question is already in the database
