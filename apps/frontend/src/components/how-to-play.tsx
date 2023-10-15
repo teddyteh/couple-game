@@ -23,13 +23,16 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
 
   const result = {
     score: { matches: 4, total: 5, percentage: "80" },
-    details: [
-      {
-        question: randomQuestion.question,
-        yourAnswer: randomQuestion.options[0],
-        partnerAnswer: randomQuestion.options[2],
-      },
-    ],
+    details: {
+      correct: [],
+      wrong: [
+        {
+          question: randomQuestion.question,
+          yourAnswer: randomQuestion.options[0],
+          partnerAnswer: randomQuestion.options[2],
+        },
+      ],
+    },
   };
 
   return (

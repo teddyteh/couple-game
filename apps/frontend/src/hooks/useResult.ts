@@ -1,6 +1,12 @@
 import { useContext } from "react";
 import { GameContext } from "./context";
 
+export interface ResultDetail {
+  question: string;
+  yourAnswer: string;
+  partnerAnswer: string;
+}
+
 export const useResult = () => {
   const { selectedAnswers, partnerAnswers, questions } =
     useContext(GameContext);
@@ -25,21 +31,34 @@ export const useResult = () => {
   };
 
   const generateResultDetails = () => {
-    let resultDetails: {
-      question: string;
-      yourAnswer: string;
-      partnerAnswer: string;
-    }[] = [];
-    selectedAnswers.forEach((answer, index) => {
-      if (answer && partnerAnswers[index] && answer !== partnerAnswers[index]) {
-        resultDetails.push({
+    return selectedAnswers.reduce<{
+      correct: ResultDetail[];
+      wrong: ResultDetail[];
+    }>(
+      (acc, answer, index) => {
+        const detail = {
           question: questions[index].question,
           yourAnswer: answer,
           partnerAnswer: partnerAnswers[index],
-        });
+        };
+
+        if (
+          answer &&
+          partnerAnswers[index] &&
+          answer !== partnerAnswers[index]
+        ) {
+          acc.wrong.push(detail);
+        } else {
+          acc.correct.push(detail);
+        }
+
+        return acc;
+      },
+      {
+        correct: [],
+        wrong: [],
       }
-    });
-    return resultDetails;
+    );
   };
 
   return {

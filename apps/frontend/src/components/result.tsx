@@ -1,5 +1,5 @@
 import { useRestart } from "../hooks/useRestart";
-import { useResult } from "../hooks/useResult";
+import { ResultDetail, useResult } from "../hooks/useResult";
 
 type Payload = {
   score: ReturnType<
@@ -16,30 +16,58 @@ export const ResultComponent = ({
   resultDetails,
   restartGame,
 }: Payload) => {
+  const renderResultDetails = (
+    resultDetails: ReturnType<
+      ReturnType<typeof useResult>["generateResultDetails"]
+    >
+  ) => {
+    if (Object.keys(resultDetails).length === 0) {
+      return;
+    }
+
+    return (
+      <>
+        {Object.keys(resultDetails.wrong).length > 0 && <p>Wrong answers:</p>}
+
+        {resultDetails.wrong.map((detail) => renderResultDetail(detail))}
+
+        {Object.keys(resultDetails.correct).length > 0 && <hr />}
+
+        {Object.keys(resultDetails.correct).length > 0 && (
+          <p>Correct answers:</p>
+        )}
+
+        {resultDetails.correct.map((detail) => renderResultDetail(detail))}
+      </>
+    );
+  };
+
+  const renderResultDetail = ({
+    question,
+    yourAnswer,
+    partnerAnswer,
+  }: ResultDetail) => (
+    <section className="question-container" key={question}>
+      <div>
+        <span className="label">Question:</span> {question}
+      </div>
+      <div>
+        <span className="label">Your Answer:</span> {yourAnswer}
+      </div>
+      <div>
+        <span className="label">Partner&apos;s Answer:</span> {partnerAnswer}
+      </div>
+    </section>
+  );
+
   return (
     <div className="result-container">
       <p className="score">
         <span>{score.matches}</span> out of <span>{score.total}</span>
       </p>
       <h1 className="score-percentage">{score.percentage}%</h1>
-      <section>
-        {Object.keys(resultDetails).length > 0 && <p>Wrong answers:</p>}
 
-        {resultDetails.map((detail) => (
-          <section className="question-container" key={detail.question}>
-            <div>
-              <span className="label">Question:</span> {detail.question}
-            </div>
-            <div>
-              <span className="label">Your Answer:</span> {detail.yourAnswer}
-            </div>
-            <div>
-              <span className="label">Partner&apos;s Answer:</span>{" "}
-              {detail.partnerAnswer}
-            </div>
-          </section>
-        ))}
-      </section>
+      <section>{renderResultDetails(resultDetails)}</section>
 
       <button className="default-button" onClick={() => restartGame()}>
         Play again
