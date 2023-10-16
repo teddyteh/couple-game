@@ -43,7 +43,7 @@ export const ShareComponent = ({
       </div>
 
       {shouldShowStore && (
-        <p>
+        <p className="small">
           <i className="info-icon fas fa-info-circle" />
           For more categories, purchase them at the store (app only).
         </p>

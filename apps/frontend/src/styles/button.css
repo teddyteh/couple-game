@@ -45,7 +45,7 @@
 
 .purchase-button {
   font-size: var(--font-size-s);
-  margin-top: 12px;
+  margin-top: 8px;
 
   &[disabled] {
     border-color: var(--grey);

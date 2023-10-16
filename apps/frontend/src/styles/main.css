@@ -18,7 +18,8 @@
 @tailwind utilities;
 
 :root {
-  --font-size-x: 16px;
+  --font-size-xs: 14px;
+  --font-size-s: 16px;
   --font-size-m: 18px;
   --font-size-l: 22px;
   --font-size-xl: 24px;
@@ -52,6 +53,18 @@ body {
 
 h1 {
   display: inline-block;
+}
+
+h2 {
+  &.compact {
+    margin: 0;
+  }
+}
+
+p {
+  &.small {
+    font-size: var(--font-size-xs);
+  }
 }
 
 html,

@@ -20,17 +20,11 @@ export const StoreComponent = ({
     <>
       <TitleBar onClick={toggleShowStore} title="Store" />
 
-      <p>
-        <i className="info-icon fas fa-info-circle" />
-        Once you&quot;ve purchased a category pack, you&quot;ll be able to
-        select it when you create a game. Questions are refreshed daily!
-      </p>
-
       <div className="store-container">
         {products?.map((product) => (
           <div key={product.productId} className="product">
-            <div>{product.productId}</div>
-            <div>&quot;{product.description}&quot;</div>
+            <h2 className="compact">{product.productId}</h2>
+            <span>&quot;{product.description}&quot;</span>
             <button
               className="default-button purchase-button"
               onClick={() => purchase(product)}
@@ -41,6 +35,12 @@ export const StoreComponent = ({
           </div>
         ))}
       </div>
+
+      <p className="small">
+        <i className="info-icon fas fa-info-circle" />
+        Once you&quot;ve purchased a category pack, you&quot;ll be able to
+        select it when you create a game. Questions are refreshed daily!
+      </p>
     </>
   );
 };
