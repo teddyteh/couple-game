@@ -31,7 +31,8 @@ export const ResultComponent = ({
 
         {resultDetails.wrong.map((detail) => renderResultDetail(detail))}
 
-        {Object.keys(resultDetails.correct).length > 0 && <hr />}
+        {(Object.keys(resultDetails.wrong).length > 0 ||
+          Object.keys(resultDetails.correct).length > 0) && <hr />}
 
         {Object.keys(resultDetails.correct).length > 0 && (
           <p>Correct answers:</p>
