@@ -2,7 +2,9 @@
   background: var(--purple);
 
   .wrapper {
+    height: 100vh;
     margin: auto;
     max-width: 800px;
+    width: 100vw;
   }
 }

@@ -1,12 +1,10 @@
 .button-container {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
 
   .button-outer {
     flex-basis: 100%;
     margin-bottom: 20px;
-    max-width: 100%;
     overflow: hidden;
     text-align: center;
 
@@ -14,7 +12,6 @@
       display: inline-block;
 
       &.scrolling {
-        /* animation properties */
         -moz-transform: translateX(25%);
         -webkit-transform: translateX(25%);
         transform: translateX(25%);
