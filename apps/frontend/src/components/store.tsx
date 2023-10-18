@@ -38,7 +38,7 @@ export const StoreComponent = ({
 
       <p className="small">
         <i className="info-icon fas fa-info-circle" />
-        Once you&quot;ve purchased a category pack, you&quot;ll be able to
+        Once you&apos;ve purchased a category pack, you&apos;ll be able to
         select it when you create a game. Questions are refreshed daily!
       </p>
     </>

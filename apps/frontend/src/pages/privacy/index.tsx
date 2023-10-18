@@ -13,7 +13,7 @@ const Privacy = () => {
           not received, collected, and used by Couple Game.
         </p>
 
-        <h2>1. Information We Don't Collect</h2>
+        <h2>1. Information We Don&apos;t Collect</h2>
         <p>
           We value your privacy and, in line with our commitment to protect your
           privacy, we do not collect any personal information when you use
@@ -23,7 +23,7 @@ const Privacy = () => {
         <h2>2. Log Files</h2>
         <p>
           As with most other apps, Couple Game does not make use of log files.
-          We don't store any data about your usage of the app, your device, or
+          We don&apos;t store any data about your usage of the app, your device, or
           any other information.
         </p>
 
@@ -36,7 +36,7 @@ const Privacy = () => {
           server companies.
         </p>
 
-        <h2>5. Children's Information</h2>
+        <h2>5. Children&apos;s Information</h2>
         <p>
           Protecting the privacy of young children is especially important to
           us. For that reason, Couple Game does not knowingly collect or
