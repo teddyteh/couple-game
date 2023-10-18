@@ -1,7 +1,18 @@
-export const copyToClipboard = async (text: string) => {
+import { useMobileBridge } from "@/hooks/useMobileBridge";
+
+export const copyToClipboard = async ({
+  shareLink,
+  sendMessage,
+}: { shareLink: string } & Pick<
+  ReturnType<typeof useMobileBridge>,
+  "sendMessage"
+>) => {
   try {
-    await navigator.clipboard.writeText(text);
+    sendMessage({ action: "copyToClipboard", payload: shareLink });
+
+    await navigator.clipboard.writeText(shareLink);
     console.info("Copying to clipboard was successful!");
+
     return true;
   } catch (error) {
     console.error("Could not copy text: ", error);

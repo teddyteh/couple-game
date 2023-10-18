@@ -5,17 +5,19 @@ import { DataConnection } from "peerjs";
 import { useContext, useEffect } from "react";
 import { GameContext } from "./context";
 import { useAlert } from "./useAlert";
+import { useMobileBridge } from "./useMobileBridge";
 import { useRestart } from "./useRestart";
 
 type Payload = Pick<
   ReturnType<typeof useRestart>,
   "resetGameState" | "restartGame"
 > &
-  Pick<ReturnType<typeof useAlert>, "showAlert">;
+  Pick<ReturnType<typeof useAlert>, "showAlert"> &
+  Pick<ReturnType<typeof useMobileBridge>, "sendMessage">;
 
 const TIMEOUT_MS = 3000;
 
-export const useLobby = ({ restartGame, showAlert }: Payload) => {
+export const useLobby = ({ restartGame, showAlert, sendMessage }: Payload) => {
   const router = useRouter();
 
   const {
@@ -95,7 +97,10 @@ export const useLobby = ({ restartGame, showAlert }: Payload) => {
   const getShareLink = () => `${window.location.origin}/game/${gameId}`;
 
   const copyShareLink = async () => {
-    const result = await copyToClipboard(getShareLink());
+    const result = await copyToClipboard({
+      shareLink: getShareLink(),
+      sendMessage,
+    });
     setHasCopiedShareLink(result);
   };
 

@@ -49,13 +49,14 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
     };
   }, []);
 
-  const _sendMessage = (data: { action: string; payload?: any }) =>
+  const sendMessage = (data: { action: string; payload?: any }) =>
     window.ReactNativeWebView?.postMessage(JSON.stringify(data));
 
   const purchase = (product: Product) =>
-    _sendMessage({ action: "purchase", payload: { product } });
+    sendMessage({ action: "purchase", payload: { product } });
 
   return {
     purchase,
+    sendMessage,
   };
 };

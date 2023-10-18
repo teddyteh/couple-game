@@ -24,7 +24,7 @@ const Game = () => {
 
   const { toggleShowStore, toggleShowHowToPlay } = useMenu();
   const { isAvailableForPurchase, getButtonText } = useStore();
-  const { purchase } = useMobileBridge({ showAlert });
+  const { purchase, sendMessage } = useMobileBridge({ showAlert });
 
   const { resetGameState, restartGame } = useRestart();
   const {
@@ -38,6 +38,7 @@ const Game = () => {
     resetGameState,
     restartGame,
     showAlert,
+    sendMessage,
   });
   const { handleAnswerSelection } = useGame();
   const { calculateCompatibilityScore, generateResultDetails } = useResult();
