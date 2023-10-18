@@ -94,9 +94,9 @@ export const useLobby = ({ restartGame, showAlert }: Payload) => {
 
   const getShareLink = () => `${window.location.origin}/game/${gameId}`;
 
-  const copyShareLink = () => {
-    copyToClipboard(getShareLink());
-    setHasCopiedShareLink(true);
+  const copyShareLink = async () => {
+    const result = await copyToClipboard(getShareLink());
+    setHasCopiedShareLink(result);
   };
 
   const _setupConnectionEvents = () => {

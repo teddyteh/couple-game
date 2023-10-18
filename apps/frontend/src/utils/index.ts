@@ -2,9 +2,12 @@ export const copyToClipboard = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
     console.info("Copying to clipboard was successful!");
+    return true;
   } catch (error) {
     console.error("Could not copy text: ", error);
   }
+
+  return false;
 };
 
 export const getRandomItems = <T>(arr: T[], n: number) => {

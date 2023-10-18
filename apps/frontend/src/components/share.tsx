@@ -1,13 +1,14 @@
 import { GameContextType } from "@/hooks/context";
+import { useLobby } from "@/hooks/useLobby";
 
 type Payload = Pick<
   GameContextType,
   "hasCopiedShareLink" | "setHasCopiedShareLink"
-> & {
-  shareLink: string;
-  copyShareLink: () => void;
-  shouldShowStore: boolean;
-};
+> &
+  Pick<ReturnType<typeof useLobby>, "copyShareLink"> & {
+    shareLink: string;
+    shouldShowStore: boolean;
+  };
 
 export const ShareComponent = ({
   shareLink,
@@ -29,13 +30,7 @@ export const ShareComponent = ({
               readOnly
               value={shareLink}
             />
-            <button
-              className="copy-button"
-              onClick={() => {
-                copyShareLink();
-                setHasCopiedShareLink(true);
-              }}
-            >
+            <button className="copy-button" onClick={() => copyShareLink()}>
               {hasCopiedShareLink ? "Copied!" : "Copy"}
             </button>
           </div>
