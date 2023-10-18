@@ -8,7 +8,13 @@ export const copyToClipboard = async ({
   "sendMessage"
 >) => {
   try {
-    sendMessage({ action: "copyToClipboard", payload: shareLink });
+    const sentMessage = sendMessage({
+      action: "copyToClipboard",
+      payload: shareLink,
+    });
+    if (sentMessage) {
+      return true;
+    }
 
     await navigator.clipboard.writeText(shareLink);
     console.info("Copying to clipboard was successful!");
