@@ -53,7 +53,7 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
               shareLink={randomShareLink}
               hasCopiedShareLink
               setHasCopiedShareLink={() => {}}
-              copyShareLink={() => {}}
+              copyShareLink={async () => {}}
               shouldShowStore={false}
             />
           </div>

@@ -41,6 +41,18 @@
   transition: background 0.2s;
   white-space: nowrap;
   width: 100%;
+
+  &.transparent {
+    background: transparent;
+    border: none;
+    color: var(--white);
+    width: unset;
+
+    .back-icon {
+      font-size: var(--font-size-l);
+      margin-right: 8px;
+    }
+  }
 }
 
 .purchase-button {
@@ -51,17 +63,6 @@
     border-color: var(--grey);
     color: var(--grey);
     cursor: default;
-  }
-}
-
-.transparent-button {
-  background: transparent;
-  border: none;
-  color: var(--white);
-
-  .back-icon {
-    font-size: var(--font-size-l);
-    margin-right: 8px;
   }
 }
 

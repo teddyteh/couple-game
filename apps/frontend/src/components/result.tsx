@@ -73,6 +73,15 @@ export const ResultComponent = ({
       <button className="default-button" onClick={() => restartGame()}>
         Play again
       </button>
+
+      <div>
+        <button
+          className="default-button transparent"
+          onClick={() => (window.location.href = "/game")}
+        >
+          Go to menu
+        </button>
+      </div>
     </div>
   );
 };
