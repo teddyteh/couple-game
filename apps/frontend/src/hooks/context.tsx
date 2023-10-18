@@ -5,191 +5,189 @@ import Peer, { DataConnection } from "peerjs";
 import { createContext, useMemo, useState } from "react";
 
 export interface GameContextType {
-  products: Product[];
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  alert: Alert | null;
   availablePurchases: ProductPurchase[];
+  category: string;
+  conn: DataConnection | null;
+  currentQuestionIndex: number;
+  gameId: string | null;
+  hasCopiedShareLink: boolean;
+  isGameStarted: boolean;
+  isPartnerFinished: boolean;
+  isPlayerFinished: boolean;
+  isSelectingCategory: boolean;
+  isShowingHowToPlay: boolean;
+  isShowingStore: boolean;
+  loadingText: string | null;
+  partnerAnswers: string[];
+  peer: Peer | null;
+  products: Product[];
+  questions: Array<Question>;
+  selectedAnswers: string[];
+  selectedOption: string | null;
+  setAlert: React.Dispatch<React.SetStateAction<Alert | null>>;
   setAvailablePurchases: React.Dispatch<
     React.SetStateAction<ProductPurchase[]>
   >;
-  isShowingStore: boolean;
-  setIsShowingStore: React.Dispatch<React.SetStateAction<boolean>>;
-  isSelectingCategory: boolean;
-  setIsSelectingCategory: React.Dispatch<React.SetStateAction<boolean>>;
-  category: string;
   setCategory: React.Dispatch<React.SetStateAction<string>>;
-  isShowingHowToPlay: boolean;
-  setIsShowingHowToPlay: React.Dispatch<React.SetStateAction<boolean>>;
-  alert: Alert | null;
-  setAlert: React.Dispatch<React.SetStateAction<Alert | null>>;
-  loadingText: string | null;
-  setLoadingText: React.Dispatch<React.SetStateAction<string | null>>;
-  gameId: string | null;
-  setGameId: React.Dispatch<React.SetStateAction<string | null>>;
-  hasCopiedShareLink: boolean;
-  setHasCopiedShareLink: React.Dispatch<React.SetStateAction<boolean>>;
-  peer: Peer | null;
-  setPeer: React.Dispatch<React.SetStateAction<Peer | null>>;
-  conn: DataConnection | null;
   setConn: React.Dispatch<React.SetStateAction<DataConnection | null>>;
-  isGameStarted: boolean;
-  setIsGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
-  questions: Array<Question>;
-  setQuestions: React.Dispatch<React.SetStateAction<Array<Question>>>;
-  currentQuestionIndex: number;
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
-  selectedOption: string | null;
-  setSelectedOption: React.Dispatch<React.SetStateAction<string | null>>;
-  selectedAnswers: string[];
-  setSelectedAnswers: React.Dispatch<React.SetStateAction<string[]>>;
-  partnerAnswers: string[];
-  setPartnerAnswers: React.Dispatch<React.SetStateAction<string[]>>;
-  isPlayerFinished: boolean;
-  setIsPlayerFinished: React.Dispatch<React.SetStateAction<boolean>>;
-  isPartnerFinished: boolean;
+  setGameId: React.Dispatch<React.SetStateAction<string | null>>;
+  setHasCopiedShareLink: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
   setIsPartnerFinished: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsPlayerFinished: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSelectingCategory: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShowingHowToPlay: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShowingStore: React.Dispatch<React.SetStateAction<boolean>>;
+  setLoadingText: React.Dispatch<React.SetStateAction<string | null>>;
+  setPartnerAnswers: React.Dispatch<React.SetStateAction<string[]>>;
+  setPeer: React.Dispatch<React.SetStateAction<Peer | null>>;
+  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  setQuestions: React.Dispatch<React.SetStateAction<Array<Question>>>;
+  setSelectedAnswers: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedOption: React.Dispatch<React.SetStateAction<string | null>>;
   timeLeft: number;
   setTimeLeft: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const GameContext = createContext<GameContextType>({
-  products: [],
-  setProducts: () => {},
-  availablePurchases: [],
-  setAvailablePurchases: () => {},
-  isShowingStore: false,
-  setIsShowingStore: () => {},
-  isSelectingCategory: false,
-  setIsSelectingCategory: () => {},
-  category: "",
-  setCategory: () => {},
-  isShowingHowToPlay: false,
-  setIsShowingHowToPlay: () => {},
   alert: null,
-  setAlert: () => {},
-  loadingText: null,
-  setLoadingText: () => {},
-  gameId: null,
-  setGameId: () => {},
-  hasCopiedShareLink: false,
-  setHasCopiedShareLink: () => {},
-  peer: null,
-  setPeer: () => {},
+  availablePurchases: [],
+  category: "",
   conn: null,
-  setConn: () => {},
-  isGameStarted: false,
-  setIsGameStarted: () => {},
-  questions: [],
-  setQuestions: () => {},
   currentQuestionIndex: 0,
-  setCurrentQuestionIndex: () => {},
-  selectedOption: null,
-  setSelectedOption: () => {},
-  selectedAnswers: [],
-  setSelectedAnswers: () => {},
-  partnerAnswers: [],
-  setPartnerAnswers: () => {},
-  isPlayerFinished: false,
-  setIsPlayerFinished: () => {},
+  gameId: null,
+  hasCopiedShareLink: false,
+  isGameStarted: false,
   isPartnerFinished: false,
+  isPlayerFinished: false,
+  isSelectingCategory: false,
+  isShowingHowToPlay: false,
+  isShowingStore: false,
+  loadingText: null,
+  partnerAnswers: [],
+  peer: null,
+  products: [],
+  questions: [],
+  selectedAnswers: [],
+  selectedOption: null,
+  setAlert: () => {},
+  setAvailablePurchases: () => {},
+  setCategory: () => {},
+  setConn: () => {},
+  setCurrentQuestionIndex: () => {},
+  setGameId: () => {},
+  setHasCopiedShareLink: () => {},
+  setIsGameStarted: () => {},
   setIsPartnerFinished: () => {},
+  setIsPlayerFinished: () => {},
+  setIsSelectingCategory: () => {},
+  setIsShowingHowToPlay: () => {},
+  setIsShowingStore: () => {},
+  setLoadingText: () => {},
+  setPartnerAnswers: () => {},
+  setPeer: () => {},
+  setProducts: () => {},
+  setQuestions: () => {},
+  setSelectedAnswers: () => {},
+  setSelectedOption: () => {},
   timeLeft: 10,
   setTimeLeft: () => {},
 });
 
 export const GameProvider = ({ children }: any) => {
-  const [products, setProducts] = useState<any[]>([]);
-  const [availablePurchases, setAvailablePurchases] = useState<any[]>([]);
-  const [isShowingStore, setIsShowingStore] = useState<boolean>(false);
-  const [isSelectingCategory, setIsSelectingCategory] =
-    useState<boolean>(false);
-  const [category, setCategory] = useState<string>("couple-compatiblity");
-  const [isShowingHowToPlay, setIsShowingHowToPlay] = useState<boolean>(false);
-
   const [alert, setAlert] = useState<Alert | null>(null);
-  const [loadingText, setLoadingText] = useState<string | null>(null);
-
+  const [availablePurchases, setAvailablePurchases] = useState<
+    ProductPurchase[]
+  >([]);
+  const [category, setCategory] = useState<string>("couple-compatiblity");
+  const [conn, setConn] = useState<DataConnection | null>(null);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [gameId, setGameId] = useState<string | null>(null);
   const [hasCopiedShareLink, setHasCopiedShareLink] = useState<boolean>(false);
-
-  const [peer, setPeer] = useState<Peer | null>(null);
-  const [conn, setConn] = useState<DataConnection | null>(null);
-
   const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
-  const [questions, setQuestions] = useState<Array<Question>>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
-  const [partnerAnswers, setPartnerAnswers] = useState<string[]>([]);
-  const [isPlayerFinished, setIsPlayerFinished] = useState<boolean>(false);
   const [isPartnerFinished, setIsPartnerFinished] = useState<boolean>(false);
-  const [timeLeft, setTimeLeft] = useState(10);
+  const [isPlayerFinished, setIsPlayerFinished] = useState<boolean>(false);
+  const [isSelectingCategory, setIsSelectingCategory] =
+    useState<boolean>(false);
+  const [isShowingHowToPlay, setIsShowingHowToPlay] = useState<boolean>(false);
+  const [isShowingStore, setIsShowingStore] = useState<boolean>(false);
+  const [loadingText, setLoadingText] = useState<string | null>(null);
+  const [partnerAnswers, setPartnerAnswers] = useState<string[]>([]);
+  const [peer, setPeer] = useState<Peer | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [timeLeft, setTimeLeft] = useState<number>(10);
 
   const value = useMemo(() => {
     return {
-      products,
-      setProducts,
-      availablePurchases,
-      setAvailablePurchases,
-      isShowingStore,
-      setIsShowingStore,
-      isSelectingCategory,
-      setIsSelectingCategory,
-      category,
-      setCategory,
-      isShowingHowToPlay,
-      setIsShowingHowToPlay,
       alert,
-      setAlert,
-      loadingText,
-      setLoadingText,
-      gameId,
-      setGameId,
-      hasCopiedShareLink,
-      setHasCopiedShareLink,
-      peer,
-      setPeer,
+      availablePurchases,
+      category,
       conn,
-      setConn,
-      isGameStarted,
-      setIsGameStarted,
-      questions,
-      setQuestions,
       currentQuestionIndex,
-      setCurrentQuestionIndex,
-      selectedOption,
-      setSelectedOption,
-      selectedAnswers,
-      setSelectedAnswers,
-      partnerAnswers,
-      setPartnerAnswers,
-      isPlayerFinished,
-      setIsPlayerFinished,
+      gameId,
+      hasCopiedShareLink,
+      isGameStarted,
       isPartnerFinished,
+      isPlayerFinished,
+      isSelectingCategory,
+      isShowingHowToPlay,
+      isShowingStore,
+      loadingText,
+      partnerAnswers,
+      peer,
+      products,
+      questions,
+      selectedAnswers,
+      selectedOption,
+      setAlert,
+      setAvailablePurchases,
+      setCategory,
+      setConn,
+      setCurrentQuestionIndex,
+      setGameId,
+      setHasCopiedShareLink,
+      setIsGameStarted,
       setIsPartnerFinished,
+      setIsPlayerFinished,
+      setIsSelectingCategory,
+      setIsShowingHowToPlay,
+      setIsShowingStore,
+      setLoadingText,
+      setPartnerAnswers,
+      setPeer,
+      setProducts,
+      setQuestions,
+      setSelectedAnswers,
+      setSelectedOption,
       timeLeft,
       setTimeLeft,
     };
   }, [
-    products,
-    availablePurchases,
-    isShowingStore,
-    isSelectingCategory,
-    category,
-    isShowingHowToPlay,
     alert,
-    gameId,
-    loadingText,
-    hasCopiedShareLink,
-    peer,
+    availablePurchases,
+    category,
     conn,
-    isGameStarted,
-    questions,
     currentQuestionIndex,
-    selectedOption,
-    selectedAnswers,
-    partnerAnswers,
-    isPlayerFinished,
+    gameId,
+    hasCopiedShareLink,
+    isGameStarted,
     isPartnerFinished,
+    isPlayerFinished,
+    isSelectingCategory,
+    isShowingHowToPlay,
+    isShowingStore,
+    loadingText,
+    partnerAnswers,
+    peer,
+    products,
+    questions,
+    selectedAnswers,
+    selectedOption,
     timeLeft,
   ]);
 
