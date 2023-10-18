@@ -28,7 +28,7 @@ export const handler = async ({ prompt }: { prompt: string }): Promise<any> => {
     }
 
     const { question, options, category } = JSON.parse(jsonInString);
-    if (!question || !options || !category) {
+    if (!question || !options || options.length === 0 || !category) {
       throw new Error("No question, options or category found in the response");
     }
 
