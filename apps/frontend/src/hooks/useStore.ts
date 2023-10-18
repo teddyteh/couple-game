@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { GameContext } from "./context";
 
 export const useStore = () => {
-  const { setIsShowingStore, availablePurchases } = useContext(GameContext);
+  const { availablePurchases, setIsShowingStore } = useContext(GameContext);
 
   const toggleShowStore = () =>
     setIsShowingStore((previousValue) => !previousValue);

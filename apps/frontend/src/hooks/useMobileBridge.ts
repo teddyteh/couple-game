@@ -6,7 +6,7 @@ import { useAlert } from "./useAlert";
 type Payload = Pick<ReturnType<typeof useAlert>, "showAlert">;
 
 export const useMobileBridge = ({ showAlert }: Payload) => {
-  const { setProducts, setAvailablePurchases } = useContext(GameContext);
+  const { setAvailablePurchases, setProducts } = useContext(GameContext);
 
   useEffect(() => {
     const handleMessage = (event: any) => {
@@ -56,7 +56,7 @@ export const useMobileBridge = ({ showAlert }: Payload) => {
     }
 
     webview.postMessage(JSON.stringify(data));
-    
+
     return true;
   };
 

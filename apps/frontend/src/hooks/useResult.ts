@@ -8,7 +8,7 @@ export interface ResultDetail {
 }
 
 export const useResult = () => {
-  const { selectedAnswers, partnerAnswers, questions } =
+  const { partnerAnswers, questions, selectedAnswers } =
     useContext(GameContext);
 
   const _calculateResults = () => {

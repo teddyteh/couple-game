@@ -44,21 +44,21 @@ const Game = () => {
   const { calculateCompatibilityScore, generateResultDetails } = useResult();
 
   const {
-    products,
-    isShowingStore,
-    isSelectingCategory,
-    isShowingHowToPlay,
     alert,
-    loadingText,
+    currentQuestionIndex,
     gameId,
     hasCopiedShareLink,
-    setHasCopiedShareLink,
     isGameStarted,
-    isPlayerFinished,
     isPartnerFinished,
+    isPlayerFinished,
+    isSelectingCategory,
+    isShowingHowToPlay,
+    isShowingStore,
+    loadingText,
+    products,
     questions,
-    currentQuestionIndex,
     selectedOption,
+    setHasCopiedShareLink,
     timeLeft,
   } = useContext(GameContext);
 

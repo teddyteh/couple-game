@@ -4,19 +4,19 @@ import { GameContext } from "./context";
 export const useGame = () => {
   const {
     conn,
-    questions,
     currentQuestionIndex,
-    setCurrentQuestionIndex,
-    selectedAnswers,
-    setSelectedAnswers,
     isGameStarted,
     isPlayerFinished,
-    setIsPlayerFinished,
+    questions,
+    selectedAnswers,
     selectedOption,
+    setCurrentQuestionIndex,
+    setSelectedAnswers,
     setSelectedOption,
+    setIsPlayerFinished,
     timeLeft,
     setTimeLeft,
-  } = useContext(GameContext);
+} = useContext(GameContext);
 
   useEffect(() => {
     if (!isGameStarted || isPlayerFinished) {

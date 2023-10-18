@@ -5,18 +5,18 @@ import { GameContext } from "./context";
 
 export const useRestart = () => {
   const {
-    setLoadingText,
-    setCurrentQuestionIndex,
-    setSelectedOption,
-    setSelectedAnswers,
-    setPartnerAnswers,
-    setIsPlayerFinished,
-    setIsPartnerFinished,
-    setIsGameStarted,
-    setQuestions,
     category,
     conn,
-  } = useContext(GameContext);
+    setCurrentQuestionIndex,
+    setIsGameStarted,
+    setIsPartnerFinished,
+    setIsPlayerFinished,
+    setLoadingText,
+    setPartnerAnswers,
+    setQuestions,
+    setSelectedAnswers,
+    setSelectedOption,
+} = useContext(GameContext);
 
   const resetGameState = () => {
     setCurrentQuestionIndex(0);

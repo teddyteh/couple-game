@@ -21,25 +21,25 @@ export const useLobby = ({ restartGame, showAlert, sendMessage }: Payload) => {
   const router = useRouter();
 
   const {
-    peer,
-    setLoadingText,
+    availablePurchases,
+    category,
+    conn,
     gameId,
+    isGameStarted,
+    peer,
+    products,
+    questions,
+    setCategory,
+    setConn,
     setGameId,
     setHasCopiedShareLink,
-    conn,
-    setConn,
-    setIsSelectingCategory,
-    category,
-    setCategory,
-    questions,
-    setQuestions,
-    products,
-    availablePurchases,
-    isGameStarted,
     setIsGameStarted,
     setIsPartnerFinished,
+    setIsSelectingCategory,
     setPartnerAnswers,
-  } = useContext(GameContext);
+    setQuestions,
+    setLoadingText,
+} = useContext(GameContext);
   const { id } = router?.query ?? {};
 
   useEffect(() => {
