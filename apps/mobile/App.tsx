@@ -1,3 +1,4 @@
+import Clipboard from '@react-native-clipboard/clipboard';
 import axios from 'axios';
 import React, {useEffect, useRef, useState} from 'react';
 import {Alert, BackHandler, StyleSheet, View} from 'react-native';
@@ -144,6 +145,8 @@ const App = () => {
     return true;
   };
 
+  const _copyToClipboard = (text: string) => Clipboard.setString(text);
+  
   const onMessage = (event: any) => {
     console.info('Message received from WebView:', event.nativeEvent.data);
 
@@ -153,16 +156,26 @@ const App = () => {
       const product = payload.product as ProductAndroid;
       console.info('Purchasing product', product);
       requestPurchase({skus: [product.productId]});
+      return;
+    }
+
+    if (action === 'copyToClipboard') {
+      _copyToClipboard(payload);
     }
   };
 
   const onLoadEnd = () => {
-    setHasLoaded(true)
-  }
+    setHasLoaded(true);
+  };
 
   return (
     <View style={styles.container}>
-      <WebView ref={webViewRef} source={{uri: gameUrl}} onMessage={onMessage} onLoad={onLoadEnd} />
+      <WebView
+        ref={webViewRef}
+        source={{uri: gameUrl}}
+        onMessage={onMessage}
+        onLoad={onLoadEnd}
+      />
     </View>
   );
 };

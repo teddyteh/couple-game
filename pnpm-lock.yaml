@@ -78,6 +78,9 @@ importers:
 
   apps/mobile:
     dependencies:
+      '@react-native-clipboard/clipboard':
+        specifier: ^1.12.1
+        version: 1.12.1(react-native@0.72.4)(react@18.2.0)
       axios:
         specifier: ^1.5.0
         version: 1.5.0
@@ -2898,6 +2901,16 @@ packages:
   /@one-ini/wasm@0.1.1:
     resolution: {integrity: sha512-XuySG1E38YScSJoMlqovLru4KTUNSjgVTIjyh7qMX6aNN5HY5Ct5LhRJdxO79JtTzKfzV/bnWpz+zquYrISsvw==}
     dev: true
+
+  /@react-native-clipboard/clipboard@1.12.1(react-native@0.72.4)(react@18.2.0):
+    resolution: {integrity: sha512-+PNk8kflpGte0W1Nz61/Dp8gHTxyuRjkVyRYBawymSIGTDHCC/zOJSbig6kGIkD8MeaGHC2vGYQJyUyCrgVPBQ==}
+    peerDependencies:
+      react: '>=16.0'
+      react-native: '>=0.57.0'
+    dependencies:
+      react: 18.2.0
+      react-native: 0.72.4(@babel/core@7.20.2)(@babel/preset-env@7.20.2)(react@18.2.0)
+    dev: false
 
   /@react-native-community/cli-clean@11.3.6:
     resolution: {integrity: sha512-jOOaeG5ebSXTHweq1NznVJVAFKtTFWL4lWgUXl845bCGX7t1lL8xQNWHKwT8Oh1pGR2CI3cKmRjY4hBg+pEI9g==}
