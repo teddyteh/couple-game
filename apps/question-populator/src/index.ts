@@ -2,13 +2,18 @@ import "dotenv/config";
 import { DynamoDB } from "aws-sdk";
 import OpenAI from "openai";
 
+const { OPENAI_API_KEY, OPENAI_PROMPT, AWS_DYNAMODB_TABLE_NAME } = process.env;
+if (!OPENAI_API_KEY || !OPENAI_PROMPT || !AWS_DYNAMODB_TABLE_NAME) {
+  throw new Error("Missing env variables");
+}
+
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: OPENAI_API_KEY,
 });
 const dynamoDB = new DynamoDB.DocumentClient();
 
-const defaultOpenaiPrompt = process.env.OPENAI_PROMPT; // 1 couple compatibility question with 4 selections. JSON:{question:'',options:[],category:''}
-const tableName = process.env.AWS_DYNAMODB_TABLE_NAME!;
+const defaultOpenaiPrompt = OPENAI_PROMPT;
+const tableName = AWS_DYNAMODB_TABLE_NAME;
 
 export const handler = async ({ prompt }: { prompt: string }): Promise<any> => {
   try {

@@ -1,11 +1,16 @@
-import "dotenv/config";
 import { DynamoDB, S3 } from "aws-sdk";
+import "dotenv/config";
+
+const { AWS_DYNAMODB_TABLE_NAME, AWS_S3_QUESTIONS_BUCKET_NAME } = process.env;
+if (!AWS_DYNAMODB_TABLE_NAME || !AWS_S3_QUESTIONS_BUCKET_NAME) {
+  throw new Error("Missing env variables");
+}
 
 const dynamoDB = new DynamoDB.DocumentClient();
 const s3 = new S3();
 
-const tableName = process.env.AWS_DYNAMODB_TABLE_NAME!;
-const bucketName = process.env.AWS_S3_QUESTIONS_BUCKET_NAME!;
+const tableName = AWS_DYNAMODB_TABLE_NAME;
+const bucketName = AWS_S3_QUESTIONS_BUCKET_NAME;
 
 export const handler = async (event: any): Promise<any> => {
   try {

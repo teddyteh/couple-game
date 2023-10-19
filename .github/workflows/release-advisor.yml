@@ -1,0 +1,52 @@
+name: "Release Adviser to Lambda"
+
+on:
+  push:
+    tags:
+      - "@couple-game/adviser-v*"
+
+jobs:
+  deploy-s3:
+    runs-on: ubuntu-latest
+    outputs:
+      s3_key: ${{ steps.s3.outputs.s3_key }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT }}
+
+      - name: Package and Upload to S3
+        id: s3
+        uses: ./.github/template/s3
+        with:
+          app_path_name: adviser
+          package_name: "@couple-game/adviser"
+          s3_bucket_name: ${{ secrets.AWS_LAMBDA_REPOSITORY_BUCKET_NAME }}
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+
+  deploy-lambda:
+    runs-on: ubuntu-latest
+    needs: deploy-s3
+    environment:
+      name: "production"
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT }}
+
+      - name: Deploy to Lambda
+        uses: ./.github/template/lambda
+        with:
+          lambda_function_name: adviser
+          s3_bucket_name: ${{ secrets.AWS_LAMBDA_REPOSITORY_BUCKET_NAME }}
+          s3_key: ${{ needs.deploy-s3.outputs.s3_key }}
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          lambda_environment_variables: PUSHER_APP_ID=${{ secrets.PUSHER_APP_ID }},PUSHER_KEY=${{ secrets.PUSHER_KEY }},PUSHER_SECRET=${{ secrets.PUSHER_SECRET }},PUSHER_CLUSTER=${{ secrets.PUSHER_CLUSTER }},OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
