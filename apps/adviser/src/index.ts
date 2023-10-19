@@ -31,15 +31,19 @@ const pusher = new Pusher({
   useTLS: true,
 });
 
-export const handler = async ({
-  channelId,
-  answers,
-}: {
-  channelId: string;
-  answers: { question: string; player1Answer: string; player2Answer: string }[];
-}): Promise<any> => {
+/*
+ * Invoked via the API Gateway
+ */
+export const handler = async (event: any): Promise<any> => {
   try {
-    console.info("Constructing OpenAI prompt...");
+    const { channelId, answers } = JSON.parse(event.body) as {
+      channelId: string;
+      answers: {
+        question: string;
+        player1Answer: string;
+        player2Answer: string;
+      }[];
+    };
 
     const answersList = answers.map(
       (ans) =>
