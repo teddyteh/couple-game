@@ -9,7 +9,7 @@ const bucketName = process.env.AWS_S3_QUESTIONS_BUCKET_NAME!;
 
 export const handler = async (event: any): Promise<any> => {
   try {
-    const { Items } = await dynamoDB.scan({ TableName: tableName, Limit: 50 }).promise();
+    const { Items } = await dynamoDB.scan({ TableName: tableName }).promise();
     if (!Items || Items.length === 0) {
       console.warn("No data found in DynamoDB");
       return;
@@ -22,6 +22,8 @@ export const handler = async (event: any): Promise<any> => {
       acc[category].push(item);
       return acc;
     }, {});
+
+    console.info("Categories", Object.keys(itemsByCategory));
 
     // Process each category and upload to S3
     for (const category in itemsByCategory) {
