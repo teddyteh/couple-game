@@ -47,18 +47,17 @@ export const handler = async (event: any): Promise<any> => {
 
     const answersList = answers.map(
       (ans) =>
-        `Q: ${ans.question} | P1: ${ans.player1Answer} | P2: ${ans.player2Answer}`
+        `Q:${ans.question}|P1:${ans.player1Answer}|P2:${ans.player2Answer}`
     );
-    const promptContent = `Couple's answers: ${answersList.join(
-      ", "
+    const prompt = `Couple answers:${answersList.join(
+      ","
     )}. Assess compatibility and suggestions.`;
-
-    console.info("Calling OpenAI with prompt:", promptContent);
+    console.info("Calling OpenAI with prompt:", prompt);
 
     const response = await openai.chat.completions.create({
-      messages: [{ role: "user", content: promptContent }],
+      messages: [{ role: "user", content: prompt }],
       model: "gpt-3.5-turbo",
-      max_tokens: 100,
+      max_tokens: 250,
     });
     console.info("Response", response);
 
