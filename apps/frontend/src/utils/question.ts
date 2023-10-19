@@ -13,7 +13,9 @@ const DUMMY_QUESTIONS = [
 ];
 
 const QUESTION_COUNT = 5;
+const HISTORY_COUNT = 10;
 const cachedQuestions: { [key: string]: Question[] } = {};
+const history: { [key: string]: Question[] } = {};
 
 const fetchQuestionsFromUrl = async (category: string) => {
   try {
@@ -40,10 +42,30 @@ export const fetchQuestions = async (category: string) => {
     cachedQuestions[category] = questions;
   }
 
-  const randomQuestions = getRandomItems(
-    cachedQuestions[category],
-    QUESTION_COUNT
+  const availableQuestions = cachedQuestions[category].filter(
+    (q) => !history[category]?.includes(q)
   );
-  
+
+  // If there are not enough available questions, reset the history for this category
+  if (availableQuestions.length < QUESTION_COUNT) {
+    delete history[category]; // or set it to an empty array: history[category] = [];
+
+    // Fetch from the entire pool again
+    return getRandomItems(cachedQuestions[category], QUESTION_COUNT);
+  }
+
+  const randomQuestions = getRandomItems(availableQuestions, QUESTION_COUNT);
+
+  // Update the history
+  if (!history[category]) {
+    history[category] = [];
+  }
+
+  // Add the new random questions to the beginning of the history array
+  history[category] = [...randomQuestions, ...history[category]].slice(
+    0,
+    HISTORY_COUNT
+  );
+
   return randomQuestions;
 };
