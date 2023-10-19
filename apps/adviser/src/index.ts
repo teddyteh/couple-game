@@ -31,50 +31,45 @@ const pusher = new Pusher({
   useTLS: true,
 });
 
-interface PlayerAnswers {
-  [question: string]: string;
-}
-
 export const handler = async ({
   channelId,
-  player1Answers,
-  player2Answers,
+  answers,
 }: {
   channelId: string;
-  player1Answers: PlayerAnswers;
-  player2Answers: PlayerAnswers;
+  answers: { question: string; player1Answer: string; player2Answer: string }[];
 }): Promise<any> => {
   try {
     console.info("Constructing OpenAI prompt...");
 
-    let answersList = [];
-    for (const question in player1Answers) {
-      answersList.push(
-        `Q: ${question} | P1: ${player1Answers[question]} | P2: ${player2Answers[question]}`
-      );
-    }
+    const answersList = answers.map(
+      (ans) =>
+        `Q: ${ans.question} | P1: ${ans.player1Answer} | P2: ${ans.player2Answer}`
+    );
     const promptContent = `Couple's answers: ${answersList.join(
       ", "
     )}. Assess compatibility and suggestions.`;
 
     console.info("Calling OpenAI with prompt:", promptContent);
 
-    const response = await openai.chat.completions.create({
-      messages: [{ role: "user", content: promptContent }],
-      model: "gpt-3.5-turbo",
-      max_tokens: 100,
-    });
-    console.info("Response", response);
+    openai.chat.completions
+      .create({
+        messages: [{ role: "user", content: promptContent }],
+        model: "gpt-3.5-turbo",
+        max_tokens: 100,
+      })
+      .then((response) => {
+        console.info("Response", response);
 
-    const compatibilityAdvice = response.choices[0].message.content?.trim();
-    console.info("Compatibility Advice", compatibilityAdvice);
-    if (!compatibilityAdvice) {
-      throw new Error("Unexpected response");
-    }
+        const advice = response.choices[0].message.content?.trim();
+        console.info("Advice", advice);
+        if (!advice) {
+          throw new Error("Unexpected response");
+        }
 
-    pusher.trigger(channelId, "compatibility-result", {
-      message: compatibilityAdvice,
-    });
+        pusher.trigger(channelId, "advice", {
+          advice,
+        });
+      });
 
     return {
       statusCode: 200,
