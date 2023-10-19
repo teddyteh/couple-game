@@ -55,25 +55,22 @@ export const handler = async (event: any): Promise<any> => {
 
     console.info("Calling OpenAI with prompt:", promptContent);
 
-    openai.chat.completions
-      .create({
-        messages: [{ role: "user", content: promptContent }],
-        model: "gpt-3.5-turbo",
-        max_tokens: 100,
-      })
-      .then((response) => {
-        console.info("Response", response);
+    const response = await openai.chat.completions.create({
+      messages: [{ role: "user", content: promptContent }],
+      model: "gpt-3.5-turbo",
+      max_tokens: 100,
+    });
+    console.info("Response", response);
 
-        const advice = response.choices[0].message.content?.trim();
-        console.info("Advice", advice);
-        if (!advice) {
-          throw new Error("Unexpected response");
-        }
+    const advice = response.choices[0].message.content?.trim();
+    console.info("Advice", advice);
+    if (!advice) {
+      throw new Error("Unexpected response");
+    }
 
-        pusher.trigger(channelId, "advice", {
-          advice,
-        });
-      });
+    pusher.trigger(channelId, "advice", {
+      advice,
+    });
 
     return {
       statusCode: 200,
