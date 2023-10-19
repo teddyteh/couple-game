@@ -45,13 +45,16 @@ export const handler = async (event: any): Promise<any> => {
       }[];
     };
 
-    const answersList = answers.map(
-      (ans) =>
-        `Q:${ans.question}|P1:${ans.player1Answer}|P2:${ans.player2Answer}`
-    );
-    const prompt = `Couple answers:${answersList.join(
+    const answersList = answers.map((ans) => {
+      if (ans.player1Answer === ans.player2Answer) {
+        return `Q:${ans.question}|A:${ans.player1Answer}`;
+      } else {
+        return `Q:${ans.question}|1:${ans.player1Answer}|2:${ans.player2Answer}`;
+      }
+    });
+    const prompt = `${answersList.join(
       ","
-    )}. Assess compatibility and suggestions.`;
+    )}.Assess couple compatibility & suggestions.`;
     console.info("Calling OpenAI with prompt:", prompt);
 
     const response = await openai.chat.completions.create({
