@@ -7,5 +7,9 @@
     max-width: 75%;
     position: relative;
     width: 275px;
+
+    &.small {
+      max-width: 50%;
+    }
   }
 }

@@ -1,9 +1,13 @@
 import { AudioPlayerComponent } from "./audio-player";
 
-export const FooterComponent = () => {
+type Payload = {
+  small: boolean;
+};
+
+export const FooterComponent = ({ small }: Payload) => {
   return (
-    <footer>
-      <div className="audio-player-container">
+    <footer className={`footer ${small && "small"}`}>
+      <div className={`audio-player-container ${small && "small"}`}>
         <AudioPlayerComponent />
       </div>
       <div>

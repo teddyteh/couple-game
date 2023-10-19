@@ -159,7 +159,7 @@ const Game = () => {
       <div className="wrapper">
         <Alert data={alert} />
 
-        <ScreenComponent>
+        <ScreenComponent small={isGameStarted}>
           {renderMenuOrStore()}
           {renderShareOrJoiningScreen()}
           {renderQuestionOrResult()}

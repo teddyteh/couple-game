@@ -1,7 +1,13 @@
-export const ImageComponent = ({ src, alt }: { src: string; alt: string }) => {
+type Payload = {
+  src: string;
+  alt: string;
+  small: boolean;
+};
+
+export const ImageComponent = ({ src, alt, small }: Payload) => {
   return (
     <div className="image-wrapper">
-      <img className="image" src={src} alt={alt} />
+      <img className={`image ${small && "small"}`} src={src} alt={alt} />
     </div>
   );
 };

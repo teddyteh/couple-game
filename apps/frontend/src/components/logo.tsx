@@ -1,5 +1,15 @@
 import { ImageComponent } from "./image";
 
-export const LogoComponent = () => {
-  return <ImageComponent src="/logo-color.svg" alt="Couple Trivia Logo" />;
+type Payload = {
+  small: boolean;
+};
+
+export const LogoComponent = ({ small }: Payload) => {
+  return (
+    <ImageComponent
+      src="/logo-color.svg"
+      alt="Couple Trivia Logo"
+      small={small}
+    />
+  );
 };

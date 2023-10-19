@@ -24,5 +24,9 @@
 
   .footer {
     padding: 10px 20px;
+
+    &.small {
+      padding: 5px 10px;
+    }
   }
 }
