@@ -1,3 +1,4 @@
+import { getAdviceFromUrl } from "@/utils/advice";
 import { useContext } from "react";
 import { GameContext } from "./context";
 
@@ -8,8 +9,13 @@ export interface ResultDetail {
 }
 
 export const useResult = () => {
-  const { partnerAnswers, questions, selectedAnswers } =
-    useContext(GameContext);
+  const {
+    partnerAnswers,
+    questions,
+    selectedAnswers,
+    setAdvice,
+    setLoadingText,
+  } = useContext(GameContext);
 
   const _calculateResults = () => {
     let matchCount = 0;
@@ -61,8 +67,25 @@ export const useResult = () => {
     );
   };
 
+  const getAdvice = async () => {
+    setLoadingText("Getting advice...");
+
+    const answers = questions.map((questionItem, index) => {
+      return {
+        question: questionItem.question,
+        player1Answer: selectedAnswers[index],
+        player2Answer: partnerAnswers[index],
+      };
+    });
+    const advice = await getAdviceFromUrl({ answers });
+
+    setAdvice(advice);
+    setLoadingText(null);
+  };
+
   return {
     calculateCompatibilityScore,
     generateResultDetails,
+    getAdvice,
   };
 };

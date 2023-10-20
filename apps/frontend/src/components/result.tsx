@@ -1,5 +1,7 @@
+import { GameContextType } from "@/hooks/context";
 import { useRestart } from "../hooks/useRestart";
 import { ResultDetail, useResult } from "../hooks/useResult";
+import { AdviceComponent } from "./advice";
 
 type Payload = {
   score: ReturnType<
@@ -8,13 +10,16 @@ type Payload = {
   resultDetails: ReturnType<
     ReturnType<typeof useResult>["generateResultDetails"]
   >;
-  restartGame: ReturnType<typeof useRestart>["restartGame"];
-};
+  advice: GameContextType["advice"];
+} & Pick<ReturnType<typeof useRestart>, "restartGame"> &
+  Pick<ReturnType<typeof useResult>, "getAdvice">;
 
 export const ResultComponent = ({
   score,
   resultDetails,
   restartGame,
+  getAdvice,
+  advice,
 }: Payload) => {
   const renderResultDetails = (
     resultDetails: ReturnType<
@@ -68,19 +73,31 @@ export const ResultComponent = ({
       </p>
       <h1 className="score-percentage">{score.percentage}%</h1>
 
+      {advice && <AdviceComponent advice={advice} />}
+
       <section>{renderResultDetails(resultDetails)}</section>
 
-      <button className="default-button" onClick={() => restartGame()}>
-        Play again
-      </button>
+      <div className="button-container">
+        <div className="button-outer">
+          <button className="default-button" onClick={() => restartGame()}>
+            Play again
+          </button>
 
-      <div>
-        <button
-          className="default-button transparent"
-          onClick={() => (window.location.href = "/game")}
-        >
-          Go to menu
-        </button>
+          <button
+            className="default-button transparent"
+            onClick={() => (window.location.href = "/game")}
+          >
+            Go to menu
+          </button>
+        </div>
+
+        {!advice && (
+          <div className="button-outer">
+            <button className="default-button" onClick={getAdvice}>
+              Get advice!
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -19,6 +19,26 @@ import { useStore } from "@/hooks/useStore";
 import { useContext } from "react";
 
 const Game = () => {
+  const {
+    advice,
+    alert,
+    currentQuestionIndex,
+    gameId,
+    hasCopiedShareLink,
+    isGameStarted,
+    isPartnerFinished,
+    isPlayerFinished,
+    isSelectingCategory,
+    isShowingHowToPlay,
+    isShowingStore,
+    loadingText,
+    products,
+    questions,
+    selectedOption,
+    setHasCopiedShareLink,
+    timeLeft,
+  } = useContext(GameContext);
+
   useInitialization();
   const { showAlert } = useAlert();
 
@@ -41,26 +61,8 @@ const Game = () => {
     sendMessage,
   });
   const { handleAnswerSelection } = useGame();
-  const { calculateCompatibilityScore, generateResultDetails } = useResult();
-
-  const {
-    alert,
-    currentQuestionIndex,
-    gameId,
-    hasCopiedShareLink,
-    isGameStarted,
-    isPartnerFinished,
-    isPlayerFinished,
-    isSelectingCategory,
-    isShowingHowToPlay,
-    isShowingStore,
-    loadingText,
-    products,
-    questions,
-    selectedOption,
-    setHasCopiedShareLink,
-    timeLeft,
-  } = useContext(GameContext);
+  const { calculateCompatibilityScore, generateResultDetails, getAdvice } =
+    useResult();
 
   const renderMenuOrStore = () => {
     if (loadingText || isGameStarted || gameId) {
@@ -137,11 +139,15 @@ const Game = () => {
 
     if (isPartnerFinished) {
       return (
-        <ResultComponent
-          score={calculateCompatibilityScore()}
-          resultDetails={generateResultDetails()}
-          restartGame={restartGame}
-        />
+        <>
+          <ResultComponent
+            score={calculateCompatibilityScore()}
+            resultDetails={generateResultDetails()}
+            restartGame={restartGame}
+            getAdvice={getAdvice}
+            advice={advice}
+          />
+        </>
       );
     }
 

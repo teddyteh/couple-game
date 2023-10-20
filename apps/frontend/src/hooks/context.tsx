@@ -5,6 +5,7 @@ import Peer, { DataConnection } from "peerjs";
 import { createContext, useMemo, useState } from "react";
 
 export interface GameContextType {
+  advice: string | null;
   alert: Alert | null;
   availablePurchases: ProductPurchase[];
   category: string;
@@ -25,6 +26,7 @@ export interface GameContextType {
   questions: Array<Question>;
   selectedAnswers: string[];
   selectedOption: string | null;
+  setAdvice: React.Dispatch<React.SetStateAction<string | null>>;
   setAlert: React.Dispatch<React.SetStateAction<Alert | null>>;
   setAvailablePurchases: React.Dispatch<
     React.SetStateAction<ProductPurchase[]>
@@ -52,6 +54,7 @@ export interface GameContextType {
 }
 
 export const GameContext = createContext<GameContextType>({
+  advice: null,
   alert: null,
   availablePurchases: [],
   category: "",
@@ -72,6 +75,7 @@ export const GameContext = createContext<GameContextType>({
   questions: [],
   selectedAnswers: [],
   selectedOption: null,
+  setAdvice: () => {},
   setAlert: () => {},
   setAvailablePurchases: () => {},
   setCategory: () => {},
@@ -97,6 +101,7 @@ export const GameContext = createContext<GameContextType>({
 });
 
 export const GameProvider = ({ children }: any) => {
+  const [advice, setAdvice] = useState<string | null>(null);
   const [alert, setAlert] = useState<Alert | null>(null);
   const [availablePurchases, setAvailablePurchases] = useState<
     ProductPurchase[]
@@ -124,6 +129,7 @@ export const GameProvider = ({ children }: any) => {
 
   const value = useMemo(() => {
     return {
+      advice,
       alert,
       availablePurchases,
       category,
@@ -144,6 +150,7 @@ export const GameProvider = ({ children }: any) => {
       questions,
       selectedAnswers,
       selectedOption,
+      setAdvice,
       setAlert,
       setAvailablePurchases,
       setCategory,
@@ -168,6 +175,7 @@ export const GameProvider = ({ children }: any) => {
       setTimeLeft,
     };
   }, [
+    advice,
     alert,
     availablePurchases,
     category,
