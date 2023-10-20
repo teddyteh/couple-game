@@ -1,5 +1,5 @@
-import "dotenv/config";
 import { DynamoDB } from "aws-sdk";
+import "dotenv/config";
 import OpenAI from "openai";
 
 const { OPENAI_API_KEY, OPENAI_PROMPT, AWS_DYNAMODB_TABLE_NAME } = process.env;
@@ -17,16 +17,15 @@ const tableName = AWS_DYNAMODB_TABLE_NAME;
 
 export const handler = async ({ prompt }: { prompt: string }): Promise<any> => {
   try {
-    console.info("Calling OpenAI...");
-
-    const response = await openai.chat.completions.create({
-      messages: [{ role: "user", content: prompt ?? defaultOpenaiPrompt }],
-      model: "gpt-3.5-turbo",
-      max_tokens: 100, // Important to limit the time the model takes to return a response
+    console.time("OpenAI call");
+    const response = await openai.completions.create({
+      prompt: prompt ?? defaultOpenaiPrompt,
+      model: "text-davinci-003",
+      max_tokens: 100,
     });
-    console.info("Response", response);
+    console.timeEnd("OpenAI call");
 
-    const jsonInString = response.choices[0].message.content?.trim();
+    const jsonInString = response.choices[0].text.trim();
     console.info("jsonInString", jsonInString);
     if (!jsonInString) {
       throw new Error("Unexpected response");

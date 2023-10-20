@@ -32,9 +32,6 @@ importers:
       openai:
         specifier: ^4.4.0
         version: 4.4.0
-      pusher:
-        specifier: ^5.1.3
-        version: 5.1.3
     devDependencies:
       '@couple-game/eslint-config':
         specifier: workspace:*
@@ -246,43 +243,6 @@ importers:
       openai:
         specifier: ^4.4.0
         version: 4.4.0
-    devDependencies:
-      '@couple-game/eslint-config':
-        specifier: workspace:*
-        version: link:../../packages/eslint-config-couple-game
-      '@couple-game/tsconfig':
-        specifier: workspace:*
-        version: link:../../packages/tsconfig
-      '@types/aws-sdk':
-        specifier: ^2.7.0
-        version: 2.7.0
-      '@types/node':
-        specifier: ^20.5.9
-        version: 20.5.9
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
-      tsup:
-        specifier: ^7.2.0
-        version: 7.2.0(typescript@4.8.4)
-      typescript:
-        specifier: ^4.5.3
-        version: 4.8.4
-
-  apps/report:
-    dependencies:
-      aws-sdk:
-        specifier: ^2.1450.0
-        version: 2.1450.0
-      dotenv:
-        specifier: ^16.3.1
-        version: 16.3.1
-      openai:
-        specifier: ^4.4.0
-        version: 4.4.0
-      pusher:
-        specifier: ^5.1.3
-        version: 5.1.3
     devDependencies:
       '@couple-game/eslint-config':
         specifier: workspace:*
@@ -6454,11 +6414,6 @@ packages:
     dependencies:
       has-tostringtag: 1.0.0
 
-  /is-base64@1.1.0:
-    resolution: {integrity: sha512-Nlhg7Z2dVC4/PTvIFkgVVNvPHSO2eR/Yd0XzhGiXCXEvWnptXlXa/clQ8aePPiMuxEGcWfzWbGw2Fe3d+Y3v1g==}
-    hasBin: true
-    dev: false
-
   /is-bigint@1.0.4:
     resolution: {integrity: sha512-zB9CruMamjym81i2JZ3UMn54PKGsQzsJeo6xvN3HJJ4CAsQNB6iRutp2To77OfCNuoxspsIhzaPoO1zyCEhFOg==}
     dependencies:
@@ -9178,20 +9133,6 @@ packages:
       tweetnacl: 1.0.3
     dev: false
 
-  /pusher@5.1.3:
-    resolution: {integrity: sha512-Bmy5guFxQsbYSFLF3CM7GA2qE1zDJYn51PnNme9QlSjGguvkqUg4nj31PbgiLVDFK2sJvxPfx4JrB2HLgM3kaw==}
-    engines: {node: '>= 4.0.0'}
-    dependencies:
-      '@types/node-fetch': 2.6.4
-      abort-controller: 3.0.0
-      is-base64: 1.1.0
-      node-fetch: 2.7.0
-      tweetnacl: 1.0.3
-      tweetnacl-util: 0.15.1
-    transitivePeerDependencies:
-      - encoding
-    dev: false
-
   /querystring@0.2.0:
     resolution: {integrity: sha512-X/xY82scca2tau62i9mDyU9K+I+djTMUsvwf7xnUX5GLvVzgJybOJf4Y6o9Zx3oJK/LSXg5tTZBjwzqVPaPO2g==}
     engines: {node: '>=0.4.x'}
@@ -10396,10 +10337,6 @@ packages:
       turbo-windows-64: 1.9.3
       turbo-windows-arm64: 1.9.3
     dev: true
-
-  /tweetnacl-util@0.15.1:
-    resolution: {integrity: sha512-RKJBIj8lySrShN4w6i/BonWp2Z/uxwC3h4y7xsRrpP59ZboCd0GpEVsOnMDYLMmKBpYhb5TgHzZXy7wTfYFBRw==}
-    dev: false
 
   /tweetnacl@1.0.3:
     resolution: {integrity: sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==}

@@ -1,21 +1,8 @@
 import "dotenv/config";
 import OpenAI from "openai";
-import Pusher from "pusher";
 
-const {
-  PUSHER_APP_ID,
-  PUSHER_KEY,
-  PUSHER_SECRET,
-  PUSHER_CLUSTER,
-  OPENAI_API_KEY,
-} = process.env;
-if (
-  !PUSHER_APP_ID ||
-  !PUSHER_KEY ||
-  !PUSHER_SECRET ||
-  !PUSHER_CLUSTER ||
-  !OPENAI_API_KEY
-) {
+const { OPENAI_API_KEY } = process.env;
+if (!OPENAI_API_KEY) {
   throw new Error("Missing env variables");
 }
 
@@ -23,21 +10,18 @@ const openai = new OpenAI({
   apiKey: OPENAI_API_KEY,
 });
 
-const pusher = new Pusher({
-  appId: PUSHER_APP_ID,
-  key: PUSHER_KEY,
-  secret: PUSHER_SECRET,
-  cluster: PUSHER_CLUSTER,
-  useTLS: true,
-});
-
 /*
- * Invoked via the API Gateway
+ * Invoked via API Gateway
  */
-export const handler = async (event: any): Promise<any> => {
+export const handler = async ({
+  body,
+  max_tokens = 300,
+}: {
+  body: string;
+  max_tokens: number;
+}): Promise<any> => {
   try {
-    const { channelId, answers } = JSON.parse(event.body) as {
-      channelId: string;
+    const { answers } = JSON.parse(body) as {
       answers: {
         question: string;
         player1Answer: string;
@@ -54,25 +38,22 @@ export const handler = async (event: any): Promise<any> => {
     });
     const prompt = `${answersList.join(
       ","
-    )}.Assess couple compatibility & suggestions.`;
-    console.info("Calling OpenAI with prompt:", prompt);
+    )}.Assess couple compatibility & suggestions on how to improve the relationship.`;
+    console.info("Prompt", prompt);
 
-    const response = await openai.chat.completions.create({
-      messages: [{ role: "user", content: prompt }],
-      model: "gpt-3.5-turbo",
-      max_tokens: 500,
+    console.time("OpenAI call");
+    const response = await openai.completions.create({
+      prompt,
+      model: "text-davinci-003",
+      max_tokens,
     });
-    console.info("Response", response);
+    console.timeEnd("OpenAI call");
 
-    const advice = response.choices[0].message.content?.trim();
+    const advice = response.choices[0].text.trim();
     console.info("Advice", advice);
     if (!advice) {
       throw new Error("Unexpected response");
     }
-
-    pusher.trigger(channelId, "advice", {
-      advice,
-    });
 
     return {
       statusCode: 200,
@@ -86,3 +67,8 @@ export const handler = async (event: any): Promise<any> => {
     };
   }
 };
+
+// Local testing
+// handler({
+//   body: '{"channelId":"d0a83bdb-6880-42aa-b1c4-0c78e7b00c58","answers":[{"question":"Which of the following best describes your preferred method of resolving conflicts in a relationship?","player1Answer":"Open and direct communication","player2Answer":"Open and direct communication"},{"question":"Are you and your partner good at resolving conflicts?","player1Answer":"Yes, we always find a way to communicate and compromise","player2Answer":"Yes, we always find a way to communicate and compromise"},{"question":"What type of activities do you enjoy doing together?","player1Answer":"Outdoor adventures","player2Answer":"Outdoor adventures"},{"question":"Can you both communicate openly and honestly?","player1Answer":"Yes","player2Answer":"Yes"},{"question":"Are you and your partner aligned in your long-term goals and visions for the future?","player1Answer":"Yes","player2Answer":"Yes"}]}'
+// });
