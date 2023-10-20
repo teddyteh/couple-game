@@ -60,7 +60,7 @@ export const handler = async (event: any): Promise<any> => {
     const response = await openai.chat.completions.create({
       messages: [{ role: "user", content: prompt }],
       model: "gpt-3.5-turbo",
-      max_tokens: 250,
+      max_tokens: 500,
     });
     console.info("Response", response);
 
@@ -76,7 +76,7 @@ export const handler = async (event: any): Promise<any> => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify("Success"),
+      body: { advice },
     };
   } catch (error) {
     console.error(error);
