@@ -2,7 +2,8 @@ import { DynamoDB } from "aws-sdk";
 import "dotenv/config";
 import OpenAI from "openai";
 
-const { OPENAI_API_KEY, OPENAI_PROMPT, AWS_DYNAMODB_TABLE_NAME } = process.env;
+const { ENV, OPENAI_API_KEY, OPENAI_PROMPT, AWS_DYNAMODB_TABLE_NAME } =
+  process.env;
 if (!OPENAI_API_KEY || !OPENAI_PROMPT || !AWS_DYNAMODB_TABLE_NAME) {
   throw new Error("Missing env variables");
 }
@@ -15,11 +16,17 @@ const dynamoDB = new DynamoDB.DocumentClient();
 const defaultOpenaiPrompt = OPENAI_PROMPT;
 const tableName = AWS_DYNAMODB_TABLE_NAME;
 
-export const handler = async ({ prompt }: { prompt: string }): Promise<any> => {
+export const handler = async ({
+  prompt = defaultOpenaiPrompt,
+}: {
+  prompt: string;
+}): Promise<any> => {
   try {
+    console.info("Prompt", prompt);
+
     console.time("OpenAI call");
     const response = await openai.completions.create({
-      prompt: prompt ?? defaultOpenaiPrompt,
+      prompt,
       model: "text-davinci-003",
       max_tokens: 100,
     });
@@ -27,13 +34,14 @@ export const handler = async ({ prompt }: { prompt: string }): Promise<any> => {
 
     const jsonInString = response.choices[0].text.trim();
     console.info("jsonInString", jsonInString);
-    if (!jsonInString) {
-      throw new Error("Unexpected response");
-    }
 
     const { question, options, category } = JSON.parse(jsonInString);
     if (!question || !options || options.length === 0 || !category) {
       throw new Error("No question, options or category found in the response");
+    }
+
+    if (ENV === "development") {
+      return;
     }
 
     // Check if the question is already in the database
@@ -76,4 +84,7 @@ export const handler = async ({ prompt }: { prompt: string }): Promise<any> => {
 };
 
 // Local testing
-// handler({});
+// handler({
+//   prompt:
+//     "1 couple compatiblity question with 4 selections.Stringified JSON:{'question':'','options':[],'category':'couple-compatiblity'}",
+// });
