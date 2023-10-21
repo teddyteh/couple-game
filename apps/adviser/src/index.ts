@@ -38,17 +38,18 @@ export const handler = async ({
     });
     const prompt = `${answersList.join(
       ","
-    )}.Assess couple compatibility & suggestions on how to improve the relationship.`;
+    )}.Assess couple compatibility & 3 advice.Output JSON:{'shortSummary':'','advice':[]}`;
     console.info("Prompt", prompt);
 
     console.time("OpenAI call");
     const response = await openai.completions.create({
       prompt,
-      model: "text-davinci-003",
+      model: "gpt-3.5-turbo-instruct",
       max_tokens,
     });
     console.timeEnd("OpenAI call");
 
+    console.info("response", response);
     const advice = response.choices[0].text.trim();
     console.info("Advice", advice);
     if (!advice) {
@@ -67,6 +68,7 @@ export const handler = async ({
 };
 
 // Local testing
-// handler({
-//   body: '{"channelId":"d0a83bdb-6880-42aa-b1c4-0c78e7b00c58","answers":[{"question":"Which of the following best describes your preferred method of resolving conflicts in a relationship?","player1Answer":"Open and direct communication","player2Answer":"Open and direct communication"},{"question":"Are you and your partner good at resolving conflicts?","player1Answer":"Yes, we always find a way to communicate and compromise","player2Answer":"Yes, we always find a way to communicate and compromise"},{"question":"What type of activities do you enjoy doing together?","player1Answer":"Outdoor adventures","player2Answer":"Outdoor adventures"},{"question":"Can you both communicate openly and honestly?","player1Answer":"Yes","player2Answer":"Yes"},{"question":"Are you and your partner aligned in your long-term goals and visions for the future?","player1Answer":"Yes","player2Answer":"Yes"}]}'
-// });
+handler({
+  body: '{"channelId":"d0a83bdb-6880-42aa-b1c4-0c78e7b00c58","answers":[{"question":"Which of the following best describes your preferred method of resolving conflicts in a relationship?","player1Answer":"Open and direct communication","player2Answer":"Open and direct communication"},{"question":"Are you and your partner good at resolving conflicts?","player1Answer":"Yes, we always find a way to communicate and compromise","player2Answer":"Yes, we always find a way to communicate and compromise"},{"question":"What type of activities do you enjoy doing together?","player1Answer":"Outdoor adventures","player2Answer":"Outdoor adventures"},{"question":"Can you both communicate openly and honestly?","player1Answer":"Yes","player2Answer":"Yes"},{"question":"Are you and your partner aligned in your long-term goals and visions for the future?","player1Answer":"Yes","player2Answer":"Yes"}]}',
+  max_tokens: 300,
+});

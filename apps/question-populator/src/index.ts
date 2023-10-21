@@ -27,7 +27,7 @@ export const handler = async ({
     console.time("OpenAI call");
     const response = await openai.completions.create({
       prompt,
-      model: "text-davinci-003",
+      model: "gpt-3.5-turbo-instruct",
       max_tokens: 100,
     });
     console.timeEnd("OpenAI call");
@@ -84,7 +84,7 @@ export const handler = async ({
 };
 
 // Local testing
-// handler({
-//   prompt:
-//     "1 couple compatiblity question with 4 selections.Stringified JSON:{'question':'','options':[],'category':'couple-compatiblity'}",
-// });
+handler({
+  prompt:
+    '1 couple compatiblity question with 4 selections.Stringified output JSON:{"question":"","options":[],"category":"couple-compatiblity"}',
+});
