@@ -75,9 +75,20 @@ export const HowToPlayComponent = ({ toggleShowHowToPlay }: Payload) => {
           <p>4. Compare your answers!</p>
           <div className="step bordered">
             <ResultComponent
-              score={result.score}
+              advice={{
+                shortSummary:
+                  "Overall, you and your partner seem to have a strong compatibility based on effective communication and problem-solving skills. However, it may be beneficial to focus on nurturing your emotional connection and ensuring that you both are on the same page when it comes to future goals.",
+                suggestions: [
+                  "1. Make time for regular check-ins to discuss your relationship, including both strengths and areas for improvement.",
+                  "2. Try incorporating new activities or hobbies into your routine to keep things fresh and exciting.",
+                  "3. It may also be helpful to discuss and set clear goals and expectations for your future as a couple.",
+                ],
+              }}
+              enableAdviser={false}
+              getAdvice={async () => {}}
               resultDetails={result.details}
               restartGame={async () => {}}
+              score={result.score}
             />
           </div>
         </li>

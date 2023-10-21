@@ -4,14 +4,14 @@ import { ResultDetail, useResult } from "../hooks/useResult";
 import { AdviceComponent } from "./advice";
 
 type Payload = {
-  score: ReturnType<
-    ReturnType<typeof useResult>["calculateCompatibilityScore"]
-  >;
+  advice: GameContextType["advice"];
+  enableAdviser: boolean;
   resultDetails: ReturnType<
     ReturnType<typeof useResult>["generateResultDetails"]
   >;
-  advice: GameContextType["advice"];
-  enableAdviser: boolean;
+  score: ReturnType<
+    ReturnType<typeof useResult>["calculateCompatibilityScore"]
+  >;
 } & Pick<ReturnType<typeof useRestart>, "restartGame"> &
   Pick<ReturnType<typeof useResult>, "getAdvice">;
 

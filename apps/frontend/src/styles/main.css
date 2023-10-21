@@ -67,6 +67,12 @@ p {
   }
 }
 
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
 html,
 body {
   overflow: hidden;
