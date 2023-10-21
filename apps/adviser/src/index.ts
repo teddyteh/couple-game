@@ -38,7 +38,7 @@ export const handler = async ({
     });
     const prompt = `${answersList.join(
       ","
-    )}.Assess couple compatibility & 3 advice.Output JSON:{'shortSummary':'','advice':[]}`;
+    )}.Assess couple compatibility & 3 suggestions.Output format:{"shortSummary":"","suggestions":[]}`;
     console.info("Prompt", prompt);
 
     console.time("OpenAI call");
@@ -49,16 +49,18 @@ export const handler = async ({
     });
     console.timeEnd("OpenAI call");
 
-    console.info("response", response);
-    const advice = response.choices[0].text.trim();
-    console.info("Advice", advice);
-    if (!advice) {
+    const jsonInString = response.choices[0].text.trim();
+    console.info("jsonInString", jsonInString);
+    if (!jsonInString) {
       throw new Error("Unexpected response");
     }
 
-    return {
-      advice,
-    };
+    const parsedAdvice = JSON.parse(jsonInString);
+    if (!parsedAdvice?.shortSummary || !parsedAdvice?.suggestions) {
+      throw new Error("Unexpected response");
+    }
+
+    return parsedAdvice;
   } catch (error) {
     console.error(error);
     return {

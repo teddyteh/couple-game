@@ -34,6 +34,9 @@ export const handler = async ({
 
     const jsonInString = response.choices[0].text.trim();
     console.info("jsonInString", jsonInString);
+    if (!jsonInString) {
+      throw new Error("Unexpected response");
+    }
 
     const { question, options, category } = JSON.parse(jsonInString);
     if (!question || !options || options.length === 0 || !category) {
@@ -84,7 +87,7 @@ export const handler = async ({
 };
 
 // Local testing
-handler({
-  prompt:
-    '1 couple compatiblity question with 4 selections.Stringified output JSON:{"question":"","options":[],"category":"couple-compatiblity"}',
-});
+// handler({
+//   prompt:
+//     '1 couple compatiblity question with 4 selections.Output format:{"question":"","options":[],"category":"couple-compatiblity"}',
+// });
