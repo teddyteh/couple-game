@@ -16,9 +16,11 @@ const openai = new OpenAI({
 export const handler = async ({
   body,
   max_tokens = 300,
+  promptInstructions = 'Assess couple compatibility in second person & 3 suggestions.Output format:{"shortSummary":"","suggestions":["","",""]}',
 }: {
   body: string;
   max_tokens: number;
+  promptInstructions: string;
 }): Promise<any> => {
   try {
     const { answers } = JSON.parse(body) as {
@@ -36,9 +38,7 @@ export const handler = async ({
         return `Q:${ans.question}|1:${ans.player1Answer}|2:${ans.player2Answer}`;
       }
     });
-    const prompt = `${answersList.join(
-      ","
-    )}.Assess couple compatibility & 3 suggestions.Output format:{"shortSummary":"","suggestions":[]}`;
+    const prompt = `${answersList.join(",")}.${promptInstructions}`;
     console.info("Prompt", prompt);
 
     console.time("OpenAI call");
@@ -73,4 +73,6 @@ export const handler = async ({
 // handler({
 //   body: '{"channelId":"d0a83bdb-6880-42aa-b1c4-0c78e7b00c58","answers":[{"question":"Which of the following best describes your preferred method of resolving conflicts in a relationship?","player1Answer":"Open and direct communication","player2Answer":"Open and direct communication"},{"question":"Are you and your partner good at resolving conflicts?","player1Answer":"Yes, we always find a way to communicate and compromise","player2Answer":"Yes, we always find a way to communicate and compromise"},{"question":"What type of activities do you enjoy doing together?","player1Answer":"Outdoor adventures","player2Answer":"Outdoor adventures"},{"question":"Can you both communicate openly and honestly?","player1Answer":"Yes","player2Answer":"Yes"},{"question":"Are you and your partner aligned in your long-term goals and visions for the future?","player1Answer":"Yes","player2Answer":"Yes"}]}',
 //   max_tokens: 300,
+//   promptInstructions:
+//     'Assess couple compatibility in second person & 3 suggestions.Output format:{"shortSummary":"","suggestions":["","",""]}',
 // });
