@@ -29,6 +29,7 @@ export const useLobby = ({ restartGame, showAlert, sendMessage }: Payload) => {
     peer,
     products,
     questions,
+    setAdvice,
     setCategory,
     setConn,
     setGameId,
@@ -39,7 +40,7 @@ export const useLobby = ({ restartGame, showAlert, sendMessage }: Payload) => {
     setPartnerAnswers,
     setQuestions,
     setLoadingText,
-} = useContext(GameContext);
+  } = useContext(GameContext);
   const { id } = router?.query ?? {};
 
   useEffect(() => {
@@ -160,6 +161,10 @@ export const useLobby = ({ restartGame, showAlert, sendMessage }: Payload) => {
     };
 
     const messageHandlers: Record<string, (data: any) => void> = {
+      advice: (data: any) => {
+        // The host sends advice to player 2
+        setAdvice(data.advice);
+      },
       answers: (data: any) => {
         // Whoever answers first
         setPartnerAnswers(data.answers);
@@ -173,12 +178,11 @@ export const useLobby = ({ restartGame, showAlert, sendMessage }: Payload) => {
         setIsPartnerFinished(true);
       },
       gameStarted: (data: any) => {
-        // When Player 2 joins
+        // When player 2 joins
         setQuestions(data.questions);
         setCategory(data.category);
         setIsGameStarted(true);
       },
-
       restart: (data: any) => {
         // Whoever initiates the restart
         setCategory(data.category);

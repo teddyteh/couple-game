@@ -11,6 +11,7 @@ export interface ResultDetail {
 
 export const useResult = () => {
   const {
+    conn,
     partnerAnswers,
     questions,
     selectedAnswers,
@@ -84,8 +85,11 @@ export const useResult = () => {
     });
     const advice = await fetchAdvice({ answers });
 
-    setAdvice(advice);
-    advice && setAdviceFetchCount(adviceFetchCount + 1);
+    if (advice) {
+      setAdvice(advice);
+      setAdviceFetchCount(adviceFetchCount + 1);
+      conn?.send({ type: "advice", advice });
+    }
     setLoadingText(null);
   };
 

@@ -13,14 +13,13 @@ export const AdviceComponent = ({
 
   return (
     <>
+      <p>Advice:</p>
       <h4>{shortSummary}</h4>
-
       <ul>
         {suggestions.map((suggestion) => (
           <li key={suggestion}>{suggestion}</li>
         ))}
       </ul>
-
       <hr />
     </>
   );
