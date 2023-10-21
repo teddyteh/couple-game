@@ -5,5 +5,23 @@ export const AdviceComponent = ({
 }: {
   advice: GameContextType["advice"];
 }) => {
-  return <p>{advice}</p>;
+  if (!advice) {
+    return null;
+  }
+
+  const { shortSummary, suggestions } = advice;
+
+  return (
+    <>
+      <h4>{shortSummary}</h4>
+
+      <ul>
+        {suggestions.map((suggestion) => (
+          <li key={suggestion}>{suggestion}</li>
+        ))}
+      </ul>
+
+      <hr />
+    </>
+  );
 };

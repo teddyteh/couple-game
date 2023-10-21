@@ -1,6 +1,7 @@
-import { getAdviceFromUrl } from "@/utils/advice";
+import { fetchAdvice } from "@/utils/advice";
 import { useContext } from "react";
 import { GameContext } from "./context";
+import { useSessionStorage } from "./useSessionStorage";
 
 export interface ResultDetail {
   question: string;
@@ -16,6 +17,10 @@ export const useResult = () => {
     setAdvice,
     setLoadingText,
   } = useContext(GameContext);
+  const [adviceFetchCount, setAdviceFetchCount] = useSessionStorage(
+    "adviceFetchCount",
+    0
+  );
 
   const _calculateResults = () => {
     let matchCount = 0;
@@ -77,9 +82,10 @@ export const useResult = () => {
         player2Answer: partnerAnswers[index],
       };
     });
-    const advice = await getAdviceFromUrl({ answers });
+    const advice = await fetchAdvice({ answers });
 
     setAdvice(advice);
+    advice && setAdviceFetchCount(adviceFetchCount + 1);
     setLoadingText(null);
   };
 

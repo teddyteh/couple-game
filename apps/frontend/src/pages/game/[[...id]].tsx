@@ -15,8 +15,12 @@ import { useMenu } from "@/hooks/useMenu";
 import { useMobileBridge } from "@/hooks/useMobileBridge";
 import { useRestart } from "@/hooks/useRestart";
 import { useResult } from "@/hooks/useResult";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { useStore } from "@/hooks/useStore";
 import { useContext } from "react";
+import { SKUS } from "../api/skus";
+
+const MAX_FREE_ADVICE_FETCH_COUNT = 3;
 
 const Game = () => {
   const {
@@ -44,7 +48,8 @@ const Game = () => {
 
   const { toggleShowStore, toggleShowHowToPlay } = useMenu();
   const { isAvailableForPurchase, getButtonText } = useStore();
-  const { purchase, sendMessage } = useMobileBridge({ showAlert });
+  const [adviceFetchCount] = useSessionStorage("adviceFetchCount", 0);
+  const { purchase, sendMessage, inApp } = useMobileBridge({ showAlert });
 
   const { resetGameState, restartGame } = useRestart();
   const {
@@ -89,7 +94,7 @@ const Game = () => {
       <MenuComponent
         createNewGame={createNewGame}
         unsetCategorySelection={unsetCategorySelection}
-        shouldShowStore={products.length > 0}
+        shouldShowStore={inApp}
         toggleShowStore={toggleShowStore}
         isSelectingCategory={isSelectingCategory}
         purchasedProducts={purchasedProducts}
@@ -138,6 +143,18 @@ const Game = () => {
     }
 
     if (isPartnerFinished) {
+      const shouldEnableAdviser = () => {
+        if (!isHost) {
+          return false;
+        }
+
+        if (inApp) {
+          return !isAvailableForPurchase(SKUS.the_adviser);
+        }
+
+        return adviceFetchCount < MAX_FREE_ADVICE_FETCH_COUNT;
+      };
+
       return (
         <>
           <ResultComponent
@@ -146,6 +163,7 @@ const Game = () => {
             restartGame={restartGame}
             getAdvice={getAdvice}
             advice={advice}
+            enableAdviser={shouldEnableAdviser()}
           />
         </>
       );

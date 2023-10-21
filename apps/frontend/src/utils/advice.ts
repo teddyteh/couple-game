@@ -1,4 +1,9 @@
-export const getAdviceFromUrl = async (payload: {
+import { Advice } from "@/types/advice";
+
+const isAdvice = (payload: any): payload is Advice =>
+  payload.shortSummary && payload.suggestions;
+
+export const fetchAdvice = async (payload: {
   answers: {
     player1Answer: string;
     player2Answer: string;
@@ -6,6 +11,7 @@ export const getAdviceFromUrl = async (payload: {
 }) => {
   try {
     console.info("payload", payload);
+
     const response = await fetch(
       "https://zr3k3wtzb0.execute-api.us-east-1.amazonaws.com",
       {
@@ -15,8 +21,13 @@ export const getAdviceFromUrl = async (payload: {
         cache: "no-store",
       }
     );
-    const { advice } = <{ advice: string }>await response.json();
+
+    const advice = <Advice>await response.json();
     console.info("advice", advice);
+    if (!isAdvice(advice)) {
+      throw new Error("Not quite an advice...");
+    }
+
     return advice;
   } catch (error) {
     console.error("Error getting advice:", error);

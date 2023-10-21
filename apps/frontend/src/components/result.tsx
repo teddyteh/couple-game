@@ -11,15 +11,17 @@ type Payload = {
     ReturnType<typeof useResult>["generateResultDetails"]
   >;
   advice: GameContextType["advice"];
+  enableAdviser: boolean;
 } & Pick<ReturnType<typeof useRestart>, "restartGame"> &
   Pick<ReturnType<typeof useResult>, "getAdvice">;
 
 export const ResultComponent = ({
-  score,
+  advice,
+  enableAdviser,
+  getAdvice,
   resultDetails,
   restartGame,
-  getAdvice,
-  advice,
+  score,
 }: Payload) => {
   const renderResultDetails = (
     resultDetails: ReturnType<
@@ -78,6 +80,14 @@ export const ResultComponent = ({
       <section>{renderResultDetails(resultDetails)}</section>
 
       <div className="button-container">
+        {enableAdviser && !advice && (
+          <div className="button-outer">
+            <button className="default-button" onClick={getAdvice}>
+              Get advice!
+            </button>
+          </div>
+        )}
+
         <div className="button-outer">
           <button className="default-button" onClick={() => restartGame()}>
             Play again
@@ -90,14 +100,6 @@ export const ResultComponent = ({
             Go to menu
           </button>
         </div>
-
-        {!advice && (
-          <div className="button-outer">
-            <button className="default-button" onClick={getAdvice}>
-              Get advice!
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );
