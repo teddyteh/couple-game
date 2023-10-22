@@ -12,11 +12,12 @@ export const useRestart = () => {
     setIsPartnerFinished,
     setIsPlayerFinished,
     setLoadingText,
+    setAdvice,
     setPartnerAnswers,
     setQuestions,
     setSelectedAnswers,
     setSelectedOption,
-} = useContext(GameContext);
+  } = useContext(GameContext);
 
   const resetGameState = () => {
     setCurrentQuestionIndex(0);
@@ -25,6 +26,7 @@ export const useRestart = () => {
     setPartnerAnswers([]);
     setIsPlayerFinished(false);
     setIsPartnerFinished(false);
+    setAdvice(null);
   };
 
   const restartGame = async (questions?: Question[]) => {

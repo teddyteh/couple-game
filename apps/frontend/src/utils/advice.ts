@@ -1,25 +1,17 @@
 import { Advice } from "@/types/advice";
+import { retry } from "./retry";
 
 const isAdvice = (payload: any): payload is Advice =>
   payload.shortSummary && payload.suggestions;
 
-export const fetchAdvice = async (
-  payload: {
-    answers: {
-      player1Answer: string;
-      player2Answer: string;
-    }[];
-  },
-  retries = 2,
-  retryDelay = 500
-) => {
-  let attempts = 0;
-
-  const delay = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-
-  while (attempts < retries) {
-    try {
+export const fetchAdvice = async (payload: {
+  answers: {
+    player1Answer: string;
+    player2Answer: string;
+  }[];
+}): Promise<Advice | null> => {
+  return retry<Advice>(
+    async () => {
       console.info("payload", payload);
 
       const response = await fetch(
@@ -39,14 +31,8 @@ export const fetchAdvice = async (
       }
 
       return advice;
-    } catch (error) {
-      attempts++;
-      console.error(`Error getting advice (attempt ${attempts}):`, error);
-      if (attempts < retries) {
-        await delay(retryDelay);
-      }
-    }
-  }
-
-  return null;
+    },
+    2,
+    500
+  );
 };

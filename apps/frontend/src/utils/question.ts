@@ -1,5 +1,6 @@
 import { Question } from "@/types/question";
 import { getRandomItems } from ".";
+import { retry } from "./retry";
 
 const DUMMY_QUESTIONS = [
   {
@@ -17,23 +18,36 @@ const HISTORY_COUNT = 10;
 const cachedQuestions: { [key: string]: Question[] } = {};
 const history: { [key: string]: Question[] } = {};
 
-const fetchQuestionsFromUrl = async (category: string) => {
-  try {
-    const response = await fetch(
-      `https://d101rsr8tfejfu.cloudfront.net/${category}.json`,
-      {
-        method: "GET",
-        mode: "cors",
-        cache: "no-store",
-      }
-    );
-    const questions = <Question[]>await response.json();
-    console.info("Fetched questions", questions);
-    return questions;
-  } catch (error) {
-    console.error("Error fetching questions:", error);
-    return DUMMY_QUESTIONS;
-  }
+const isQuestions = (payload: any): payload is Question[] =>
+  (payload as Question[]).every(
+    (question) => question.question && question.options
+  );
+
+const fetchQuestionsFromUrl = async (category: string): Promise<Question[]> => {
+  return (
+    (await retry<Question[]>(
+      async () => {
+        const response = await fetch(
+          `https://d101rsr8tfejfu.cloudfront.net/${category}.json`,
+          {
+            method: "GET",
+            mode: "cors",
+            cache: "no-store",
+          }
+        );
+
+        const questions = <Question[]>await response.json();
+        console.info("Fetched questions", questions);
+        if (!isQuestions) {
+          throw new Error("Not quite questions...");
+        }
+
+        return questions;
+      },
+      2,
+      500
+    )) ?? DUMMY_QUESTIONS
+  );
 };
 
 export const fetchQuestions = async (category: string) => {
