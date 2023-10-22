@@ -1,5 +1,6 @@
 import { useLobby } from "@/hooks/useLobby";
 import { useMenu } from "@/hooks/useMenu";
+import { SKUS } from "@/pages/api/skus";
 import { TitleBar } from "./title-bar";
 
 type Payload = Pick<ReturnType<typeof useLobby>, "createNewGame"> &
@@ -74,16 +75,22 @@ export const MenuComponent = ({
             </button>
           </div>
 
-          {purchasedProducts.map((product) => (
-            <div key={product.productId} className="button-outer">
-              <button
-                className="default-button"
-                onClick={() => createNewGame(product.productId)}
-              >
-                {removeBrackets(product.title)}
-              </button>
-            </div>
-          ))}
+          {purchasedProducts.map((product) => {
+            if (product.productId === SKUS.the_adviser) {
+              return;
+            }
+
+            return (
+              <div key={product.productId} className="button-outer">
+                <button
+                  className="default-button"
+                  onClick={() => createNewGame(product.productId)}
+                >
+                  {removeBrackets(product.title)}
+                </button>
+              </div>
+            );
+          })}
         </div>
       </>
     );

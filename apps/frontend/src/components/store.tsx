@@ -23,7 +23,7 @@ export const StoreComponent = ({
       <div className="store-container">
         {products?.map((product) => (
           <div key={product.productId} className="product">
-            <h2 className="compact">{product.productId}</h2>
+            <h2 className="compact">{product.productId.replace("_", " ")}</h2>
             <span>&quot;{product.description}&quot;</span>
             <button
               className="default-button purchase-button"
