@@ -1,4 +1,4 @@
-import { GameContextType } from "@/hooks/context";
+import { GameContextType } from "@/contexts/game";
 
 export const Advice = ({ advice }: { advice: GameContextType["advice"] }) => {
   if (!advice) {

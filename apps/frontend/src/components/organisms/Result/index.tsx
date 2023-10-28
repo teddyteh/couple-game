@@ -1,7 +1,10 @@
+import { Button } from "@/components/atoms/Button";
 import { Advice } from "@/components/molecules/Advice";
-import { GameContextType } from "@/hooks/context";
+import { ButtonContainer } from "@/components/molecules/ButtonContainer";
+import { GameContextType } from "@/contexts/game";
 import { useRestart } from "@/hooks/useRestart";
 import { ResultDetail, useResult } from "@/hooks/useResult";
+import styles from "./styles.module.css";
 
 type Payload = {
   advice: GameContextType["advice"];
@@ -55,52 +58,46 @@ export const Result = ({
     yourAnswer,
     partnerAnswer,
   }: ResultDetail) => (
-    <section className="question-container" key={question}>
+    <section className={styles.questionContainer} key={question}>
       <div>
-        <span className="label">Question:</span> {question}
+        <span className={styles.label}>Question:</span> {question}
       </div>
       <div>
-        <span className="label">Your Answer:</span> {yourAnswer}
+        <span className={styles.label}>Your Answer:</span> {yourAnswer}
       </div>
       <div>
-        <span className="label">Partner&apos;s Answer:</span> {partnerAnswer}
+        <span className={styles.label}>Partner&apos;s Answer:</span>{" "}
+        {partnerAnswer}
       </div>
     </section>
   );
 
   return (
-    <div className="result-container">
-      <p className="score">
+    <div className={styles.container}>
+      <p className={styles.score}>
         <span>{score.matches}</span> out of <span>{score.total}</span>
       </p>
-      <h1 className="score-percentage">{score.percentage}%</h1>
+      <h1 className={styles.scorePercentage}>{score.percentage}%</h1>
 
       {advice && <Advice advice={advice} />}
 
       <section>{renderResultDetails(resultDetails)}</section>
 
-      <div className="button-container">
+      <ButtonContainer>
         {enableAdviser && !advice && (
-          <div className="button-outer">
-            <button className="default-button" onClick={getAdvice}>
-              Get advice!
-            </button>
-          </div>
+          <Button hasOuter onClick={getAdvice}>
+            Get advice!
+          </Button>
         )}
 
-        <div className="button-outer">
-          <button className="default-button" onClick={() => restartGame()}>
-            Play again
-          </button>
+        <Button compact hasOuter onClick={() => restartGame()}>
+          Play again
+        </Button>
 
-          <button
-            className="default-button transparent"
-            onClick={() => (window.location.href = "/game")}
-          >
-            Go to menu
-          </button>
-        </div>
-      </div>
+        <Button transparent onClick={() => (window.location.href = "/game")}>
+          Go to menu
+        </Button>
+      </ButtonContainer>
     </div>
   );
 };

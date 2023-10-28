@@ -1,30 +1,29 @@
-.button-container {
-  display: flex;
-  flex-wrap: wrap;
+.buttonOuter {
+  flex-basis: 100%;
+  margin-bottom: 20px;
+  overflow: hidden;
+  text-align: center;
 
-  .button-outer {
-    flex-basis: 100%;
-    margin-bottom: 20px;
-    overflow: hidden;
-    text-align: center;
+  &.compact {
+    margin-bottom: 0;
+  }
 
-    .text {
-      display: inline-block;
+  .text {
+    display: inline-block;
 
-      &.scrolling {
-        -moz-transform: translateX(25%);
-        -webkit-transform: translateX(25%);
-        transform: translateX(25%);
+    &.scrolling {
+      -moz-transform: translateX(25%);
+      -webkit-transform: translateX(25%);
+      transform: translateX(25%);
 
-        -moz-animation: my-animation 10s linear infinite;
-        -webkit-animation: my-animation 10s linear infinite;
-        animation: my-animation 10s linear infinite;
-      }
+      -moz-animation: scrolling-animation 10s linear infinite;
+      -webkit-animation: scrolling-animation 10s linear infinite;
+      animation: scrolling-animation 10s linear infinite;
     }
   }
 }
 
-.default-button {
+.defaultButton {
   background: var(--yellow);
   border: 4px solid var(--black);
   border-radius: 3em;
@@ -53,21 +52,21 @@
       margin-right: 8px;
     }
   }
-}
 
-.purchase-button {
-  font-size: var(--font-size-s);
-  margin-top: 8px;
+  &.purchase {
+    font-size: var(--font-size-s);
+    margin-top: 8px;
 
-  &[disabled] {
-    border-color: var(--grey);
-    color: var(--grey);
-    cursor: default;
+    &[disabled] {
+      border-color: var(--grey);
+      color: var(--grey);
+      cursor: default;
+    }
   }
 }
 
 /* for Firefox */
-@-moz-keyframes my-animation {
+@-moz-keyframes scrolling-animation {
   from {
     -moz-transform: translateX(100%);
   }
@@ -77,7 +76,7 @@
 }
 
 /* for Chrome */
-@-webkit-keyframes my-animation {
+@-webkit-keyframes scrolling-animation {
   from {
     -webkit-transform: translateX(100%);
   }
@@ -86,7 +85,7 @@
   }
 }
 
-@keyframes my-animation {
+@keyframes scrolling-animation {
   from {
     -moz-transform: translateX(100%);
     -webkit-transform: translateX(100%);

@@ -1,6 +1,7 @@
 import { Logo } from "@/components/atoms/Logo";
 import { Footer } from "@/components/organisms/Footer";
 import { ReactNode } from "react";
+import styles from "./styles.module.css";
 
 export const Screen = ({
   small,
@@ -10,11 +11,11 @@ export const Screen = ({
   children: ReactNode;
 }) => {
   return (
-    <div className="screen-container">
-      <div className="header">
+    <div className={styles.container}>
+      <div className={styles.header}>
         <Logo small={small} />
       </div>
-      <div className="content">{children}</div>
+      <div className={styles.content}>{children}</div>
       <Footer small={small} />
     </div>
   );

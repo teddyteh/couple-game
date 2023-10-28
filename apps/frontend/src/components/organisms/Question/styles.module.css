@@ -1,10 +1,10 @@
-.question-container {
+.container {
   .title {
     color: var(--white);
     margin-bottom: 10px;
   }
 
-  .quiz-timer-container {
+  .quizTimerContainer {
     background: var(--black);
     border-radius: 3em;
     height: 20px;
@@ -12,7 +12,7 @@
     max-width: 100%;
     padding: 5px 6px;
 
-    .progress-bar {
+    .progressBar {
       animation: progress-bar-countdown;
       animation-duration: 30s;
       animation-fill-mode: forwards;

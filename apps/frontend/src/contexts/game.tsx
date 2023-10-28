@@ -3,7 +3,7 @@ import { Alert } from "@/types/alert";
 import { Product, ProductPurchase } from "@/types/product";
 import { Question } from "@/types/question";
 import Peer, { DataConnection } from "peerjs";
-import { createContext, useMemo, useState } from "react";
+import { ReactNode, createContext, useMemo, useState } from "react";
 
 export interface GameContextType {
   advice: Advice | null;

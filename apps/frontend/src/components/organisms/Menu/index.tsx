@@ -1,3 +1,5 @@
+import { Button } from "@/components/atoms/Button";
+import { ButtonContainer } from "@/components/molecules/ButtonContainer";
 import { TitleBar } from "@/components/molecules/TitleBar";
 import { useLobby } from "@/hooks/useLobby";
 import { useMenu } from "@/hooks/useMenu";
@@ -30,25 +32,19 @@ export const Menu = ({
       <>
         <h1>Menu</h1>
 
-        <div className="button-container">
-          <div className="button-outer">
-            <button className="default-button" onClick={() => createNewGame()}>
-              Create Game
-            </button>
-          </div>
+        <ButtonContainer>
+          <Button hasOuter onClick={() => createNewGame()}>
+            Create Game
+          </Button>
           {shouldShowStore && (
-            <div className="button-outer">
-              <button className="default-button" onClick={toggleShowStore}>
-                Store
-              </button>
-            </div>
+            <Button hasOuter onClick={toggleShowStore}>
+              Store
+            </Button>
           )}
-          <div className="button-outer">
-            <button className="default-button" onClick={toggleShowHowToPlay}>
-              How to Play
-            </button>
-          </div>
-        </div>
+          <Button hasOuter onClick={toggleShowHowToPlay}>
+            How to Play
+          </Button>
+        </ButtonContainer>
       </>
     );
   };
@@ -65,15 +61,10 @@ export const Menu = ({
       <>
         <TitleBar onClick={unsetCategorySelection} title="Select a category" />
 
-        <div className="button-container">
-          <div className="button-outer">
-            <button
-              className="default-button"
-              onClick={() => createNewGame("couple-compatiblity")}
-            >
-              Couple Compatiblity
-            </button>
-          </div>
+        <ButtonContainer>
+          <Button hasOuter onClick={() => createNewGame("couple-compatiblity")}>
+            Couple Compatiblity
+          </Button>
 
           {purchasedProducts.map((product) => {
             if (product.productId === SKUS.the_adviser) {
@@ -81,17 +72,16 @@ export const Menu = ({
             }
 
             return (
-              <div key={product.productId} className="button-outer">
-                <button
-                  className="default-button"
-                  onClick={() => createNewGame(product.productId)}
-                >
-                  {removeBrackets(product.title)}
-                </button>
-              </div>
+              <Button
+                key={product.productId}
+                hasOuter
+                onClick={() => createNewGame(product.productId)}
+              >
+                {removeBrackets(product.title)}
+              </Button>
             );
           })}
-        </div>
+        </ButtonContainer>
       </>
     );
   };

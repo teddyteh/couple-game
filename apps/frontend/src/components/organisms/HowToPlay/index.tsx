@@ -1,8 +1,10 @@
+import { Button } from "@/components/atoms/Button";
 import { Share } from "@/components/molecules/Share";
 import { TitleBar } from "@/components/molecules/TitleBar";
 import { Question } from "@/components/organisms/Question";
 import { Result } from "@/components/organisms/Result";
 import { useMenu } from "@/hooks/useMenu";
+import styles from "./styles.module.css";
 
 type Payload = Pick<ReturnType<typeof useMenu>, "toggleShowHowToPlay">;
 
@@ -36,19 +38,19 @@ export const HowToPlay = ({ toggleShowHowToPlay }: Payload) => {
   };
 
   return (
-    <div className="how-to-play-container">
+    <div className={styles.container}>
       <TitleBar onClick={toggleShowHowToPlay} title="How to Play" />
 
-      <ul className="list">
+      <ul className={styles.list}>
         <li>
           <p>1. Click on Create Game</p>
-          <div className="step">
-            <button className="default-button">Create Game</button>
+          <div className={styles.step}>
+            <Button>Create Game</Button>
           </div>
         </li>
         <li>
           <p>2. Share the link</p>
-          <div className="step">
+          <div className={styles.step}>
             <Share
               shareLink={randomShareLink}
               hasCopiedShareLink
@@ -60,7 +62,7 @@ export const HowToPlay = ({ toggleShowHowToPlay }: Payload) => {
         </li>
         <li>
           <p>3. Play the game</p>
-          <div className="step bordered">
+          <div className={`${styles.step} ${styles.bordered}`}>
             <Question
               questionsLength={5}
               currentQuestionIndex={0}
@@ -73,7 +75,7 @@ export const HowToPlay = ({ toggleShowHowToPlay }: Payload) => {
         </li>
         <li>
           <p>4. Compare your answers!</p>
-          <div className="step bordered">
+          <div className={`${styles.step} ${styles.bordered}`}>
             <Result
               advice={{
                 shortSummary:

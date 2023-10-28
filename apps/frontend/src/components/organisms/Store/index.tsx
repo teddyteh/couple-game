@@ -1,8 +1,10 @@
+import { Button } from "@/components/atoms/Button";
 import { TitleBar } from "@/components/molecules/TitleBar";
-import { GameContextType } from "@/hooks/context";
+import { GameContextType } from "@/contexts/game";
 import { useMenu } from "@/hooks/useMenu";
 import { useMobileBridge } from "@/hooks/useMobileBridge";
 import { useStore } from "@/hooks/useStore";
+import styles from "./styles.module.css";
 
 type Payload = Pick<ReturnType<typeof useMenu>, "toggleShowStore"> &
   Pick<GameContextType, "products"> &
@@ -20,18 +22,18 @@ export const Store = ({
     <>
       <TitleBar onClick={toggleShowStore} title="Store" />
 
-      <div className="store-container">
+      <div className={styles.container}>
         {products?.map((product) => (
-          <div key={product.productId} className="product">
+          <div key={product.productId} className={styles.product}>
             <h2 className="compact">{product.productId.replace("_", " ")}</h2>
             <span>&quot;{product.description}&quot;</span>
-            <button
-              className="default-button purchase-button"
+            <Button
+              isPurchase
               onClick={() => purchase(product)}
               disabled={!isAvailableForPurchase(product.productId)}
             >
               {getButtonText(product)}
-            </button>
+            </Button>
           </div>
         ))}
       </div>

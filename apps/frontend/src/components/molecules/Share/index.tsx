@@ -1,5 +1,6 @@
-import { GameContextType } from "@/hooks/context";
+import { GameContextType } from "@/contexts/game";
 import { useLobby } from "@/hooks/useLobby";
+import styles from "./styles.module.css";
 
 type Payload = Pick<
   GameContextType,
@@ -18,18 +19,21 @@ export const Share = ({
 }: Payload) => {
   return (
     <>
-      <div className="share-container">
-        <div className="inner">
+      <div className={styles.container}>
+        <div className={styles.inner}>
           <p>Share this link with a friend:</p>
-          <div className="copy-container">
-            <i className="url-icon uil uil-link"></i>
+          <div className={styles.copyContainer}>
+            <i className={`${styles.urlIcon} uil uil-link`}></i>
             <input
-              className="copy-text"
+              className={styles.copyText}
               type="text"
               readOnly
               value={shareLink}
             />
-            <button className="copy-button" onClick={() => copyShareLink()}>
+            <button
+              className={styles.copyButton}
+              onClick={() => copyShareLink()}
+            >
               {hasCopiedShareLink ? "Copied!" : "Copy"}
             </button>
           </div>

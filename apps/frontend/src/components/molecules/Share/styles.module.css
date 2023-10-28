@@ -1,4 +1,4 @@
-.share-container {
+.container {
   border: 4px solid var(--black);
   border-radius: 15px;
   padding: 25px;
@@ -10,7 +10,7 @@
     margin: 20px 0;
     width: 100%;
 
-    .copy-container {
+    .copyContainer {
       align-items: center;
       border: 4px solid var(--black);
       border-radius: 4px;
@@ -19,13 +19,13 @@
       justify-content: space-between;
       margin: 12px 0 -5px;
 
-      .url-icon {
+      .urlIcon {
         font-size: var(--font-size-m);
         text-align: center;
         width: 50px;
       }
 
-      .copy-text {
+      .copyText {
         border: none;
         font-family: Chewy, cursive;
         font-size: 15px;
@@ -35,7 +35,7 @@
         width: 100%;
       }
 
-      .copy-button {
+      .copyButton {
         background: var(--yellow);
         border: 2px solid transparent;
         color: var(--black);

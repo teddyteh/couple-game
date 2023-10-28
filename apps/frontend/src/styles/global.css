@@ -1,19 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Chewy&display=swap);
 
-@import "./audio-player.css";
-@import "./button.css";
-@import "./container.css";
-@import "./image.css";
-@import "./screen.css";
-@import "./title-bar.css";
 @import "./icons.css";
-
-@import "./question.css";
-@import "./result.css";
-
-@import "./share.css";
-@import "./store.css";
-@import "./how-to-play.css";
 
 @tailwind utilities;
 

@@ -11,6 +11,7 @@
   "devDependencies": {
     "@couple-game/eslint-config": "workspace:*",
     "postcss-import": "^15.1.0",
+    "postcss-nesting": "^12.0.1",
     "postcss-preset-env": "^9.2.0"
   },
   "dependencies": {

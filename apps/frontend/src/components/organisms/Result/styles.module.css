@@ -1,15 +1,15 @@
-.result-container {
+.container {
   .score {
     font-size: var(--font-size-m);
     margin-bottom: 10px;
   }
 
-  .score-percentage {
+  .scorePercentage {
     font-size: var(--font-size-xxl);
     margin: 0 0 28px;
   }
 
-  .question-container {
+  .questionContainer {
     margin-bottom: 20px;
 
     .label {

@@ -1,3 +1,5 @@
+import styles from "./styles.module.css";
+
 type Payload = {
   src: string;
   alt: string;
@@ -6,8 +8,8 @@ type Payload = {
 
 export const Image = ({ src, alt, small }: Payload) => {
   return (
-    <div className="image-wrapper">
-      <img className={`image ${small && "small"}`} src={src} alt={alt} />
+    <div className={styles.container}>
+      <img className={`${styles.image} ${small && "small"}`} src={src} alt={alt} />
     </div>
   );
 };

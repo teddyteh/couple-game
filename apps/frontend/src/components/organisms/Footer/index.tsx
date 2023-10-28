@@ -1,4 +1,5 @@
 import { AudioPlayer } from "@/components/molecules/AudioPlayer";
+import styles from './styles.module.css';
 
 type Payload = {
   small: boolean;
@@ -6,8 +7,8 @@ type Payload = {
 
 export const Footer = ({ small }: Payload) => {
   return (
-    <footer className={`footer ${small && "small"}`}>
-      <div className={`audio-player-container ${small && "small"}`}>
+    <footer className={`${styles.container} ${small && "small"}`}>
+      <div className={`${styles.audioPlayerContainer} ${small && styles.small}`}>
         <AudioPlayer />
       </div>
       <div>

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { Button } from "@/components/atoms/Button";
+import { useEffect, useState } from "react";
 
-export const AudioPlayer = ({
-  src = "./lovely-days-with-you-167702.mp3",
-}) => {
+export const AudioPlayer = ({ src = "./lovely-days-with-you-167702.mp3" }) => {
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -42,8 +41,8 @@ export const AudioPlayer = ({
   };
 
   return (
-    <button className="default-button transparent" onClick={handlePlayPauseClick}>
+    <Button transparent onClick={handlePlayPauseClick}>
       <i className={`fas fa-${isPlaying ? "pause" : "play"}`} />
-    </button>
+    </Button>
   );
 };

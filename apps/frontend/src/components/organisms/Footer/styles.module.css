@@ -1,0 +1,15 @@
+.container {
+  padding: 10px 20px;
+
+  &.small {
+    padding: 5px 10px;
+  }
+
+  .audioPlayerContainer {
+    margin-bottom: 12px;
+
+    &.small {
+      margin-bottom: 6px;
+    }
+  }
+}

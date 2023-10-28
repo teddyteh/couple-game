@@ -1,3 +1,4 @@
+import { MainContainer } from "@/components/atoms/MainContainer";
 import { Alert } from "@/components/molecules/Alert";
 import { Share } from "@/components/molecules/Share";
 import { HowToPlay } from "@/components/organisms/HowToPlay";
@@ -6,7 +7,7 @@ import { Question } from "@/components/organisms/Question";
 import { Result } from "@/components/organisms/Result";
 import { Screen } from "@/components/organisms/Screen";
 import { Store } from "@/components/organisms/Store";
-import { GameContext } from "@/hooks/context";
+import { GameContext } from "@/contexts/game";
 import { useAlert } from "@/hooks/useAlert";
 import { useGame } from "@/hooks/useGame";
 import { useInitialization } from "@/hooks/useInitialization";
@@ -179,18 +180,16 @@ const Game = () => {
   const renderLoading = () => loadingText && <h2>{loadingText}</h2>;
 
   return (
-    <div className="main-container">
-      <div className="wrapper">
-        <Alert data={alert} />
+    <MainContainer>
+      <Alert data={alert} />
 
-        <Screen small={isGameStarted}>
-          {renderMenuOrStore()}
-          {renderShareOrJoiningScreen()}
-          {renderQuestionOrResult()}
-          {renderLoading()}
-        </Screen>
-      </div>
-    </div>
+      <Screen small={isGameStarted}>
+        {renderMenuOrStore()}
+        {renderShareOrJoiningScreen()}
+        {renderQuestionOrResult()}
+        {renderLoading()}
+      </Screen>
+    </MainContainer>
   );
 };
 
