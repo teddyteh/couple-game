@@ -1,6 +1,6 @@
+import { GameContext } from "@/contexts/game";
 import { Product } from "@/types/product";
 import { useContext } from "react";
-import { GameContext } from "./context";
 
 export const useStore = () => {
   const { availablePurchases, setIsShowingStore } = useContext(GameContext);

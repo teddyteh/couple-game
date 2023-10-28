@@ -1,5 +1,5 @@
+import { GameContext } from "@/contexts/game";
 import { useContext, useEffect, useRef } from "react";
-import { GameContext } from "./context";
 
 const CLEAR_TIMEOUT_AFTER_MS = 1500;
 

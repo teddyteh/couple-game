@@ -1,6 +1,6 @@
+import { GameProvider } from "@/contexts/game";
 import { NextPage } from "next";
 import { AppProps } from "next/app";
-import { GameProvider } from "../hooks/context";
 
 import "../styles/main.css";
 

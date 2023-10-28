@@ -1,5 +1,5 @@
+import { GameContext } from "@/contexts/game";
 import { useContext } from "react";
-import { GameContext } from "./context";
 
 export const useMenu = () => {
   const { setIsShowingHowToPlay, setIsShowingStore } = useContext(GameContext);

@@ -1,5 +1,5 @@
+import { GameContext } from "@/contexts/game";
 import { useContext, useEffect } from "react";
-import { GameContext } from "./context";
 
 export const useInitialization = () => {
   const { setPeer } = useContext(GameContext);

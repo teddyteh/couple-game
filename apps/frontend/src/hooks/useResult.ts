@@ -1,7 +1,7 @@
+import { GameContext } from "@/contexts/game";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { fetchAdvice } from "@/utils/advice";
 import { useContext } from "react";
-import { GameContext } from "./context";
-import { useSessionStorage } from "./useSessionStorage";
 
 export interface ResultDetail {
   question: string;

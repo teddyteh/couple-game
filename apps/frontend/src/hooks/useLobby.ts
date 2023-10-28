@@ -1,12 +1,12 @@
+import { GameContext } from "@/contexts/game";
+import { useAlert } from "@/hooks/useAlert";
+import { useMobileBridge } from "@/hooks/useMobileBridge";
+import { useRestart } from "@/hooks/useRestart";
 import { copyToClipboard } from "@/utils";
 import { fetchQuestions } from "@/utils/question";
 import { useRouter } from "next/router";
 import { DataConnection } from "peerjs";
 import { useContext, useEffect } from "react";
-import { GameContext } from "./context";
-import { useAlert } from "./useAlert";
-import { useMobileBridge } from "./useMobileBridge";
-import { useRestart } from "./useRestart";
 
 type Payload = Pick<
   ReturnType<typeof useRestart>,

@@ -1,7 +1,7 @@
+import { GameContext } from "@/contexts/game";
 import { Question } from "@/types/question";
 import { fetchQuestions } from "@/utils/question";
 import { useContext } from "react";
-import { GameContext } from "./context";
 
 export const useRestart = () => {
   const {

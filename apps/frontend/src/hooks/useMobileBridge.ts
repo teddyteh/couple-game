@@ -1,7 +1,7 @@
+import { GameContext } from "@/contexts/game";
+import { useAlert } from "@/hooks/useAlert";
 import { Product } from "@/types/product";
 import { useContext, useEffect } from "react";
-import { GameContext } from "./context";
-import { useAlert } from "./useAlert";
 
 type Payload = Pick<ReturnType<typeof useAlert>, "showAlert">;
 
