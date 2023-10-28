@@ -1,14 +1,14 @@
-import { AudioPlayerComponent } from "./audio-player";
+import { AudioPlayer } from "@/components/molecules/AudioPlayer";
 
 type Payload = {
   small: boolean;
 };
 
-export const FooterComponent = ({ small }: Payload) => {
+export const Footer = ({ small }: Payload) => {
   return (
     <footer className={`footer ${small && "small"}`}>
       <div className={`audio-player-container ${small && "small"}`}>
-        <AudioPlayerComponent />
+        <AudioPlayer />
       </div>
       <div>
         Made in{" "}

@@ -1,15 +1,15 @@
+import { TitleBar } from "@/components/molecules/TitleBar";
 import { GameContextType } from "@/hooks/context";
 import { useMenu } from "@/hooks/useMenu";
 import { useMobileBridge } from "@/hooks/useMobileBridge";
 import { useStore } from "@/hooks/useStore";
-import { TitleBar } from "./title-bar";
 
 type Payload = Pick<ReturnType<typeof useMenu>, "toggleShowStore"> &
   Pick<GameContextType, "products"> &
   Pick<ReturnType<typeof useMobileBridge>, "purchase"> &
   Pick<ReturnType<typeof useStore>, "isAvailableForPurchase" | "getButtonText">;
 
-export const StoreComponent = ({
+export const Store = ({
   toggleShowStore,
   products,
   purchase,

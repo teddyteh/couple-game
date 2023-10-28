@@ -1,10 +1,6 @@
 import { GameContextType } from "@/hooks/context";
 
-export const AdviceComponent = ({
-  advice,
-}: {
-  advice: GameContextType["advice"];
-}) => {
+export const Advice = ({ advice }: { advice: GameContextType["advice"] }) => {
   if (!advice) {
     return null;
   }

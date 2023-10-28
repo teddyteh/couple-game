@@ -1,7 +1,7 @@
+import { TitleBar } from "@/components/molecules/TitleBar";
 import { useLobby } from "@/hooks/useLobby";
 import { useMenu } from "@/hooks/useMenu";
 import { SKUS } from "@/pages/api/skus";
-import { TitleBar } from "./title-bar";
 
 type Payload = Pick<ReturnType<typeof useLobby>, "createNewGame"> &
   Pick<ReturnType<typeof useMenu>, "toggleShowStore" | "toggleShowHowToPlay"> &
@@ -12,7 +12,7 @@ type Payload = Pick<ReturnType<typeof useLobby>, "createNewGame"> &
     isShowingHowToPlay: boolean;
   };
 
-export const MenuComponent = ({
+export const Menu = ({
   createNewGame,
   shouldShowStore,
   toggleShowStore,

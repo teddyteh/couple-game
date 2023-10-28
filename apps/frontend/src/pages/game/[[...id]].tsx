@@ -1,11 +1,11 @@
-import { Alert } from "@/components/alert";
-import { HowToPlayComponent } from "@/components/how-to-play";
-import { MenuComponent } from "@/components/menu";
-import { QuestionComponent } from "@/components/question";
-import { ResultComponent } from "@/components/result";
-import { ScreenComponent } from "@/components/screen";
-import { ShareComponent } from "@/components/share";
-import { StoreComponent } from "@/components/store";
+import { Alert } from "@/components/molecules/Alert";
+import { Share } from "@/components/molecules/Share";
+import { HowToPlay } from "@/components/organisms/HowToPlay";
+import { Menu } from "@/components/organisms/Menu";
+import { Question } from "@/components/organisms/Question";
+import { Result } from "@/components/organisms/Result";
+import { Screen } from "@/components/organisms/Screen";
+import { Store } from "@/components/organisms/Store";
 import { GameContext } from "@/hooks/context";
 import { useAlert } from "@/hooks/useAlert";
 import { useGame } from "@/hooks/useGame";
@@ -76,7 +76,7 @@ const Game = () => {
 
     if (isShowingStore) {
       return (
-        <StoreComponent
+        <Store
           toggleShowStore={toggleShowStore}
           products={products}
           purchase={purchase}
@@ -87,11 +87,11 @@ const Game = () => {
     }
 
     if (isShowingHowToPlay) {
-      return <HowToPlayComponent toggleShowHowToPlay={toggleShowHowToPlay} />;
+      return <HowToPlay toggleShowHowToPlay={toggleShowHowToPlay} />;
     }
 
     return (
-      <MenuComponent
+      <Menu
         createNewGame={createNewGame}
         unsetCategorySelection={unsetCategorySelection}
         shouldShowStore={inApp}
@@ -111,7 +111,7 @@ const Game = () => {
 
     if (isHost) {
       return (
-        <ShareComponent
+        <Share
           shareLink={getShareLink()}
           hasCopiedShareLink={hasCopiedShareLink}
           setHasCopiedShareLink={setHasCopiedShareLink}
@@ -131,7 +131,7 @@ const Game = () => {
 
     if (!isPlayerFinished) {
       return (
-        <QuestionComponent
+        <Question
           currentQuestionIndex={currentQuestionIndex}
           questionsLength={questions.length}
           timeLeft={timeLeft}
@@ -157,7 +157,7 @@ const Game = () => {
 
       return (
         <>
-          <ResultComponent
+          <Result
             score={calculateCompatibilityScore()}
             resultDetails={generateResultDetails()}
             restartGame={restartGame}
@@ -183,12 +183,12 @@ const Game = () => {
       <div className="wrapper">
         <Alert data={alert} />
 
-        <ScreenComponent small={isGameStarted}>
+        <Screen small={isGameStarted}>
           {renderMenuOrStore()}
           {renderShareOrJoiningScreen()}
           {renderQuestionOrResult()}
           {renderLoading()}
-        </ScreenComponent>
+        </Screen>
       </div>
     </div>
   );

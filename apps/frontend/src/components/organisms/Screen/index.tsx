@@ -1,8 +1,8 @@
+import { Logo } from "@/components/atoms/Logo";
+import { Footer } from "@/components/organisms/Footer";
 import { ReactNode } from "react";
-import { FooterComponent } from "./footer";
-import { LogoComponent } from "./logo";
 
-export const ScreenComponent = ({
+export const Screen = ({
   small,
   children,
 }: {
@@ -12,10 +12,10 @@ export const ScreenComponent = ({
   return (
     <div className="screen-container">
       <div className="header">
-        <LogoComponent small={small} />
+        <Logo small={small} />
       </div>
       <div className="content">{children}</div>
-      <FooterComponent small={small} />
+      <Footer small={small} />
     </div>
   );
 };

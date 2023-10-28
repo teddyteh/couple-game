@@ -10,10 +10,9 @@ type Payload = Pick<
     shouldShowStore: boolean;
   };
 
-export const ShareComponent = ({
+export const Share = ({
   shareLink,
   hasCopiedShareLink,
-  setHasCopiedShareLink,
   copyShareLink,
   shouldShowStore,
 }: Payload) => {

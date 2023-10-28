@@ -1,7 +1,7 @@
+import { Advice } from "@/components/molecules/Advice";
 import { GameContextType } from "@/hooks/context";
-import { useRestart } from "../hooks/useRestart";
-import { ResultDetail, useResult } from "../hooks/useResult";
-import { AdviceComponent } from "./advice";
+import { useRestart } from "@/hooks/useRestart";
+import { ResultDetail, useResult } from "@/hooks/useResult";
 
 type Payload = {
   advice: GameContextType["advice"];
@@ -15,7 +15,7 @@ type Payload = {
 } & Pick<ReturnType<typeof useRestart>, "restartGame"> &
   Pick<ReturnType<typeof useResult>, "getAdvice">;
 
-export const ResultComponent = ({
+export const Result = ({
   advice,
   enableAdviser,
   getAdvice,
@@ -75,7 +75,7 @@ export const ResultComponent = ({
       </p>
       <h1 className="score-percentage">{score.percentage}%</h1>
 
-      {advice && <AdviceComponent advice={advice} />}
+      {advice && <Advice advice={advice} />}
 
       <section>{renderResultDetails(resultDetails)}</section>
 

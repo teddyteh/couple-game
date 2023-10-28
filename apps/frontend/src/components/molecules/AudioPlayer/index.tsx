@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export const AudioPlayerComponent = ({
+export const AudioPlayer = ({
   src = "./lovely-days-with-you-167702.mp3",
 }) => {
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);

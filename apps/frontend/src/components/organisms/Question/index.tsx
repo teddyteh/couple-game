@@ -1,18 +1,18 @@
 import { GameContextType } from "@/hooks/context";
 import { useGame } from "@/hooks/useGame";
-import { Question } from "@/types/question";
+import { Question as QuestionType } from "@/types/question";
 import { useEffect, useRef, useState } from "react";
 
 type Payload = {
   questionsLength: number;
   currentQuestionIndex: GameContextType["currentQuestionIndex"];
   timeLeft: GameContextType["timeLeft"];
-  currentQuestion: Question;
+  currentQuestion: QuestionType;
   selectedOption: string | null;
   handleAnswerSelection: ReturnType<typeof useGame>["handleAnswerSelection"];
 };
 
-export const QuestionComponent = ({
+export const Question = ({
   currentQuestionIndex,
   questionsLength,
   timeLeft,
